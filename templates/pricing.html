@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — HealthGuardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981;
+            --bg: #06060F; --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+            --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
+        }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body::before {
+            content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%;
+            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none;
+        }
+        nav {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 40px; border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+            text-decoration: none; display: flex; align-items: center; gap: 8px; color: var(--text);
+        }
+        .logo-icon {
+            width: 26px; height: 26px; border-radius: 7px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex; align-items: center; justify-content: center; font-size: 13px;
+            box-shadow: 0 0 16px rgba(124,58,237,0.4);
+        }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-btn {
+            padding: 8px 18px; background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: #fff; border: none; border-radius: 8px; font-size: 13px; cursor: pointer;
+            text-decoration: none; font-family: 'DM Sans', sans-serif;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+        .page-title { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; text-align: center; margin-bottom: 12px; }
+        .page-sub { text-align: center; color: var(--text2); font-size: 16px; margin-bottom: 60px; }
+        .flash-msg { padding: 11px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; font-weight: 500; text-align: center; }
+        .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
+        .flash-success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6EE7B7; }
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .plan-card {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
+            padding: 32px; position: relative; transition: transform 0.2s;
+        }
+        .plan-card:hover { transform: translateY(-4px); }
+        .plan-card.popular { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.05); }
+        .popular-badge {
+            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .plan-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .plan-price { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 4px; }
+        .plan-price span { font-size: 16px; color: var(--text2); font-weight: 400; }
+        .plan-desc { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+        .plan-features { list-style: none; margin-bottom: 28px; }
+        .plan-features li { font-size: 14px; color: var(--text2); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
+        .btn-plan {
+            width: 100%; padding: 13px; border: none; border-radius: 10px; font-size: 14px;
+            font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.25s;
+        }
+        .btn-free { background: var(--glass2); border: 1px solid var(--border2); color: var(--text); }
+        .btn-free:hover { background: rgba(255,255,255,0.1); }
+        .btn-paid { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
+        .btn-paid:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
+        @media (max-width: 768px) { .plans { grid-template-columns: 1fr; } .page-title { font-size: 28px; } }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        Health<span>Guardian</span>
+    </a>
+    <a href="/dashboard" class="nav-btn">Dashboard →</a>
+</nav>
+<div class="container">
+    <h1 class="page-title">Simple, transparent pricing</h1>
+    <p class="page-sub">Start free, upgrade when you need more.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="plans">
+        <!-- Free Plan -->
+        <div class="plan-card">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">£0 <span>/ month</span></div>
+            <div class="plan-desc">Perfect for getting started</div>
+            <ul class="plan-features">
+                <li>30 days tracking</li>
+                <li>Basic insights</li>
+                <li>Daily check-in</li>
+                <li>Health score</li>
+            </ul>
+            <a href="/dashboard" class="btn-plan btn-free">Get started</a>
+        </div>
+
+        <!-- Premium Plan -->
+        <div class="plan-card popular">
+            <div class="popular-badge">⭐ Most Popular</div>
+            <div class="plan-name">Premium</div>
+            <div class="plan-price">£4.99 <span>/ month</span></div>
+            <div class="plan-desc">For serious health tracking</div>
+            <ul class="plan-features">
+                <li>Unlimited tracking</li>
+                <li>AI pattern detection</li>
+                <li>Early warning alerts</li>
+                <li>Detailed analytics</li>
+                <li>Export health reports</li>
+            </ul>
+            <form method="POST" action="/create-checkout-session">
+                <input type="hidden" name="plan" value="premium">
+                <button type="submit" class="btn-plan btn-paid">Start free trial →</button>
+            </form>
+        </div>
+
+        <!-- Family Plan -->
+        <div class="plan-card">
+            <div class="plan-name">Family</div>
+            <div class="plan-price">£9.99 <span>/ month</span></div>
+            <div class="plan-desc">For your whole family</div>
+            <ul class="plan-features">
+                <li>Up to 5 members</li>
+                <li>All Premium features</li>
+                <li>Family health overview</li>
+                <li>Priority support</li>
+                <li>Custom alerts</li>
+            </ul>
+            <form method="POST" action="/create-checkout-session">
+                <input type="hidden" name="plan" value="family">
+                <button type="submit" class="btn-plan btn-paid">Get started →</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
