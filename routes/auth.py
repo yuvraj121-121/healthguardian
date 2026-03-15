@@ -48,7 +48,7 @@ def login():
         if not user or not check_password_hash(user.password, password):
             flash('Invalid email or password!', 'error')
             return redirect(url_for('auth.login'))
-        login_user(user)
+        login_user(user, remember=True)
         next_page = request.args.get('next')
         return redirect(next_page if next_page else url_for('main.dashboard'))
     return render_template('login.html')

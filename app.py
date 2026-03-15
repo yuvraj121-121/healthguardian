@@ -7,6 +7,9 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'healthguardian-secret-2024')
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['REMEMBER_COOKIE_SECURE'] = True
 
 database_url = os.getenv('DATABASE_URL', 'sqlite:///healthguardian.db')
 if database_url.startswith('postgres://'):
@@ -39,12 +42,13 @@ def load_user(user_id):
 from routes.auth import auth
 from routes.main import main
 from routes.checkin import checkin_bp
+from routes.payment import payment_bp
 
 app.register_blueprint(auth)
 app.register_blueprint(main)
 app.register_blueprint(checkin_bp)
-from routes.payment import payment_bp
 app.register_blueprint(payment_bp)
+
 with app.app_context():
     db.create_all()
 
