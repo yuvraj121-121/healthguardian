@@ -56,10 +56,10 @@
         td.cross{text-align:center;color:var(--text3)}
         tr:hover td{background:rgba(255,255,255,0.02)}
         .feat-name{color:var(--text);font-weight:500}
-        .testi-section{margin-bottom:80px;overflow:hidden}
-        .testi-track-wrap{overflow:hidden}
-        .testi-track{display:flex;gap:16px;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)}
-        .testi-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:24px;min-width:calc(33.333% - 11px);flex-shrink:0}
+        .testi-section{margin-bottom:80px;overflow:hidden;padding:0 4px}
+.testi-track-wrap{overflow:hidden}
+.testi-track{display:flex;gap:16px;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);padding:8px 0}
+.testi-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:24px;width:calc(33.333% - 11px);min-width:calc(33.333% - 11px);flex-shrink:0}
         .stars{color:#F59E0B;font-size:13px;margin-bottom:10px}
         .testi-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
         .testi-author{display:flex;align-items:center;gap:10px}
@@ -283,11 +283,11 @@ window.addEventListener('resize',()=>{
 
 buildDots();
 
-function toggleFaq(el){
-    const a=el.nextElementSibling;
-    const arrow=el.querySelector('.faq-arrow');
-    a.classList.toggle('open');
-    arrow.classList.toggle('open');
+function goTo(idx){
+    cur=Math.max(0,Math.min(idx,total-perView));
+    const cardW=cards[0].getBoundingClientRect().width+16;
+    track.style.transform=`translateX(-${cur*cardW}px)`;
+    updateDots();
 }
 </script>
 </body>
