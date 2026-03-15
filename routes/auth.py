@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
@@ -40,7 +40,8 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.dashboard'))
+        next_page = session.pop('next_after_login', None)
+        return redirect(next_page if next_page else url_for('main.dashboard'))
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -49,7 +50,7 @@ def login():
             flash('Invalid email or password!', 'error')
             return redirect(url_for('auth.login'))
         login_user(user, remember=True)
-        next_page = request.args.get('next')
+        next_page = session.pop('next_after_login', None)
         return redirect(next_page if next_page else url_for('main.dashboard'))
     return render_template('login.html')
 

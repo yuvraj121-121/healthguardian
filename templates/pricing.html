@@ -5,88 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing — HealthGuardian</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7C3AED">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981;
-            --bg: #06060F; --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
-            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
-            --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
-        }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-        body::before {
-            content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%;
-            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none;
-        }
-        nav {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 40px; border-bottom: 1px solid var(--border);
-        }
-        .logo {
-            font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
-            text-decoration: none; display: flex; align-items: center; gap: 8px; color: var(--text);
-        }
-        .logo-icon {
-            width: 26px; height: 26px; border-radius: 7px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            display: flex; align-items: center; justify-content: center; font-size: 13px;
-            box-shadow: 0 0 16px rgba(124,58,237,0.4);
-        }
-        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .nav-btn {
-            padding: 8px 18px; background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff; border: none; border-radius: 8px; font-size: 13px; cursor: pointer;
-            text-decoration: none; font-family: 'DM Sans', sans-serif;
-        }
-        .container { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
-        .page-title { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; text-align: center; margin-bottom: 12px; }
-        .page-sub { text-align: center; color: var(--text2); font-size: 16px; margin-bottom: 60px; }
-        .flash-msg { padding: 11px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; font-weight: 500; text-align: center; }
-        .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
-        .flash-success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6EE7B7; }
-        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .plan-card {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
-            padding: 32px; position: relative; transition: transform 0.2s;
-        }
-        .plan-card:hover { transform: translateY(-4px); }
-        .plan-card.popular { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.05); }
-        .popular-badge {
-            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px;
-            border-radius: 20px; white-space: nowrap;
-        }
-        .plan-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-        .plan-price { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 4px; }
-        .plan-price span { font-size: 16px; color: var(--text2); font-weight: 400; }
-        .plan-desc { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
-        .plan-features { list-style: none; margin-bottom: 28px; }
-        .plan-features li { font-size: 14px; color: var(--text2); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
-        .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; }
-        .btn-plan {
-            width: 100%; padding: 13px; border: none; border-radius: 10px; font-size: 14px;
-            font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.25s;
-        }
-        .btn-free { background: var(--glass2); border: 1px solid var(--border2); color: var(--text); }
-        .btn-free:hover { background: rgba(255,255,255,0.1); }
-        .btn-paid { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; box-shadow: 0 4px 20px rgba(124,58,237,0.3); }
-        .btn-paid:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4); }
-        @media (max-width: 768px) { .plans { grid-template-columns: 1fr; } .page-title { font-size: 28px; } }
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--purple:#7C3AED;--purple2:#9F67FF;--blue:#3B82F6;--green:#10B981;--bg:#06060F;--glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.06);--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#EEEEFF;--text2:#7B82A8;--text3:#3D4268;}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+        a{text-decoration:none}
+        nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(6,6,15,0.92);backdrop-filter:blur(20px);z-index:100}
+        .logo{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px;color:var(--text)}
+        .logo-icon{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:12px}
+        .logo span{background:linear-gradient(135deg,var(--purple2),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nav-btn{padding:7px 16px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border:none;border-radius:8px;font-size:12px;cursor:pointer;font-family:sans-serif}
+        .container{max-width:1100px;margin:0 auto;padding:60px 24px}
+        .hero{text-align:center;margin-bottom:56px}
+        .hero h1{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;letter-spacing:-2px;margin-bottom:12px;line-height:1.05}
+        .hero h1 span{background:linear-gradient(135deg,var(--purple2),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{color:var(--text2);font-size:15px;max-width:480px;margin:0 auto 20px}
+        .guarantee{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:100px;color:#10B981;font-size:12px;font-weight:500}
+        .flash-msg{padding:11px 14px;border-radius:10px;font-size:13px;margin-bottom:20px;font-weight:500;text-align:center}
+        .flash-error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);color:#FCA5A5}
+        .flash-success{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15);color:#6EE7B7}
+        .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:80px}
+        .plan-card{background:var(--glass);border:1px solid var(--border);border-radius:20px;padding:28px;position:relative;transition:transform 0.2s}
+        .plan-card:hover{transform:translateY(-4px)}
+        .plan-card.popular{border-color:rgba(124,58,237,0.5);background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(59,130,246,0.04))}
+        .popular-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;font-size:11px;font-weight:600;padding:4px 14px;border-radius:100px;white-space:nowrap}
+        .plan-tag{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
+        .plan-price{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;letter-spacing:-2px;margin-bottom:4px}
+        .plan-price span{font-size:14px;font-weight:400;color:var(--text2)}
+        .plan-desc{font-size:13px;color:var(--text2);margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+        .plan-features{list-style:none;margin-bottom:24px}
+        .plan-features li{font-size:13px;color:var(--text2);padding:4px 0;display:flex;align-items:center;gap:8px}
+        .plan-features li::before{content:'✓';color:var(--green);font-weight:700;font-size:11px}
+        .plan-features li.locked{opacity:0.35}
+        .plan-features li.locked::before{content:'✕';color:var(--text3)}
+        .btn-primary{display:block;width:100%;text-align:center;padding:12px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.25s;font-family:sans-serif}
+        .btn-primary:hover{opacity:0.9;transform:translateY(-1px)}
+        .btn-ghost{display:block;width:100%;text-align:center;padding:12px;background:transparent;color:var(--text2);border:1px solid var(--border);border-radius:10px;font-size:13px;cursor:pointer;transition:all 0.2s;font-family:sans-serif}
+        .btn-ghost:hover{background:var(--glass2);color:var(--text)}
+        .section-title{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;letter-spacing:-1px;text-align:center;margin-bottom:8px}
+        .section-sub{text-align:center;color:var(--text2);font-size:14px;margin-bottom:36px}
+        .compare{margin-bottom:80px;overflow-x:auto}
+        table{width:100%;border-collapse:collapse;min-width:500px}
+        th{padding:12px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--border)}
+        th.plan-col{text-align:center}
+        td{padding:12px 16px;font-size:13px;color:var(--text2);border-bottom:1px solid rgba(255,255,255,0.03)}
+        td.check{text-align:center;color:var(--green)}
+        td.cross{text-align:center;color:var(--text3)}
+        tr:hover td{background:rgba(255,255,255,0.02)}
+        .feat-name{color:var(--text);font-weight:500}
+        .testi-section{margin-bottom:80px;overflow:hidden}
+        .testi-track-wrap{overflow:hidden;border-radius:16px}
+        .testi-track{display:flex;gap:16px;transition:transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)}
+        .testi-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:24px;min-width:340px;flex-shrink:0}
+        .stars{color:#F59E0B;font-size:13px;margin-bottom:10px}
+        .testi-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px}
+        .testi-author{display:flex;align-items:center;gap:10px}
+        .testi-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+        .testi-name{font-size:13px;font-weight:600;color:var(--text)}
+        .testi-role{font-size:11px;color:var(--text3)}
+        .testi-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:24px}
+        .testi-dot{width:8px;height:8px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all 0.2s}
+        .testi-dot.active{background:var(--purple2);width:24px;border-radius:4px}
+        .testi-btn{width:36px;height:36px;border-radius:50%;background:var(--glass2);border:1px solid var(--border);color:var(--text2);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+        .testi-btn:hover{background:var(--glass);color:var(--text)}
+        .faq{margin-bottom:80px}
+        .faq-list{max-width:680px;margin:0 auto}
+        .faq-item{border-bottom:1px solid var(--border);padding:18px 0}
+        .faq-q{font-size:14px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}
+        .faq-a{font-size:13px;color:var(--text2);line-height:1.7;margin-top:10px;display:none}
+        .faq-a.open{display:block}
+        .faq-arrow{color:var(--text3);transition:transform 0.2s;flex-shrink:0}
+        .faq-arrow.open{transform:rotate(180deg)}
+        .bottom-cta{text-align:center;padding:56px 24px;background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(59,130,246,0.04));border:1px solid rgba(124,58,237,0.2);border-radius:24px;margin-bottom:60px}
+        .bottom-cta h2{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:10px}
+        .bottom-cta p{color:var(--text2);margin-bottom:24px;font-size:14px}
+        .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .btn-lg{padding:13px 28px;font-size:14px;border-radius:12px}
+        @media(max-width:900px){.plans{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto}.hero h1{font-size:34px}}
+        @media(max-width:600px){nav{padding:12px 16px}.container{padding:40px 16px}.hero h1{font-size:28px;letter-spacing:-1px}.testi-card{min-width:280px}.bottom-cta h2{font-size:24px}.section-title{font-size:24px}}
     </style>
 </head>
 <body>
+
 <nav>
-    <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
-        Health<span>Guardian</span>
-    </a>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <a href="/dashboard" class="nav-btn">Dashboard →</a>
 </nav>
+
 <div class="container">
-    <h1 class="page-title">Simple, transparent pricing</h1>
-    <p class="page-sub">Start free, upgrade when you need more.</p>
+
+    <div class="hero">
+        <h1>Simple, transparent <span>pricing</span></h1>
+        <p>Start free, upgrade when you need more. Cancel anytime.</p>
+        <div class="guarantee">✓ 30-day money back &nbsp;·&nbsp; No hidden fees &nbsp;·&nbsp; Cancel anytime</div>
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -97,42 +112,44 @@
     {% endwith %}
 
     <div class="plans">
-        <!-- Free Plan -->
         <div class="plan-card">
-            <div class="plan-name">Free</div>
+            <div class="plan-tag">Free</div>
             <div class="plan-price">£0 <span>/ month</span></div>
             <div class="plan-desc">Perfect for getting started</div>
             <ul class="plan-features">
-                <li>30 days tracking</li>
-                <li>Basic insights</li>
+                <li>30 days health tracking</li>
+                <li>Basic AI insights</li>
                 <li>Daily check-in</li>
                 <li>Health score</li>
+                <li class="locked">AI pattern detection</li>
+                <li class="locked">Early warning alerts</li>
+                <li class="locked">Report analysis</li>
             </ul>
-            <a href="/dashboard" class="btn-plan btn-free">Get started</a>
+            <a href="/register" class="btn-ghost">Get started free</a>
         </div>
 
-        <!-- Premium Plan -->
         <div class="plan-card popular">
             <div class="popular-badge">⭐ Most Popular</div>
-            <div class="plan-name">Premium</div>
+            <div class="plan-tag">Premium</div>
             <div class="plan-price">£4.99 <span>/ month</span></div>
             <div class="plan-desc">For serious health tracking</div>
             <ul class="plan-features">
                 <li>Unlimited tracking</li>
+                <li>Advanced AI insights</li>
+                <li>Daily check-in</li>
+                <li>Health score</li>
                 <li>AI pattern detection</li>
                 <li>Early warning alerts</li>
-                <li>Detailed analytics</li>
-                <li>Export health reports</li>
+                <li>Medical report analysis</li>
             </ul>
             <form method="POST" action="/create-checkout-session">
                 <input type="hidden" name="plan" value="premium">
-                <button type="submit" class="btn-plan btn-paid">Start free trial →</button>
+                <button type="submit" class="btn-primary">Start free trial →</button>
             </form>
         </div>
 
-        <!-- Family Plan -->
         <div class="plan-card">
-            <div class="plan-name">Family</div>
+            <div class="plan-tag">Family</div>
             <div class="plan-price">£9.99 <span>/ month</span></div>
             <div class="plan-desc">For your whole family</div>
             <ul class="plan-features">
@@ -141,13 +158,137 @@
                 <li>Family health overview</li>
                 <li>Priority support</li>
                 <li>Custom alerts</li>
+                <li>AI pattern detection</li>
+                <li>Medical report analysis</li>
             </ul>
             <form method="POST" action="/create-checkout-session">
                 <input type="hidden" name="plan" value="family">
-                <button type="submit" class="btn-plan btn-paid">Get started →</button>
+                <button type="submit" class="btn-primary">Get started →</button>
             </form>
         </div>
     </div>
+
+    <div class="compare">
+        <h2 class="section-title">Feature comparison</h2>
+        <p class="section-sub">See exactly what you get with each plan</p>
+        <table>
+            <thead><tr><th>Feature</th><th class="plan-col">Free</th><th class="plan-col">Premium</th><th class="plan-col">Family</th></tr></thead>
+            <tbody>
+                <tr><td class="feat-name">Daily check-in</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Health score</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Tracking history</td><td>30 days</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><td class="feat-name">AI pattern detection</td><td class="cross">✕</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Early warning alerts</td><td class="cross">✕</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Medical report analysis</td><td class="cross">✕</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Symptom checker</td><td class="cross">✕</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Export health reports</td><td class="cross">✕</td><td class="check">✓</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Family members</td><td>1</td><td>1</td><td>Up to 5</td></tr>
+                <tr><td class="feat-name">Family health overview</td><td class="cross">✕</td><td class="cross">✕</td><td class="check">✓</td></tr>
+                <tr><td class="feat-name">Priority support</td><td class="cross">✕</td><td class="cross">✕</td><td class="check">✓</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="testi-section">
+        <h2 class="section-title">What our users say</h2>
+        <p class="section-sub">Trusted by 50,000+ people worldwide</p>
+        <div class="testi-track-wrap">
+            <div class="testi-track" id="tTrack">
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"HealthGuardian detected early signs of anaemia before I even felt symptoms. The AI alerts saved me from a serious health issue. Absolutely worth every penny!"</div><div class="testi-author"><div class="testi-avatar">SR</div><div><div class="testi-name">Sarah R.</div><div class="testi-role">Premium · 8 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"I use the Family plan for my whole family. The medical report analysis is incredible — it explains everything in simple language. My parents love it too!"</div><div class="testi-author"><div class="testi-avatar">AK</div><div><div class="testi-name">Amit K.</div><div class="testi-role">Family · 1 year</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"The 2-minute daily check-in fits perfectly into my routine. The AI caught a stress spike before it became burnout. Game changer for busy professionals."</div><div class="testi-author"><div class="testi-avatar">JM</div><div><div class="testi-name">Jessica M.</div><div class="testi-role">Premium · 6 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"As a diabetic, tracking my health daily is crucial. HealthGuardian makes it effortless and the early alerts have helped me keep my glucose levels in check."</div><div class="testi-author"><div class="testi-avatar">RP</div><div><div class="testi-name">Rahul P.</div><div class="testi-role">Premium · 10 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"I was skeptical at first but the symptom checker is remarkably accurate. It flagged a thyroid issue that my doctor later confirmed. This app is genuinely life-saving."</div><div class="testi-author"><div class="testi-avatar">LT</div><div><div class="testi-name">Laura T.</div><div class="testi-role">Premium · 5 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"The Family plan is incredible value. I monitor my elderly mother's health remotely and the alerts give me peace of mind. Best investment I've made for my family."</div><div class="testi-author"><div class="testi-avatar">MN</div><div><div class="testi-name">Mike N.</div><div class="testi-role">Family · 14 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"The medical report analysis feature is phenomenal. I uploaded my blood test results and got a clear, detailed explanation in seconds. No more confusing medical jargon!"</div><div class="testi-author"><div class="testi-avatar">PK</div><div><div class="testi-name">Priya K.</div><div class="testi-role">Premium · 7 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"HealthGuardian spotted a pattern of poor sleep and high stress affecting my heart rate. After following the recommendations, my health score improved dramatically."</div><div class="testi-author"><div class="testi-avatar">DC</div><div><div class="testi-name">David C.</div><div class="testi-role">Premium · 9 months</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"As a nurse, I recommend HealthGuardian to all my patients. The AI insights are clinically relevant and help people take their health seriously between appointments."</div><div class="testi-author"><div class="testi-avatar">NW</div><div><div class="testi-name">Nurse W.</div><div class="testi-role">Premium · 1 year</div></div></div></div>
+                <div class="testi-card"><div class="stars">★★★★★</div><div class="testi-text">"Finally an app that takes preventive health seriously. The early detection feature is worth 10x the price. I caught a vitamin D deficiency before it became a real problem."</div><div class="testi-author"><div class="testi-avatar">FS</div><div><div class="testi-name">Fatima S.</div><div class="testi-role">Family · 11 months</div></div></div></div>
+            </div>
+        </div>
+        <div class="testi-controls">
+            <button class="testi-btn" id="tPrev">‹</button>
+            <div id="tDots"></div>
+            <button class="testi-btn" id="tNext">›</button>
+        </div>
+    </div>
+
+    <div class="faq">
+        <h2 class="section-title">Frequently asked questions</h2>
+        <p class="section-sub">Everything you need to know</p>
+        <div class="faq-list">
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I cancel anytime? <span class="faq-arrow">▾</span></div><div class="faq-a">Yes! You can cancel at any time with no questions asked. Your account stays active until the end of your billing period.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is there a free trial? <span class="faq-arrow">▾</span></div><div class="faq-a">Yes! Premium and Family plans come with a 30-day free trial. We also offer a 30-day money back guarantee — no risk at all.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is my health data safe? <span class="faq-arrow">▾</span></div><div class="faq-a">Absolutely. Your data is encrypted end-to-end and never shared. We are fully GDPR compliant and you can delete your data anytime.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does AI pattern detection work? <span class="faq-arrow">▾</span></div><div class="faq-a">Our AI analyzes your daily check-ins over time to detect patterns indicating early health issues. It learns from your personal baseline and alerts you when something unusual is detected.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I upgrade or downgrade my plan? <span class="faq-arrow">▾</span></div><div class="faq-a">Yes! You can change your plan at any time. Changes take effect immediately and billing is prorated.</div></div>
+            <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept? <span class="faq-arrow">▾</span></div><div class="faq-a">We accept all major credit and debit cards — Visa, Mastercard, American Express. All payments processed securely via Stripe.</div></div>
+        </div>
+    </div>
+
+    <div class="bottom-cta">
+        <h2>Ready to take control of your health?</h2>
+        <p>Join 50,000+ people already tracking their health with HealthGuardian</p>
+        <div class="cta-btns">
+            <a href="/register" class="btn-ghost btn-lg">Start for free</a>
+            <a href="/pricing" class="btn-primary btn-lg">Get Premium →</a>
+        </div>
+    </div>
+
 </div>
+
+<script>
+const track=document.getElementById('tTrack');
+const dotsEl=document.getElementById('tDots');
+const cards=track.querySelectorAll('.testi-card');
+const total=cards.length;
+let cur=0;
+let perView=window.innerWidth<=600?1:window.innerWidth<=900?2:3;
+
+function buildDots(){
+    dotsEl.innerHTML='';
+    const pages=Math.ceil(total/perView);
+    for(let i=0;i<pages;i++){
+        const d=document.createElement('div');
+        d.className='testi-dot'+(i===0?' active':'');
+        d.onclick=()=>goTo(i*perView);
+        dotsEl.appendChild(d);
+    }
+}
+
+function updateDots(){
+    const dots=dotsEl.querySelectorAll('.testi-dot');
+    dots.forEach((d,i)=>d.classList.toggle('active',i===Math.floor(cur/perView)));
+}
+
+function goTo(idx){
+    cur=Math.max(0,Math.min(idx,total-perView));
+    const cardW=cards[0].offsetWidth+16;
+    track.style.transform=`translateX(-${cur*cardW}px)`;
+    updateDots();
+}
+
+document.getElementById('tNext').onclick=()=>goTo(cur+perView>=total?0:cur+perView);
+document.getElementById('tPrev').onclick=()=>goTo(cur===0?total-perView:cur-perView);
+
+let autoTimer=setInterval(()=>goTo(cur+perView>=total?0:cur+perView),3500);
+track.addEventListener('mouseenter',()=>clearInterval(autoTimer));
+track.addEventListener('mouseleave',()=>{autoTimer=setInterval(()=>goTo(cur+perView>=total?0:cur+perView),3500)});
+
+window.addEventListener('resize',()=>{
+    perView=window.innerWidth<=600?1:window.innerWidth<=900?2:3;
+    cur=0;track.style.transform='translateX(0)';
+    buildDots();
+});
+
+buildDots();
+
+function toggleFaq(el){
+    const a=el.nextElementSibling;
+    const arrow=el.querySelector('.faq-arrow');
+    a.classList.toggle('open');
+    arrow.classList.toggle('open');
+}
+</script>
 </body>
 </html>

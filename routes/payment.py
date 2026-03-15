@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from flask_login import current_user
 import stripe
 import os
@@ -28,6 +28,7 @@ def pricing():
 @payment_bp.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     if not current_user.is_authenticated:
+        session['next_after_login'] = url_for('payment.pricing')
         return redirect(url_for('auth.login'))
 
     plan = request.form.get('plan')
@@ -36,7 +37,7 @@ def create_checkout_session():
         return redirect(url_for('payment.pricing'))
 
     try:
-        session = stripe.checkout.Session.create(
+        checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
                 'price_data': {
@@ -55,7 +56,7 @@ def create_checkout_session():
             cancel_url=url_for('payment.pricing', _external=True),
             customer_email=current_user.email,
         )
-        return redirect(session.url, code=303)
+        return redirect(checkout_session.url, code=303)
     except Exception as e:
         flash(f'Payment error: {str(e)}', 'error')
         return redirect(url_for('payment.pricing'))
