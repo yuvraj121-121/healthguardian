@@ -7,570 +7,140 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    <!-- PWA -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#7C3AED">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="HealthGuardian">
-<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7C3AED">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HealthGuardian">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --purple: #7C3AED;
-            --purple2: #9F67FF;
-            --blue: #3B82F6;
-            --cyan: #06B6D4;
-            --green: #10B981;
-            --amber: #F59E0B;
-            --red: #EF4444;
-            --bg: #06060F;
-            --glass: rgba(255,255,255,0.03);
-            --glass2: rgba(255,255,255,0.06);
-            --glass3: rgba(255,255,255,0.09);
-            --border: rgba(255,255,255,0.07);
-            --border2: rgba(255,255,255,0.12);
-            --text: #EEEEFF;
-            --text2: #7B82A8;
-            --text3: #3D4268;
+            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --cyan: #06B6D4;
+            --green: #10B981; --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
+            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
+            --glass3: rgba(255,255,255,0.09); --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12); --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
         }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -30%; left: -10%;
-            width: 70%; height: 70%;
-            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -20%; right: -10%;
-            width: 60%; height: 60%;
-            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0; top: 0;
-            width: 260px;
-            height: 100vh;
-            background: rgba(6,6,15,0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 28px 16px;
-            z-index: 100;
-            transition: transform 0.3s ease;
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: -0.3px;
-            padding: 0 6px;
-            margin-bottom: 36px;
-            text-decoration: none;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .logo-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            flex-shrink: 0;
-            box-shadow: 0 0 12px rgba(124,58,237,0.4);
-        }
-
-        .logo span {
-            background: linear-gradient(135deg, var(--purple2), var(--blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-section {
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text3);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 0 10px;
-            margin-bottom: 6px;
-            margin-top: 8px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            color: var(--text2);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 400;
-            transition: all 0.2s;
-            margin-bottom: 2px;
-            border: 1px solid transparent;
-        }
-
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
+        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; padding: 0 6px; margin-bottom: 36px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; }
+        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
         .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
-
-        .nav-item.active {
-            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
-            color: var(--purple2);
-            border-color: rgba(124,58,237,0.25);
-        }
-
+        .nav-item.active { background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); color: var(--purple2); border-color: rgba(124,58,237,0.25); }
         .nav-icon { font-size: 15px; width: 20px; text-align: center; opacity: 0.8; }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            border-top: 1px solid var(--border);
-            padding-top: 16px;
-        }
-
-        .user-card {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            margin-bottom: 8px;
-        }
-
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            color: #fff;
-            flex-shrink: 0;
-            box-shadow: 0 0 12px rgba(124,58,237,0.3);
-        }
-
+        .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
+        .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.3); }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
         .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: 10px;
-            color: var(--text3);
-            text-decoration: none;
-            font-size: 13px;
-            transition: all 0.2s;
-            width: 100%;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-        }
-
+        .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
+        .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
+        .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
+        .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+        .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
-
-        .mobile-topbar {
-            display: none;
-        }
-
-        .main {
-            margin-left: 260px;
-            padding: 28px 32px;
-            min-height: 100vh;
-            position: relative;
-            z-index: 1;
-        }
-
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 32px;
-        }
-
-        .page-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: var(--text);
-        }
-
+        .mobile-topbar { display: none; }
+        .main { margin-left: 260px; padding: 28px 32px; min-height: 100vh; position: relative; z-index: 1; }
+        .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+        .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
         .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
-
-        .btn-primary {
-            padding: 10px 22px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.25s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 20px rgba(124,58,237,0.35);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(124,58,237,0.45);
-        }
-
-        .warning-banner {
-            background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(245,158,11,0.03));
-            border: 1px solid rgba(245,158,11,0.15);
-            border-radius: 14px;
-            padding: 14px 18px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .warning-banner.high {
-            background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03));
-            border-color: rgba(239,68,68,0.15);
-        }
-
+        .btn-primary { padding: 10px 22px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.25s; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 20px rgba(124,58,237,0.35); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.45); }
+        .warning-banner { background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(245,158,11,0.03)); border: 1px solid rgba(245,158,11,0.15); border-radius: 14px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
+        .warning-banner.high { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03)); border-color: rgba(239,68,68,0.15); }
         .warning-icon { font-size: 18px; flex-shrink: 0; }
         .warning-title { font-size: 13px; font-weight: 500; color: #FCD34D; }
         .warning-text { font-size: 12px; color: rgba(253,230,138,0.7); margin-top: 2px; }
         .warning-banner.high .warning-title { color: #FCA5A5; }
         .warning-banner.high .warning-text { color: rgba(254,202,202,0.7); }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.25s;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-        }
-
-        .stat-card:hover {
-            background: var(--glass2);
-            border-color: var(--border2);
-            transform: translateY(-3px);
-        }
-
-        .stat-glow {
-            position: absolute;
-            top: 0; right: 0;
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            filter: blur(30px);
-            opacity: 0.3;
-        }
-
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 20px; transition: all 0.25s; position: relative; overflow: hidden; backdrop-filter: blur(20px); }
+        .stat-card:hover { background: var(--glass2); border-color: var(--border2); transform: translateY(-3px); }
+        .stat-glow { position: absolute; top: 0; right: 0; width: 80px; height: 80px; border-radius: 50%; filter: blur(30px); opacity: 0.3; }
         .stat-card.green .stat-glow { background: var(--green); }
         .stat-card.blue .stat-glow { background: var(--blue); }
         .stat-card.amber .stat-glow { background: var(--amber); }
         .stat-card.red .stat-glow { background: var(--red); }
-
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-        }
-
+        .stat-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
         .stat-card.green::after { background: linear-gradient(90deg, transparent, var(--green), transparent); }
         .stat-card.blue::after { background: linear-gradient(90deg, transparent, var(--blue), transparent); }
         .stat-card.amber::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
         .stat-card.red::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
-
-        .stat-label {
-            font-size: 11px;
-            color: var(--text3);
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 10px;
-        }
-
-        .stat-value {
-            font-family: 'Syne', sans-serif;
-            font-size: 30px;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 2px;
-        }
-
+        .stat-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+        .stat-value { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -1px; margin-bottom: 2px; }
         .stat-value.green { color: var(--green); }
         .stat-value.blue { color: var(--blue); }
         .stat-value.amber { color: var(--amber); }
         .stat-value.red { color: var(--red); }
         .stat-change { font-size: 11px; color: var(--text3); }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 24px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .card-badge {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 4px 10px;
-            border-radius: 100px;
-        }
-
-        .badge-purple {
-            background: rgba(124,58,237,0.12);
-            color: var(--purple2);
-            border: 1px solid rgba(124,58,237,0.2);
-        }
-
-        .badge-green {
-            background: rgba(16,185,129,0.1);
-            color: var(--green);
-            border: 1px solid rgba(16,185,129,0.2);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
+        .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 24px; backdrop-filter: blur(20px); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+        .card-badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 100px; }
+        .badge-purple { background: rgba(124,58,237,0.12); color: var(--purple2); border: 1px solid rgba(124,58,237,0.2); }
+        .badge-green { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); text-decoration: none; cursor: pointer; }
         .chart-container { position: relative; height: 210px; }
-
-        .health-score-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            padding: 16px 0;
-        }
-
-        .score-circle {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin-bottom: 14px;
-        }
-
+        .health-score-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 16px 0; }
+        .score-circle { position: relative; width: 140px; height: 140px; margin-bottom: 14px; }
         .score-circle svg { transform: rotate(-90deg); }
-
-        .score-number {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .score-num {
-            font-family: 'Syne', sans-serif;
-            font-size: 34px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple2), var(--blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-
+        .score-number { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .score-num { font-family: 'Syne', sans-serif; font-size: 34px; font-weight: 800; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
         .score-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
         .score-status { font-size: 14px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
         .score-sub { font-size: 12px; color: var(--text2); }
-
         .checkin-list { list-style: none; }
-
-        .checkin-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 11px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
+        .checkin-item { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border); }
         .checkin-item:last-child { border-bottom: none; }
         .checkin-date { font-size: 13px; color: var(--text2); }
         .checkin-scores { display: flex; gap: 6px; }
-
-        .mini-badge {
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-
+        .mini-badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 500; }
         .mini-green { background: rgba(16,185,129,0.08); color: var(--green); border: 1px solid rgba(16,185,129,0.15); }
         .mini-amber { background: rgba(245,158,11,0.08); color: var(--amber); border: 1px solid rgba(245,158,11,0.15); }
         .mini-red { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.15); }
-
         .risk-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
         .dot-low { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.6); }
         .dot-medium { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.5); }
         .dot-high { background: var(--red); box-shadow: 0 0 6px rgba(239,68,68,0.5); }
-
         .no-data { text-align: center; padding: 36px 20px; }
         .no-data-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
         .no-data-title { font-size: 14px; font-weight: 500; color: var(--text2); margin-bottom: 5px; }
         .no-data-sub { font-size: 12px; color: var(--text3); }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 99;
-            backdrop-filter: blur(4px);
-        }
-
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(4px); }
         .overlay.open { display: block; }
-
-        .fade-in {
-            opacity: 0;
-            animation: fadeUp 0.6s ease forwards;
-        }
-
+        .fade-in { opacity: 0; animation: fadeUp 0.6s ease forwards; }
         .fade-in:nth-child(2) { animation-delay: 0.05s; }
         .fade-in:nth-child(3) { animation-delay: 0.1s; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .grid-2 { grid-template-columns: 1fr; }
-        }
-
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .extra-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+        .locked-card { position: relative; overflow: hidden; }
+        .locked-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(6,6,15,0.7); backdrop-filter: blur(4px); border-radius: 18px; }
+        .locked-blur { filter: blur(3px); pointer-events: none; opacity: 0.3; }
+        @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .grid-2 { grid-template-columns: 1fr; } .extra-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-                width: 240px;
-            }
+            .sidebar { transform: translateX(-100%); width: 240px; }
             .sidebar.open { transform: translateX(0); }
-            .mobile-topbar {
-                display: flex;
-                position: fixed;
-                top: 0; left: 0; right: 0;
-                z-index: 150;
-                height: 56px;
-                background: rgba(6,6,15,0.95);
-                backdrop-filter: blur(20px);
-                border-bottom: 1px solid var(--border);
-                padding: 0 16px;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .hamburger {
-                width: 36px;
-                height: 36px;
-                border-radius: 8px;
-                background: rgba(124,58,237,0.2);
-                border: 1px solid rgba(124,58,237,0.3);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                font-size: 18px;
-                color: var(--purple2);
-            }
+            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
+            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
             .main { margin-left: 0; padding: 72px 16px 20px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .grid-2 { grid-template-columns: 1fr; }
+            .extra-grid { grid-template-columns: 1fr; }
             .page-title { font-size: 20px; }
             .topbar { flex-wrap: wrap; gap: 10px; }
         }
-        .extra-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
-}
-
-    @media (max-width: 1024px) {
-        .extra-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 768px) {
-        .extra-grid { grid-template-columns: 1fr; }
-    }
     </style>
 </head>
 <body>
 
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<!-- MOBILE TOPBAR -->
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
         <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
@@ -585,41 +155,66 @@
         Health<span>Guardian</span>
     </a>
 
-    
     <div class="nav-section">Main</div>
-<a href="/dashboard" class="nav-item">
-    <span class="nav-icon">📊</span> Dashboard
-</a>
-<a href="/checkin" class="nav-item">
-    <span class="nav-icon">✅</span> Daily Check-in
-</a>
-<a href="/history" class="nav-item">
-    <span class="nav-icon">📈</span> History
-</a>
-<a href="/ml-insights" class="nav-item">
-    <span class="nav-icon">🧠</span> AI Insights
-</a>
-<a href="/reports" class="nav-item">
-    <span class="nav-icon">📋</span> Reports
-</a>
+    <a href="/dashboard" class="nav-item active">
+        <span class="nav-icon">📊</span> Dashboard
+    </a>
+    <a href="/checkin" class="nav-item">
+        <span class="nav-icon">✅</span> Daily Check-in
+    </a>
+    <a href="/history" class="nav-item">
+        <span class="nav-icon">📈</span> History
+    </a>
 
-<a href="/symptoms" class="nav-item">
-    <span class="nav-icon">🩺</span> Symptom Checker
-</a>
+    {% if user_plan == 'free' %}
+    <a href="/pricing" class="nav-item" style="opacity:0.5;">
+        <span class="nav-icon">🧠</span> AI Insights
+        <span style="font-size:10px;margin-left:auto;">🔒</span>
+    </a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;">
+        <span class="nav-icon">📋</span> Reports
+        <span style="font-size:10px;margin-left:auto;">🔒</span>
+    </a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;">
+        <span class="nav-icon">🩺</span> Symptom Checker
+        <span style="font-size:10px;margin-left:auto;">🔒</span>
+    </a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;">
+        <span class="nav-icon">🔔</span> Alerts
+        <span style="font-size:10px;margin-left:auto;">🔒</span>
+    </a>
+    {% else %}
+    <a href="/ml-insights" class="nav-item">
+        <span class="nav-icon">🧠</span> AI Insights
+    </a>
+    <a href="/reports" class="nav-item">
+        <span class="nav-icon">📋</span> Reports
+    </a>
+    <a href="/symptoms" class="nav-item">
+        <span class="nav-icon">🩺</span> Symptom Checker
+    </a>
+    <a href="/alerts" class="nav-item">
+        <span class="nav-icon">🔔</span> Alerts
+    </a>
+    {% endif %}
 
-<div class="nav-section" style="margin-top:12px;">More</div>
-<a href="/alerts" class="nav-item">
-    <span class="nav-icon">🔔</span> Alerts
-</a>
-<a href="/settings" class="nav-item">
-    <span class="nav-icon">⚙️</span> Settings
-</a>
+    <div class="nav-section" style="margin-top:12px;">More</div>
+    <a href="/settings" class="nav-item">
+        <span class="nav-icon">⚙️</span> Settings
+    </a>
+
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar">{{ current_user.fullname[0].upper() }}</div>
             <div>
                 <div class="user-name">{{ current_user.fullname }}</div>
                 <div class="user-email">{{ current_user.email }}</div>
+                <span class="plan-badge plan-{{ user_plan }}">
+                    {% if user_plan == 'premium' %}⭐ Premium
+                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% else %}Free
+                    {% endif %}
+                </span>
             </div>
         </div>
         <a href="/logout" class="logout-btn">
@@ -635,17 +230,35 @@
             <div class="page-title">Good day, {{ current_user.fullname.split()[0] }} 👋</div>
             <div class="page-sub">Here's your health overview for today</div>
         </div>
-        <div>
+        <div style="display:flex;gap:10px;align-items:center;">
+            {% if user_plan != 'free' %}
+            <a href="/export-pdf" class="btn-primary" style="background:var(--glass2);border:1px solid var(--border);box-shadow:none;color:var(--text2);">
+                📄 Export
+            </a>
+            {% endif %}
             {% if not today_checkin %}
                 <a href="/checkin" class="btn-primary">+ Daily Check-in</a>
             {% else %}
-                <span style="font-size:13px; color: var(--green); display:flex; align-items:center; gap:6px;">
+                <span style="font-size:13px;color:var(--green);display:flex;align-items:center;gap:6px;">
                     <span style="width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px rgba(16,185,129,0.6);display:inline-block;"></span>
                     Check-in done today
                 </span>
             {% endif %}
         </div>
     </div>
+
+    {% if user_plan == 'free' %}
+    <div style="background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(59,130,246,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:20px;">⭐</span>
+            <div>
+                <div style="font-size:13px;font-weight:600;color:var(--text);">Upgrade to Premium</div>
+                <div style="font-size:12px;color:var(--text2);">Unlock AI Insights, Reports, Symptom Checker & Alerts</div>
+            </div>
+        </div>
+        <a href="/pricing" style="padding:8px 16px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;">Upgrade £4.99/mo →</a>
+    </div>
+    {% endif %}
 
     {% if warnings %}
         {% set latest = warnings[0] %}
@@ -685,70 +298,52 @@
         </div>
     </div>
 
-    <!-- WEEKLY SUMMARY + PROGRESS + TIPS -->
     <div class="extra-grid fade-in">
-
-        <!-- WEEKLY SUMMARY -->
         <div class="card">
             <div class="card-header">
                 <div class="card-title">📊 Weekly Summary</div>
                 <span class="card-badge badge-purple">vs last week</span>
             </div>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--glass2); border-radius:10px; border:1px solid var(--border);">
-                    <span style="font-size:13px; color:var(--text2);">Energy</span>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--green);">{{ avg_energy }}</span>
-                        {% if energy_change > 0 %}
-                            <span style="font-size:11px; color:var(--green); background:rgba(16,185,129,0.1); padding:2px 7px; border-radius:6px;">▲ +{{ energy_change }}</span>
-                        {% elif energy_change < 0 %}
-                            <span style="font-size:11px; color:var(--red); background:rgba(239,68,68,0.1); padding:2px 7px; border-radius:6px;">▼ {{ energy_change }}</span>
-                        {% else %}
-                            <span style="font-size:11px; color:var(--text3); background:var(--glass2); padding:2px 7px; border-radius:6px;">— same</span>
-                        {% endif %}
+            <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);">
+                    <span style="font-size:13px;color:var(--text2);">Energy</span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--green);">{{ avg_energy }}</span>
+                        {% if energy_change > 0 %}<span style="font-size:11px;color:var(--green);background:rgba(16,185,129,0.1);padding:2px 7px;border-radius:6px;">▲ +{{ energy_change }}</span>
+                        {% elif energy_change < 0 %}<span style="font-size:11px;color:var(--red);background:rgba(239,68,68,0.1);padding:2px 7px;border-radius:6px;">▼ {{ energy_change }}</span>
+                        {% else %}<span style="font-size:11px;color:var(--text3);background:var(--glass2);padding:2px 7px;border-radius:6px;">— same</span>{% endif %}
                     </div>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--glass2); border-radius:10px; border:1px solid var(--border);">
-                    <span style="font-size:13px; color:var(--text2);">Sleep</span>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--blue);">{{ avg_sleep }}</span>
-                        {% if sleep_change > 0 %}
-                            <span style="font-size:11px; color:var(--green); background:rgba(16,185,129,0.1); padding:2px 7px; border-radius:6px;">▲ +{{ sleep_change }}</span>
-                        {% elif sleep_change < 0 %}
-                            <span style="font-size:11px; color:var(--red); background:rgba(239,68,68,0.1); padding:2px 7px; border-radius:6px;">▼ {{ sleep_change }}</span>
-                        {% else %}
-                            <span style="font-size:11px; color:var(--text3); background:var(--glass2); padding:2px 7px; border-radius:6px;">— same</span>
-                        {% endif %}
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);">
+                    <span style="font-size:13px;color:var(--text2);">Sleep</span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--blue);">{{ avg_sleep }}</span>
+                        {% if sleep_change > 0 %}<span style="font-size:11px;color:var(--green);background:rgba(16,185,129,0.1);padding:2px 7px;border-radius:6px;">▲ +{{ sleep_change }}</span>
+                        {% elif sleep_change < 0 %}<span style="font-size:11px;color:var(--red);background:rgba(239,68,68,0.1);padding:2px 7px;border-radius:6px;">▼ {{ sleep_change }}</span>
+                        {% else %}<span style="font-size:11px;color:var(--text3);background:var(--glass2);padding:2px 7px;border-radius:6px;">— same</span>{% endif %}
                     </div>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:var(--glass2); border-radius:10px; border:1px solid var(--border);">
-                    <span style="font-size:13px; color:var(--text2);">Mood</span>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="font-family:'Syne',sans-serif; font-size:16px; font-weight:700; color:var(--purple2);">{{ avg_mood }}</span>
-                        {% if mood_change > 0 %}
-                            <span style="font-size:11px; color:var(--green); background:rgba(16,185,129,0.1); padding:2px 7px; border-radius:6px;">▲ +{{ mood_change }}</span>
-                        {% elif mood_change < 0 %}
-                            <span style="font-size:11px; color:var(--red); background:rgba(239,68,68,0.1); padding:2px 7px; border-radius:6px;">▼ {{ mood_change }}</span>
-                        {% else %}
-                            <span style="font-size:11px; color:var(--text3); background:var(--glass2); padding:2px 7px; border-radius:6px;">— same</span>
-                        {% endif %}
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);">
+                    <span style="font-size:13px;color:var(--text2);">Mood</span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--purple2);">{{ avg_mood }}</span>
+                        {% if mood_change > 0 %}<span style="font-size:11px;color:var(--green);background:rgba(16,185,129,0.1);padding:2px 7px;border-radius:6px;">▲ +{{ mood_change }}</span>
+                        {% elif mood_change < 0 %}<span style="font-size:11px;color:var(--red);background:rgba(239,68,68,0.1);padding:2px 7px;border-radius:6px;">▼ {{ mood_change }}</span>
+                        {% else %}<span style="font-size:11px;color:var(--text3);background:var(--glass2);padding:2px 7px;border-radius:6px;">— same</span>{% endif %}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- PROGRESS RING -->
-        <div class="card" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div class="card-header" style="width:100%;">
                 <div class="card-title">🎯 Monthly Progress</div>
             </div>
-            <div style="position:relative; width:120px; height:120px; margin: 8px 0 14px;">
+            <div style="position:relative;width:120px;height:120px;margin:8px 0 14px;">
                 <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);">
                     <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(124,58,237,0.1)" stroke-width="10"/>
-                    <circle cx="60" cy="60" r="50" fill="none"
-                        stroke="url(#progressGrad)" stroke-width="10"
-                        stroke-dasharray="{{ (progress_pct / 100 * 314.2) | round(1) }} 314.2"
-                        stroke-linecap="round"/>
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="url(#progressGrad)" stroke-width="10"
+                        stroke-dasharray="{{ (progress_pct / 100 * 314.2) | round(1) }} 314.2" stroke-linecap="round"/>
                     <defs>
                         <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                             <stop offset="0%" stop-color="#7C3AED"/>
@@ -756,37 +351,72 @@
                         </linearGradient>
                     </defs>
                 </svg>
-                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;">
-                    <div style="font-family:'Syne',sans-serif; font-size:22px; font-weight:800; background:linear-gradient(135deg,#9F67FF,#3B82F6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1;">{{ progress_pct }}%</div>
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">{{ progress_pct }}%</div>
                 </div>
             </div>
-            <div style="font-size:13px; color:var(--text2); text-align:center;">
-                <span style="color:var(--text); font-weight:600;">{{ this_month }}</span> / {{ days_in_month }} days
+            <div style="font-size:13px;color:var(--text2);text-align:center;">
+                <span style="color:var(--text);font-weight:600;">{{ this_month }}</span> / {{ days_in_month }} days
             </div>
-            <div style="font-size:11px; color:var(--text3); margin-top:4px;">This month</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:4px;">This month</div>
         </div>
 
-        <!-- HEALTH TIPS -->
         <div class="card">
             <div class="card-header">
                 <div class="card-title">💡 Health Tips</div>
                 <span class="card-badge badge-green">Personalised</span>
             </div>
-            <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex;flex-direction:column;gap:10px;">
                 {% for tip in tips %}
-                <div style="padding:10px 14px; background:var(--glass2); border-radius:10px; border:1px solid var(--border); font-size:13px; color:var(--text2); line-height:1.5;">
-                    {{ tip }}
-                </div>
+                <div style="padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--text2);line-height:1.5;">{{ tip }}</div>
                 {% endfor %}
                 {% if not checkins %}
-                <div style="padding:10px 14px; background:var(--glass2); border-radius:10px; border:1px solid var(--border); font-size:13px; color:var(--text3);">
-                    Complete check-ins to get personalised tips!
-                </div>
+                <div style="padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--text3);">Complete check-ins to get personalised tips!</div>
                 {% endif %}
             </div>
         </div>
-
     </div>
+
+    {% if user_plan == 'free' %}
+    <div class="extra-grid fade-in" style="margin-bottom:14px;">
+        <div class="card locked-card">
+            <div class="locked-blur">
+                <div class="card-header"><div class="card-title">🧠 AI Insights</div></div>
+                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
+            </div>
+            <div class="locked-overlay">
+                <span style="font-size:28px;">🔒</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
+                <div style="font-size:12px;color:var(--text2);text-align:center;">AI pattern detection & insights</div>
+                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
+            </div>
+        </div>
+        <div class="card locked-card">
+            <div class="locked-blur">
+                <div class="card-header"><div class="card-title">📋 Medical Reports</div></div>
+                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
+            </div>
+            <div class="locked-overlay">
+                <span style="font-size:28px;">🔒</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
+                <div style="font-size:12px;color:var(--text2);text-align:center;">Upload & analyze medical reports</div>
+                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
+            </div>
+        </div>
+        <div class="card locked-card">
+            <div class="locked-blur">
+                <div class="card-header"><div class="card-title">🩺 Symptom Checker</div></div>
+                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
+            </div>
+            <div class="locked-overlay">
+                <span style="font-size:28px;">🔒</span>
+                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
+                <div style="font-size:12px;color:var(--text2);text-align:center;">AI-powered symptom analysis</div>
+                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 
     <div class="grid-2 fade-in">
         <div class="card">
@@ -795,9 +425,7 @@
                 <span class="card-badge badge-purple">Last 7 days</span>
             </div>
             {% if chart_labels %}
-                <div class="chart-container">
-                    <canvas id="trendChart"></canvas>
-                </div>
+                <div class="chart-container"><canvas id="trendChart"></canvas></div>
             {% else %}
                 <div class="no-data">
                     <div class="no-data-icon">📊</div>
@@ -806,21 +434,16 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">Health Score</div>
-            </div>
+            <div class="card-header"><div class="card-title">Health Score</div></div>
             <div class="health-score-wrap">
                 {% if checkins %}
                     {% set score = ((avg_energy + avg_sleep + avg_mood + (10 - avg_pain)) / 4) | round(0) | int %}
                     <div class="score-circle">
                         <svg width="140" height="140" viewBox="0 0 140 140">
                             <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(124,58,237,0.1)" stroke-width="10"/>
-                            <circle cx="70" cy="70" r="56" fill="none"
-                                stroke="url(#scoreGrad)" stroke-width="10"
-                                stroke-dasharray="{{ (score / 10 * 351.9) | round(1) }} 351.9"
-                                stroke-linecap="round"/>
+                            <circle cx="70" cy="70" r="56" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
+                                stroke-dasharray="{{ (score / 10 * 351.9) | round(1) }} 351.9" stroke-linecap="round"/>
                             <defs>
                                 <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                                     <stop offset="0%" stop-color="#7C3AED"/>
@@ -836,8 +459,7 @@
                     <div class="score-status">
                         {% if score >= 7 %}Good Health ✅
                         {% elif score >= 5 %}Moderate ⚡
-                        {% else %}Needs Attention ⚠️
-                        {% endif %}
+                        {% else %}Needs Attention ⚠️{% endif %}
                     </div>
                     <div class="score-sub">Based on {{ checkins|length }} check-ins</div>
                 {% else %}
@@ -860,7 +482,7 @@
             <ul class="checkin-list">
                 {% for c in checkins[:7] %}
                 <li class="checkin-item">
-                    <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
                         <div class="risk-dot dot-{{ c.risk_level }}"></div>
                         <div class="checkin-date">{{ c.date.strftime('%d %b %Y') }}</div>
                     </div>
@@ -884,8 +506,6 @@
 
 </main>
 
-</main>
-
 <script>
 {% if chart_labels %}
 const ctx = document.getElementById('trendChart').getContext('2d');
@@ -894,76 +514,21 @@ new Chart(ctx, {
     data: {
         labels: {{ chart_labels | tojson }},
         datasets: [
-            {
-                label: 'Energy',
-                data: {{ chart_energy | tojson }},
-                borderColor: '#10B981',
-                backgroundColor: 'rgba(16,185,129,0.08)',
-                tension: 0.4,
-                fill: true,
-                pointBackgroundColor: '#10B981',
-                pointRadius: 4,
-                pointHoverRadius: 6,
-            },
-            {
-                label: 'Sleep',
-                data: {{ chart_sleep | tojson }},
-                borderColor: '#3B82F6',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                fill: false,
-                pointBackgroundColor: '#3B82F6',
-                pointRadius: 4,
-                pointHoverRadius: 6,
-            },
-            {
-                label: 'Mood',
-                data: {{ chart_mood | tojson }},
-                borderColor: '#9F67FF',
-                backgroundColor: 'transparent',
-                tension: 0.4,
-                fill: false,
-                pointBackgroundColor: '#9F67FF',
-                pointRadius: 4,
-                pointHoverRadius: 6,
-            }
+            { label: 'Energy', data: {{ chart_energy | tojson }}, borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointBackgroundColor: '#10B981', pointRadius: 4, pointHoverRadius: 6 },
+            { label: 'Sleep', data: {{ chart_sleep | tojson }}, borderColor: '#3B82F6', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#3B82F6', pointRadius: 4, pointHoverRadius: 6 },
+            { label: 'Mood', data: {{ chart_mood | tojson }}, borderColor: '#9F67FF', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#9F67FF', pointRadius: 4, pointHoverRadius: 6 }
         ]
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         interaction: { intersect: false, mode: 'index' },
         plugins: {
-            legend: {
-                labels: {
-                    color: '#7B82A8',
-                    font: { family: 'DM Sans', size: 12 },
-                    boxWidth: 10,
-                    boxHeight: 10,
-                    borderRadius: 3,
-                    padding: 16
-                }
-            },
-            tooltip: {
-                backgroundColor: 'rgba(6,6,15,0.9)',
-                borderColor: 'rgba(124,58,237,0.3)',
-                borderWidth: 1,
-                titleColor: '#EEEEFF',
-                bodyColor: '#7B82A8',
-                padding: 10,
-                cornerRadius: 10,
-            }
+            legend: { labels: { color: '#7B82A8', font: { family: 'DM Sans', size: 12 }, boxWidth: 10, boxHeight: 10, borderRadius: 3, padding: 16 } },
+            tooltip: { backgroundColor: 'rgba(6,6,15,0.9)', borderColor: 'rgba(124,58,237,0.3)', borderWidth: 1, titleColor: '#EEEEFF', bodyColor: '#7B82A8', padding: 10, cornerRadius: 10 }
         },
         scales: {
-            x: {
-                grid: { color: 'rgba(255,255,255,0.03)' },
-                ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } }
-            },
-            y: {
-                min: 0, max: 10,
-                grid: { color: 'rgba(255,255,255,0.03)' },
-                ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } }
-            }
+            x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } } },
+            y: { min: 0, max: 10, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } } }
         }
     }
 });
@@ -973,7 +538,6 @@ function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('open');
 }
-
 function closeSidebar() {
     document.querySelector('.sidebar').classList.remove('open');
     document.getElementById('overlay').classList.remove('open');
