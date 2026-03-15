@@ -1,5 +1,5 @@
 from flask import Flask
-from extensions import db, login_manager
+from extensions import db, login_manager, mail
 from dotenv import load_dotenv
 import os
 
@@ -15,6 +15,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_EMAIL')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_EMAIL')
+
+mail.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
@@ -35,7 +43,7 @@ app.register_blueprint(main)
 app.register_blueprint(checkin_bp)
 
 with app.app_context():
-    db.create_all()  # ← Models import ke BAAD
+    db.create_all()
 
 @app.route('/sw.js')
 def service_worker():
