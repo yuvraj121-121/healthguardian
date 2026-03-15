@@ -18,9 +18,6 @@ db.init_app(app)
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
 
-with app.app_context():
-    db.create_all()
-
 from models.user import User
 from models.checkin import CheckIn
 from models.report import Report
@@ -36,6 +33,9 @@ from routes.checkin import checkin_bp
 app.register_blueprint(auth)
 app.register_blueprint(main)
 app.register_blueprint(checkin_bp)
+
+with app.app_context():
+    db.create_all()  # ← Models import ke BAAD
 
 @app.route('/sw.js')
 def service_worker():
