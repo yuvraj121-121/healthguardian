@@ -440,7 +440,12 @@ def export_pdf():
     </html>
     """
 
-    response = make_response(html)
-    response.headers['Content-Type'] = 'text/html'
-    response.headers['Content-Disposition'] = f'attachment; filename=healthguardian_report_{datetime.utcnow().strftime("%Y%m%d")}.html'
-    return response
+    return render_template('history.html',
+    checkins=checkins,
+    filter_risk=filter_risk,
+    total=total,
+    high_count=high_count,
+    medium_count=medium_count,
+    low_count=low_count,
+    user_plan=current_user.plan
+)
