@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Check-in — HealthGuardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HealthGuardian">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --purple: #7C3AED;
+            --purple2: #9F67FF;
+            --blue: #3B82F6;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --bg: #06060F;
+            --glass: rgba(255,255,255,0.03);
+            --glass2: rgba(255,255,255,0.06);
+            --glass3: rgba(255,255,255,0.09);
+            --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12);
+            --text: #EEEEFF;
+            --text2: #7B82A8;
+            --text3: #3D4268;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%; left: -10%;
+            width: 70%; height: 70%;
+            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%; right: -10%;
+            width: 60%; height: 60%;
+            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(6,6,15,0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 16px;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            padding: 0 6px;
+            margin-bottom: 36px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .logo-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.4);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--purple2), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-section {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 10px;
+            margin-bottom: 6px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 400;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
+            color: var(--purple2);
+            border-color: rgba(124,58,237,0.25);
+        }
+
+        .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.3);
+        }
+
+        .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--text3);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 32px 36px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
+
+        .back-btn {
+            font-size: 13px;
+            color: var(--text3);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-btn:hover { color: var(--text2); }
+
+        /* DONE BANNER */
+        .done-banner {
+            background: rgba(16,185,129,0.06);
+            border: 1px solid rgba(16,185,129,0.15);
+            border-radius: 14px;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .done-icon { font-size: 26px; }
+        .done-title { font-size: 15px; font-weight: 500; color: #6EE7B7; margin-bottom: 3px; }
+        .done-sub { font-size: 13px; color: var(--text2); }
+
+        /* CHECKIN CARD */
+        .checkin-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 680px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* PROGRESS */
+        .progress-wrap {
+            margin-bottom: 36px;
+        }
+
+        .progress-bar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+        }
+
+        .progress-step {
+            flex: 1;
+            height: 3px;
+            border-radius: 100px;
+            background: var(--border);
+            transition: all 0.3s;
+        }
+
+        .progress-step.active { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+        .progress-step.done { background: rgba(124,58,237,0.3); }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text3);
+        }
+
+        /* QUESTIONS */
+        .question-block {
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .question-block.visible { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(12px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .q-num {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--purple2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .q-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .q-sub {
+            font-size: 14px;
+            color: var(--text2);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        /* SCALE OPTIONS */
+        .scale-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+
+        .scale-btn {
+            aspect-ratio: 1;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--glass2);
+            color: var(--text2);
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .scale-btn span {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 10px;
+            font-weight: 400;
+            color: var(--text3);
+        }
+
+        .scale-btn:hover {
+            border-color: rgba(124,58,237,0.4);
+            background: rgba(124,58,237,0.08);
+            color: var(--text);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(124,58,237,0.15);
+        }
+
+        .scale-btn.selected {
+            border-color: rgba(124,58,237,0.5);
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
+            color: var(--purple2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(124,58,237,0.2);
+        }
+
+        .scale-btn.selected span { color: rgba(159,103,255,0.7); }
+
+        /* NAV BTNS */
+        .nav-btns {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-back {
+            padding: 11px 22px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: transparent;
+            color: var(--text2);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover { background: var(--glass2); color: var(--text); border-color: var(--border2); }
+
+        .btn-next {
+            padding: 11px 28px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(124,58,237,0.4);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* NOTES */
+        .notes-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--glass2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            resize: vertical;
+            min-height: 100px;
+            outline: none;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .notes-textarea:focus {
+            border-color: rgba(124,58,237,0.4);
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+        }
+
+        .notes-textarea::placeholder { color: var(--text3); }
+
+        /* SUMMARY */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .summary-item {
+            background: var(--glass2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+        }
+
+        .summary-label {
+            font-size: 10px;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 6px;
+        }
+
+        .summary-val {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--purple2), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fade-in {
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 1024px) {
+    .checkin-card { max-width: 100%; }
+}
+
+@media (max-width: 768px) {
+    .sidebar { 
+        transform: translateX(-100%); 
+        width: 240px; 
+    }
+    .sidebar.open { transform: translateX(0); }
+    .mobile-topbar {
+        display: flex;
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 150;
+        height: 56px;
+        background: rgba(6,6,15,0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 16px;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .hamburger {
+        width: 36px; height: 36px;
+        border-radius: 8px;
+        background: rgba(124,58,237,0.2);
+        border: 1px solid rgba(124,58,237,0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        color: var(--purple2);
+    }
+    .main { 
+        margin-left: 0 !important; 
+        padding: 72px 16px 20px !important; 
+    }
+    .checkin-card { 
+        padding: 20px 16px; 
+        max-width: 100%;
+    }
+    .scale-options { 
+        grid-template-columns: repeat(5, 1fr); 
+        gap: 6px; 
+    }
+    .scale-btn { 
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    .scale-btn span {
+        font-size: 9px;
+    }
+    .q-title { font-size: 18px; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .page-title { font-size: 20px; }
+    .topbar { flex-wrap: wrap; gap: 10px; }
+}
+    </style>
+</head>
+<body>
+<div class="mobile-topbar">
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+    </span>
+    <div class="hamburger" onclick="toggleSidebar()">☰</div>
+</div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        Health<span>Guardian</span>
+    </a>
+
+    <div class="nav-section">Main</div>
+<a href="/dashboard" class="nav-item">
+    <span class="nav-icon">📊</span> Dashboard
+</a>
+<a href="/checkin" class="nav-item">
+    <span class="nav-icon">✅</span> Daily Check-in
+</a>
+<a href="/history" class="nav-item">
+    <span class="nav-icon">📈</span> History
+</a>
+<a href="/ml-insights" class="nav-item">
+    <span class="nav-icon">🧠</span> AI Insights
+</a>
+<a href="/reports" class="nav-item">
+    <span class="nav-icon">📋</span> Reports
+</a>
+
+<a href="/symptoms" class="nav-item">
+    <span class="nav-icon">🩺</span> Symptom Checker
+</a>
+
+<div class="nav-section" style="margin-top:12px;">More</div>
+<a href="/alerts" class="nav-item">
+    <span class="nav-icon">🔔</span> Alerts
+</a>
+<a href="/settings" class="nav-item">
+    <span class="nav-icon">⚙️</span> Settings
+</a>
+
+    <div class="sidebar-bottom">
+        <div class="user-card">
+            <div class="user-avatar">{{ current_user.fullname[0].upper() }}</div>
+            <div>
+                <div class="user-name">{{ current_user.fullname }}</div>
+                <div class="user-email">{{ current_user.email }}</div>
+            </div>
+        </div>
+        <a href="/logout" class="logout-btn">
+            <span>🚪</span> Sign out
+        </a>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main fade-in">
+
+    <div class="topbar">
+        <div>
+            <div class="page-title">Daily Check-in</div>
+            <div class="page-sub">Takes just 2 minutes — be honest for best results</div>
+        </div>
+        <a href="/dashboard" class="back-btn">← Back to dashboard</a>
+    </div>
+
+    {% if today_checkin %}
+    <div class="done-banner">
+        <div class="done-icon">✅</div>
+        <div>
+            <div class="done-title">Already checked in today!</div>
+            <div class="done-sub">Come back tomorrow for your next check-in. Keep the streak going!</div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if not today_checkin %}
+    <div class="checkin-card">
+
+        <div class="progress-wrap">
+            <div class="progress-bar">
+                <div class="progress-step active" id="p1"></div>
+                <div class="progress-step" id="p2"></div>
+                <div class="progress-step" id="p3"></div>
+                <div class="progress-step" id="p4"></div>
+                <div class="progress-step" id="p5"></div>
+                <div class="progress-step" id="p6"></div>
+                <div class="progress-step" id="p7"></div>
+            </div>
+            <div class="progress-text" id="progressText">Step 1 of 7</div>
+        </div>
+
+        <form method="POST" action="/checkin" id="checkinForm">
+
+            <!-- Q1: ENERGY -->
+            <div class="question-block visible" id="q1">
+                <div class="q-num">Question 1 of 7</div>
+                <div class="q-title">How is your energy today?</div>
+                <div class="q-sub">Think about how energetic and active you feel right now</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="energy" data-val="2">2<span>Very low</span></button>
+                    <button type="button" class="scale-btn" data-q="energy" data-val="4">4<span>Low</span></button>
+                    <button type="button" class="scale-btn" data-q="energy" data-val="6">6<span>Okay</span></button>
+                    <button type="button" class="scale-btn" data-q="energy" data-val="8">8<span>Good</span></button>
+                    <button type="button" class="scale-btn" data-q="energy" data-val="10">10<span>Excellent</span></button>
+                </div>
+                <input type="hidden" name="energy" id="energy-val">
+                <div class="nav-btns">
+                    <div></div>
+                    <button type="button" class="btn-next" id="next1" disabled onclick="nextQ(1,2)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q2: SLEEP -->
+            <div class="question-block" id="q2">
+                <div class="q-num">Question 2 of 7</div>
+                <div class="q-title">How well did you sleep?</div>
+                <div class="q-sub">Rate the quality of your sleep last night</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="sleep" data-val="2">2<span>Terrible</span></button>
+                    <button type="button" class="scale-btn" data-q="sleep" data-val="4">4<span>Poor</span></button>
+                    <button type="button" class="scale-btn" data-q="sleep" data-val="6">6<span>Okay</span></button>
+                    <button type="button" class="scale-btn" data-q="sleep" data-val="8">8<span>Good</span></button>
+                    <button type="button" class="scale-btn" data-q="sleep" data-val="10">10<span>Great</span></button>
+                </div>
+                <input type="hidden" name="sleep" id="sleep-val">
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(2,1)">← Back</button>
+                    <button type="button" class="btn-next" id="next2" disabled onclick="nextQ(2,3)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q3: MOOD -->
+            <div class="question-block" id="q3">
+                <div class="q-num">Question 3 of 7</div>
+                <div class="q-title">How is your mood today?</div>
+                <div class="q-sub">Think about your overall emotional state today</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="mood" data-val="2">2<span>Very low</span></button>
+                    <button type="button" class="scale-btn" data-q="mood" data-val="4">4<span>Low</span></button>
+                    <button type="button" class="scale-btn" data-q="mood" data-val="6">6<span>Neutral</span></button>
+                    <button type="button" class="scale-btn" data-q="mood" data-val="8">8<span>Good</span></button>
+                    <button type="button" class="scale-btn" data-q="mood" data-val="10">10<span>Great</span></button>
+                </div>
+                <input type="hidden" name="mood" id="mood-val">
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(3,2)">← Back</button>
+                    <button type="button" class="btn-next" id="next3" disabled onclick="nextQ(3,4)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q4: PAIN -->
+            <div class="question-block" id="q4">
+                <div class="q-num">Question 4 of 7</div>
+                <div class="q-title">Any pain or discomfort?</div>
+                <div class="q-sub">Rate your current pain level (higher = more pain)</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="pain" data-val="2">2<span>None</span></button>
+                    <button type="button" class="scale-btn" data-q="pain" data-val="4">4<span>Mild</span></button>
+                    <button type="button" class="scale-btn" data-q="pain" data-val="6">6<span>Moderate</span></button>
+                    <button type="button" class="scale-btn" data-q="pain" data-val="8">8<span>Severe</span></button>
+                    <button type="button" class="scale-btn" data-q="pain" data-val="10">10<span>Extreme</span></button>
+                </div>
+                <input type="hidden" name="pain" id="pain-val">
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(4,3)">← Back</button>
+                    <button type="button" class="btn-next" id="next4" disabled onclick="nextQ(4,5)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q5: APPETITE -->
+            <div class="question-block" id="q5">
+                <div class="q-num">Question 5 of 7</div>
+                <div class="q-title">How is your appetite?</div>
+                <div class="q-sub">Rate how well you have been eating today</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="appetite" data-val="2">2<span>Very poor</span></button>
+                    <button type="button" class="scale-btn" data-q="appetite" data-val="4">4<span>Poor</span></button>
+                    <button type="button" class="scale-btn" data-q="appetite" data-val="6">6<span>Okay</span></button>
+                    <button type="button" class="scale-btn" data-q="appetite" data-val="8">8<span>Good</span></button>
+                    <button type="button" class="scale-btn" data-q="appetite" data-val="10">10<span>Great</span></button>
+                </div>
+                <input type="hidden" name="appetite" id="appetite-val">
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(5,4)">← Back</button>
+                    <button type="button" class="btn-next" id="next5" disabled onclick="nextQ(5,6)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q6: STRESS -->
+            <div class="question-block" id="q6">
+                <div class="q-num">Question 6 of 7</div>
+                <div class="q-title">How stressed are you feeling?</div>
+                <div class="q-sub">Rate your current stress level (higher = more stress)</div>
+                <div class="scale-options">
+                    <button type="button" class="scale-btn" data-q="stress" data-val="2">2<span>None</span></button>
+                    <button type="button" class="scale-btn" data-q="stress" data-val="4">4<span>Mild</span></button>
+                    <button type="button" class="scale-btn" data-q="stress" data-val="6">6<span>Moderate</span></button>
+                    <button type="button" class="scale-btn" data-q="stress" data-val="8">8<span>High</span></button>
+                    <button type="button" class="scale-btn" data-q="stress" data-val="10">10<span>Extreme</span></button>
+                </div>
+                <input type="hidden" name="stress" id="stress-val">
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(6,5)">← Back</button>
+                    <button type="button" class="btn-next" id="next6" disabled onclick="nextQ(6,7)">Next →</button>
+                </div>
+            </div>
+
+            <!-- Q7: NOTES + SUMMARY -->
+            <div class="question-block" id="q7">
+                <div class="q-num">Question 7 of 7</div>
+                <div class="q-title">Anything to add?</div>
+                <div class="q-sub">Optional notes about how you are feeling today</div>
+                <textarea name="notes" class="notes-textarea" placeholder="e.g. Had a headache this morning, feeling a bit tired..."></textarea>
+                <div class="summary-grid" id="summaryGrid"></div>
+                <div class="nav-btns">
+                    <button type="button" class="btn-back" onclick="prevQ(7,6)">← Back</button>
+                    <button type="submit" class="btn-next">Submit Check-in ✓</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    {% endif %}
+
+</main>
+
+<script>
+const answers = {};
+
+document.querySelectorAll('.scale-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const q = this.dataset.q;
+        const val = this.dataset.val;
+        document.querySelectorAll(`[data-q="${q}"]`).forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        document.getElementById(`${q}-val`).value = val;
+        answers[q] = val;
+        const qNum = this.closest('.question-block').id.replace('q','');
+        const nextBtn = document.getElementById(`next${qNum}`);
+        if (nextBtn) nextBtn.disabled = false;
+    });
+});
+
+function nextQ(from, to) {
+    document.getElementById(`q${from}`).classList.remove('visible');
+    document.getElementById(`q${to}`).classList.add('visible');
+    updateProgress(to);
+    if (to === 7) updateSummary();
+}
+
+function prevQ(from, to) {
+    document.getElementById(`q${from}`).classList.remove('visible');
+    document.getElementById(`q${to}`).classList.add('visible');
+    updateProgress(to);
+}
+
+function updateProgress(current) {
+    document.getElementById('progressText').textContent = `Step ${current} of 7`;
+    for (let i = 1; i <= 7; i++) {
+        const step = document.getElementById(`p${i}`);
+        if (i < current) step.className = 'progress-step done';
+        else if (i === current) step.className = 'progress-step active';
+        else step.className = 'progress-step';
+    }
+}
+
+function updateSummary() {
+    const labels = { energy: 'Energy', sleep: 'Sleep', mood: 'Mood', pain: 'Pain', appetite: 'Appetite', stress: 'Stress' };
+    const grid = document.getElementById('summaryGrid');
+    grid.innerHTML = '';
+    Object.keys(labels).forEach(key => {
+        const val = answers[key] || '-';
+        grid.innerHTML += `
+            <div class="summary-item">
+                <div class="summary-label">${labels[key]}</div>
+                <div class="summary-val">${val}</div>
+            </div>`;
+    });
+}
+
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('open');
+}
+
+function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+}
+</script>
+
+</body>
+</html>

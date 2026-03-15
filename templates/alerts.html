@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts — HealthGuardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HealthGuardian">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --purple: #7C3AED;
+            --purple2: #9F67FF;
+            --blue: #3B82F6;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --bg: #06060F;
+            --glass: rgba(255,255,255,0.03);
+            --glass2: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12);
+            --text: #EEEEFF;
+            --text2: #7B82A8;
+            --text3: #3D4268;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%; left: -10%;
+            width: 70%; height: 70%;
+            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%; right: -10%;
+            width: 60%; height: 60%;
+            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(6,6,15,0.95);
+            backdrop-filter: blur(30px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 16px;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 0 6px;
+            margin-bottom: 36px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            width: 22px; height: 22px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.4);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--purple2), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-section {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 10px;
+            margin-bottom: 6px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
+            color: var(--purple2);
+            border-color: rgba(124,58,237,0.25);
+        }
+
+        .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .user-avatar {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.3);
+        }
+
+        .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--text3);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
+
+        .mobile-topbar { display: none; }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.open { display: block; }
+
+        .main {
+            margin-left: 260px;
+            padding: 32px 36px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
+
+        /* STATS */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover { background: var(--glass2); transform: translateY(-2px); }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 2px;
+        }
+
+        .stat-card.total::after { background: linear-gradient(90deg, transparent, var(--purple2), transparent); }
+        .stat-card.high::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+        .stat-card.medium::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .stat-value.purple { color: var(--purple2); }
+        .stat-value.red { color: var(--red); }
+        .stat-value.amber { color: var(--amber); }
+
+        /* ALERT SECTIONS */
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-count {
+            font-size: 12px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 100px;
+        }
+
+        .count-red { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+        .count-amber { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+
+        /* ALERT CARDS */
+        .alerts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .alert-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            backdrop-filter: blur(20px);
+            transition: all 0.2s;
+        }
+
+        .alert-card:hover {
+            background: var(--glass2);
+            transform: translateX(4px);
+        }
+
+        .alert-card.high {
+            border-color: rgba(239,68,68,0.15);
+            background: linear-gradient(135deg, rgba(239,68,68,0.05), var(--glass));
+        }
+
+        .alert-card.medium {
+            border-color: rgba(245,158,11,0.15);
+            background: linear-gradient(135deg, rgba(245,158,11,0.05), var(--glass));
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .icon-high { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); }
+        .icon-medium { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.2); }
+
+        .alert-content { flex: 1; }
+
+        .alert-date {
+            font-size: 12px;
+            color: var(--text3);
+            margin-bottom: 4px;
+        }
+
+        .alert-message {
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .alert-scores {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .score-pill {
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .alert-risk {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            flex-shrink: 0;
+            align-self: flex-start;
+        }
+
+        .risk-high { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+        .risk-medium { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
+
+        /* NO DATA */
+        .no-data {
+            text-align: center;
+            padding: 48px 20px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+        }
+
+        .no-data-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
+        .no-data-title { font-size: 16px; font-weight: 500; color: var(--text2); margin-bottom: 6px; }
+        .no-data-sub { font-size: 13px; color: var(--text3); }
+
+        .fade-in {
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 240px; }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-topbar {
+                display: flex;
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                z-index: 150;
+                height: 56px;
+                background: rgba(6,6,15,0.95);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 0 16px;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .hamburger {
+                width: 36px; height: 36px;
+                border-radius: 8px;
+                background: rgba(124,58,237,0.2);
+                border: 1px solid rgba(124,58,237,0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 18px;
+                color: var(--purple2);
+            }
+            .main { margin-left: 0; padding: 72px 16px 20px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .page-title { font-size: 20px; }
+            .alert-card { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="mobile-topbar">
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+    </span>
+    <div class="hamburger" onclick="toggleSidebar()">☰</div>
+</div>
+
+<aside class="sidebar">
+    <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        Health<span>Guardian</span>
+    </a>
+
+    <div class="nav-section">Main</div>
+<a href="/dashboard" class="nav-item">
+    <span class="nav-icon">📊</span> Dashboard
+</a>
+<a href="/checkin" class="nav-item">
+    <span class="nav-icon">✅</span> Daily Check-in
+</a>
+<a href="/history" class="nav-item">
+    <span class="nav-icon">📈</span> History
+</a>
+<a href="/ml-insights" class="nav-item">
+    <span class="nav-icon">🧠</span> AI Insights
+</a>
+<a href="/reports" class="nav-item">
+    <span class="nav-icon">📋</span> Reports
+</a>
+
+<a href="/symptoms" class="nav-item">
+    <span class="nav-icon">🩺</span> Symptom Checker
+</a>
+
+<div class="nav-section" style="margin-top:12px;">More</div>
+<a href="/alerts" class="nav-item">
+    <span class="nav-icon">🔔</span> Alerts
+</a>
+<a href="/settings" class="nav-item">
+    <span class="nav-icon">⚙️</span> Settings
+</a>
+    <div class="sidebar-bottom">
+        <div class="user-card">
+            <div class="user-avatar">{{ current_user.fullname[0].upper() }}</div>
+            <div>
+                <div class="user-name">{{ current_user.fullname }}</div>
+                <div class="user-email">{{ current_user.email }}</div>
+            </div>
+        </div>
+        <a href="/logout" class="logout-btn">
+            <span>🚪</span> Sign out
+        </a>
+    </div>
+</aside>
+
+<main class="main fade-in">
+
+    <div class="topbar">
+        <div>
+            <div class="page-title">Health Alerts 🔔</div>
+            <div class="page-sub">Check-ins where concerning patterns were detected</div>
+        </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+        <div class="stat-card total">
+            <div class="stat-label">Total Alerts</div>
+            <div class="stat-value purple">{{ total_alerts }}</div>
+        </div>
+        <div class="stat-card high">
+            <div class="stat-label">High Risk</div>
+            <div class="stat-value red">{{ high_alerts|length }}</div>
+        </div>
+        <div class="stat-card medium">
+            <div class="stat-label">Medium Risk</div>
+            <div class="stat-value amber">{{ medium_alerts|length }}</div>
+        </div>
+    </div>
+
+    <!-- HIGH RISK ALERTS -->
+    {% if high_alerts %}
+    <div class="section-title">
+        ⚠️ High Risk Alerts
+        <span class="section-count count-red">{{ high_alerts|length }}</span>
+    </div>
+    <div class="alerts-list">
+        {% for c in high_alerts %}
+        <div class="alert-card high">
+            <div class="alert-icon icon-high">⚠️</div>
+            <div class="alert-content">
+                <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
+                <div class="alert-message">{{ c.warning_message }}</div>
+                <div class="alert-scores">
+                    <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">Energy: {{ c.energy }}</span>
+                    <span class="score-pill" style="background:rgba(59,130,246,0.1);color:#3B82F6;">Sleep: {{ c.sleep }}</span>
+                    <span class="score-pill" style="background:rgba(159,103,255,0.1);color:#9F67FF;">Mood: {{ c.mood }}</span>
+                    <span class="score-pill" style="background:rgba(239,68,68,0.1);color:#EF4444;">Pain: {{ c.pain }}</span>
+                    <span class="score-pill" style="background:rgba(245,158,11,0.1);color:#F59E0B;">Stress: {{ c.stress }}</span>
+                </div>
+            </div>
+            <span class="alert-risk risk-high">HIGH</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- MEDIUM RISK ALERTS -->
+    {% if medium_alerts %}
+    <div class="section-title">
+        ⚡ Medium Risk Alerts
+        <span class="section-count count-amber">{{ medium_alerts|length }}</span>
+    </div>
+    <div class="alerts-list">
+        {% for c in medium_alerts %}
+        <div class="alert-card medium">
+            <div class="alert-icon icon-medium">⚡</div>
+            <div class="alert-content">
+                <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
+                <div class="alert-message">{{ c.warning_message }}</div>
+                <div class="alert-scores">
+                    <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">Energy: {{ c.energy }}</span>
+                    <span class="score-pill" style="background:rgba(59,130,246,0.1);color:#3B82F6;">Sleep: {{ c.sleep }}</span>
+                    <span class="score-pill" style="background:rgba(159,103,255,0.1);color:#9F67FF;">Mood: {{ c.mood }}</span>
+                    <span class="score-pill" style="background:rgba(239,68,68,0.1);color:#EF4444;">Pain: {{ c.pain }}</span>
+                    <span class="score-pill" style="background:rgba(245,158,11,0.1);color:#F59E0B;">Stress: {{ c.stress }}</span>
+                </div>
+            </div>
+            <span class="alert-risk risk-medium">MEDIUM</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- NO ALERTS -->
+    {% if not high_alerts and not medium_alerts %}
+    <div class="no-data">
+        <div class="no-data-icon">✅</div>
+        <div class="no-data-title">No alerts — you are doing great!</div>
+        <div class="no-data-sub">Keep up your daily check-ins to stay on top of your health.</div>
+    </div>
+    {% endif %}
+
+</main>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+}
+</script>
+
+</body>
+</html>

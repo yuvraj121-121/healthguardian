@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker — HealthGuardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HealthGuardian">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --purple: #7C3AED;
+            --purple2: #9F67FF;
+            --blue: #3B82F6;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --bg: #06060F;
+            --glass: rgba(255,255,255,0.03);
+            --glass2: rgba(255,255,255,0.06);
+            --glass3: rgba(255,255,255,0.09);
+            --border: rgba(255,255,255,0.07);
+            --border2: rgba(255,255,255,0.12);
+            --text: #EEEEFF;
+            --text2: #7B82A8;
+            --text3: #3D4268;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -30%; left: -10%;
+            width: 70%; height: 70%;
+            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%; right: -10%;
+            width: 60%; height: 60%;
+            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0; top: 0;
+            width: 260px;
+            height: 100vh;
+            background: rgba(6,6,15,0.95);
+            backdrop-filter: blur(30px);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 28px 16px;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 0 6px;
+            margin-bottom: 36px;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .logo-icon {
+            width: 22px; height: 22px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.4);
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--purple2), var(--blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-section {
+            font-size: 10px;
+            font-weight: 500;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 0 10px;
+            margin-bottom: 6px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--text2);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
+            color: var(--purple2);
+            border-color: rgba(124,58,237,0.25);
+        }
+
+        .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+        }
+
+        .user-avatar {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syne', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.3);
+        }
+
+        .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--text3);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
+
+        .mobile-topbar { display: none; }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 99;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.open { display: block; }
+
+        .main {
+            margin-left: 260px;
+            padding: 32px 36px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
+
+        /* WARNING BANNER */
+        .warning-top {
+            background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03));
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: 14px;
+            padding: 14px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .warning-top-icon { font-size: 20px; flex-shrink: 0; }
+        .warning-top-text { font-size: 13px; color: #FCA5A5; line-height: 1.5; }
+        .warning-top-text strong { color: #FCA5A5; font-weight: 700; }
+
+        /* SYMPTOM FORM */
+        .form-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 28px;
+            backdrop-filter: blur(20px);
+        }
+
+        .form-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        /* QUICK SYMPTOMS */
+        .quick-symptoms {
+            margin-bottom: 20px;
+        }
+
+        .quick-label {
+            font-size: 12px;
+            color: var(--text3);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 10px;
+        }
+
+        .symptoms-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .symptom-tag {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            border: 1px solid var(--border);
+            background: var(--glass2);
+            color: var(--text2);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .symptom-tag:hover { background: var(--glass3); color: var(--text); border-color: var(--border2); }
+        .symptom-tag.selected { background: rgba(124,58,237,0.15); color: var(--purple2); border-color: rgba(124,58,237,0.3); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text2);
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--glass2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: rgba(124,58,237,0.4);
+            background: rgba(124,58,237,0.05);
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+        }
+
+        .form-input::placeholder { color: var(--text3); }
+
+        select.form-input {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233D4268' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-color: var(--glass2);
+        }
+
+        select.form-input option { background: #0D0D1A; color: #EEEEFF; }
+
+        .symptoms-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--glass2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+            resize: vertical;
+            min-height: 120px;
+            outline: none;
+            transition: all 0.2s;
+            line-height: 1.6;
+        }
+
+        .symptoms-textarea:focus {
+            border-color: rgba(124,58,237,0.4);
+            box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+        }
+
+        .symptoms-textarea::placeholder { color: var(--text3); }
+
+        .btn-analyze {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124,58,237,0.4);
+        }
+
+        /* LOADING */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(6,6,15,0.9);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .loading-overlay.show { display: flex; }
+
+        .loading-spinner {
+            width: 60px; height: 60px;
+            border: 3px solid rgba(124,58,237,0.2);
+            border-top-color: var(--purple2);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .loading-sub { font-size: 13px; color: var(--text2); }
+
+        /* RESULT */
+        .result-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            margin-bottom: 24px;
+        }
+
+        .result-header {
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04));
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-header-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .result-header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .result-header-sub {
+            font-size: 12px;
+            color: var(--text3);
+            margin-top: 2px;
+        }
+
+        .result-content { padding: 28px; }
+
+        /* AI CONTENT STYLES */
+        .result-content .ai-section {
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-content .ai-section:last-child { border-bottom: none; margin-bottom: 0; }
+
+        .result-content h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .result-content p {
+            font-size: 14px;
+            color: var(--text2);
+            line-height: 1.8;
+        }
+
+        .result-content .ai-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .result-content .ai-table th {
+            background: rgba(124,58,237,0.1);
+            padding: 11px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--purple2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(124,58,237,0.15);
+        }
+
+        .result-content .ai-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text2);
+            vertical-align: middle;
+        }
+
+        .result-content .ai-table tr:last-child td { border-bottom: none; }
+        .result-content .ai-table tr:hover td { background: var(--glass2); }
+        .result-content .ai-table .row-normal td { background: rgba(16,185,129,0.03); }
+        .result-content .ai-table .row-abnormal td { background: rgba(245,158,11,0.03); }
+        .result-content .ai-table .row-critical td { background: rgba(239,68,68,0.04); }
+
+        .result-content .badge-normal { background: rgba(16,185,129,0.1); color: #10B981; border: 1px solid rgba(16,185,129,0.2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+        .result-content .badge-low { background: rgba(245,158,11,0.1); color: #F59E0B; border: 1px solid rgba(245,158,11,0.2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+        .result-content .badge-high { background: rgba(245,158,11,0.1); color: #F59E0B; border: 1px solid rgba(245,158,11,0.2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+        .result-content .badge-critical { background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; }
+
+        .result-content .risk-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .result-content .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--glass2);
+        }
+
+        .result-content .risk-item.risk-high { border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.04); }
+        .result-content .risk-item.risk-medium { border-color: rgba(245,158,11,0.2); background: rgba(245,158,11,0.04); }
+        .result-content .risk-item.risk-low { border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.04); }
+
+        .result-content .risk-name { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); min-width: 160px; }
+        .result-content .risk-prob { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid rgba(239,68,68,0.2); white-space: nowrap; }
+        .result-content .risk-item.risk-medium .risk-prob { background: rgba(245,158,11,0.1); color: #F59E0B; border-color: rgba(245,158,11,0.2); }
+        .result-content .risk-item.risk-low .risk-prob { background: rgba(16,185,129,0.1); color: #10B981; border-color: rgba(16,185,129,0.2); }
+        .result-content .risk-desc { font-size: 13px; color: var(--text2); flex: 1; line-height: 1.5; }
+
+        .result-content .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+
+        .result-content .tip-card {
+            background: var(--glass2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+
+        .result-content .tip-card:hover { background: var(--glass3); transform: translateY(-2px); border-color: rgba(124,58,237,0.2); }
+        .result-content .tip-icon { font-size: 22px; margin-bottom: 8px; }
+        .result-content .tip-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+        .result-content .tip-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+        .result-content .urgency-banner { padding: 16px 20px; border-radius: 12px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .result-content .urgency-banner p { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; margin-top: 6px; color: inherit; opacity: 0.8; }
+        .result-content .urgency-low { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); color: #10B981; }
+        .result-content .urgency-medium { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); color: #F59E0B; }
+        .result-content .urgency-high { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #EF4444; }
+        .result-content .urgency-critical { background: rgba(239,68,68,0.12); border: 2px solid rgba(239,68,68,0.3); color: #EF4444; }
+
+        .result-content .ai-disclaimer {
+            background: rgba(239,68,68,0.06);
+            border: 1px solid rgba(239,68,68,0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 13px;
+            color: #FCA5A5;
+            line-height: 1.6;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .fade-in { animation: fadeUp 0.5s ease forwards; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 240px; }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-topbar {
+                display: flex;
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                z-index: 150;
+                height: 56px;
+                background: rgba(6,6,15,0.95);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border);
+                padding: 0 16px;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .hamburger {
+                width: 36px; height: 36px;
+                border-radius: 8px;
+                background: rgba(124,58,237,0.2);
+                border: 1px solid rgba(124,58,237,0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                font-size: 18px;
+                color: var(--purple2);
+            }
+            .main { margin-left: 0; padding: 72px 16px 20px; }
+            .form-row { grid-template-columns: 1fr; }
+            .page-title { font-size: 20px; }
+            .result-content .ai-table { display: block; overflow-x: auto; }
+            .result-content .tips-grid { grid-template-columns: 1fr 1fr; }
+            .result-content .risk-item { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Analyzing symptoms...</div>
+    <div class="loading-sub">AI Doctor is checking your symptoms</div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="mobile-topbar">
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+    </span>
+    <div class="hamburger" onclick="toggleSidebar()">☰</div>
+</div>
+
+<aside class="sidebar">
+    <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        Health<span>Guardian</span>
+    </a>
+
+    <div class="nav-section">Main</div>
+    <a href="/dashboard" class="nav-item">
+        <span class="nav-icon">📊</span> Dashboard
+    </a>
+    <a href="/checkin" class="nav-item">
+        <span class="nav-icon">✅</span> Daily Check-in
+    </a>
+    <a href="/history" class="nav-item">
+        <span class="nav-icon">📈</span> History
+    </a>
+    <a href="/ml-insights" class="nav-item">
+        <span class="nav-icon">🧠</span> AI Insights
+    </a>
+    <a href="/reports" class="nav-item">
+        <span class="nav-icon">📋</span> Reports
+    </a>
+    <a href="/symptoms" class="nav-item active">
+        <span class="nav-icon">🩺</span> Symptom Checker
+    </a>
+
+    <div class="nav-section" style="margin-top:12px;">More</div>
+    <a href="/alerts" class="nav-item">
+        <span class="nav-icon">🔔</span> Alerts
+    </a>
+    <a href="/settings" class="nav-item">
+        <span class="nav-icon">⚙️</span> Settings
+    </a>
+
+    <div class="sidebar-bottom">
+        <div class="user-card">
+            <div class="user-avatar">{{ current_user.fullname[0].upper() }}</div>
+            <div>
+                <div class="user-name">{{ current_user.fullname }}</div>
+                <div class="user-email">{{ current_user.email }}</div>
+            </div>
+        </div>
+        <a href="/logout" class="logout-btn">
+            <span>🚪</span> Sign out
+        </a>
+    </div>
+</aside>
+
+<main class="main fade-in">
+
+    <div class="topbar">
+        <div>
+            <div class="page-title">Symptom Checker 🩺</div>
+            <div class="page-sub">Describe your symptoms — AI will analyze and suggest possible conditions</div>
+        </div>
+    </div>
+
+    <!-- WARNING -->
+    <div class="warning-top">
+        <div class="warning-top-icon">⚠️</div>
+        <div class="warning-top-text">
+            <strong>Medical Disclaimer:</strong> This tool is for educational purposes only.
+            Always consult a qualified doctor before taking any medicine.
+            In case of emergency, call your local emergency number immediately.
+        </div>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-card">
+        <div class="form-title">📝 Describe Your Symptoms</div>
+
+        <form method="POST" action="/symptoms" id="symptomForm">
+
+            <!-- QUICK SYMPTOM TAGS -->
+            <div class="quick-symptoms">
+                <div class="quick-label">Quick Select — Common Symptoms</div>
+                <div class="symptoms-tags">
+                    <span class="symptom-tag" onclick="addSymptom(this)">🤒 Fever</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🤕 Headache</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">😮‍💨 Shortness of breath</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🤢 Nausea</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">😴 Fatigue</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">💔 Chest pain</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🦴 Joint pain</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🤧 Cough</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🤮 Vomiting</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">😵 Dizziness</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">👁️ Blurred vision</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🦷 Toothache</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">🫃 Stomach pain</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">😰 Night sweats</span>
+                    <span class="symptom-tag" onclick="addSymptom(this)">⚖️ Weight loss</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Age</label>
+                    <input type="number" name="age" class="form-input"
+                        value="{{ current_user.age or '' }}"
+                        placeholder="Your age" min="1" max="120">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Gender</label>
+                    <select name="gender" class="form-input">
+                        <option value="unknown">Prefer not to say</option>
+                        <option value="male" {% if current_user.gender == 'male' %}selected{% endif %}>Male</option>
+                        <option value="female" {% if current_user.gender == 'female' %}selected{% endif %}>Female</option>
+                        <option value="other" {% if current_user.gender == 'other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Describe Your Symptoms In Detail</label>
+                <textarea
+                    name="symptoms"
+                    id="symptomsText"
+                    class="symptoms-textarea"
+                    placeholder="e.g. I have been having a severe headache for 2 days, along with fever of 101°F, nausea, and sensitivity to light. The pain is mostly on the right side..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Duration</label>
+                    <select name="duration" class="form-input">
+                        <option value="today">Started today</option>
+                        <option value="2-3 days">2-3 days</option>
+                        <option value="1 week">About 1 week</option>
+                        <option value="2 weeks">2 weeks</option>
+                        <option value="1 month">About 1 month</option>
+                        <option value="chronic">Chronic (3+ months)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Severity</label>
+                    <select name="severity" class="form-input">
+                        <option value="mild">Mild — manageable</option>
+                        <option value="moderate">Moderate — affecting daily life</option>
+                        <option value="severe">Severe — very painful</option>
+                        <option value="critical">Critical — unbearable</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-analyze" onclick="showLoading()">
+                🧠 Analyze Symptoms
+            </button>
+        </form>
+    </div>
+
+    <!-- RESULT -->
+    {% if result %}
+    <div class="result-card">
+        <div class="result-header">
+            <div class="result-header-icon">🩺</div>
+            <div>
+                <div class="result-header-title">AI Medical Analysis</div>
+                <div class="result-header-sub">Powered by Llama 3.3 70B — Educational purposes only</div>
+            </div>
+        </div>
+        <div class="result-content">
+            {{ result | safe }}
+        </div>
+    </div>
+    {% endif %}
+
+</main>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+}
+
+function showLoading() {
+    const symptoms = document.getElementById('symptomsText').value;
+    if (symptoms.trim()) {
+        document.getElementById('loadingOverlay').classList.add('show');
+    }
+}
+
+function addSymptom(tag) {
+    tag.classList.toggle('selected');
+    const textarea = document.getElementById('symptomsText');
+    const symptom = tag.textContent.trim().replace(/^[\u{1F300}-\u{1F9FF}]\s*/u, '');
+
+    if (tag.classList.contains('selected')) {
+        if (textarea.value) {
+            textarea.value += ', ' + symptom;
+        } else {
+            textarea.value = symptom;
+        }
+    } else {
+        textarea.value = textarea.value
+            .split(',')
+            .map(s => s.trim())
+            .filter(s => s.toLowerCase() !== symptom.toLowerCase())
+            .join(', ');
+    }
+}
+
+// Scroll to result
+{% if result %}
+window.addEventListener('load', () => {
+    document.querySelector('.result-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+{% endif %}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,729 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HealthGuardian — AI Early Disease Detection</title>
+        <meta name="description" content="Track your health daily. Our AI detects patterns before they become serious problems. 2-minute daily check-in.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+        <!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7C3AED">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HealthGuardian">
+<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+
+            :root {
+                --purple: #7C3AED;
+                --purple2: #9F67FF;
+                --blue: #3B82F6;
+                --cyan: #06B6D4;
+                --green: #10B981;
+                --amber: #F59E0B;
+                --red: #EF4444;
+                --bg: #06060F;
+                --glass: rgba(255,255,255,0.03);
+                --glass2: rgba(255,255,255,0.06);
+                --border: rgba(255,255,255,0.07);
+                --border2: rgba(255,255,255,0.12);
+                --text: #EEEEFF;
+                --text2: #7B82A8;
+                --text3: #3D4268;
+            }
+
+            body {
+                font-family: 'DM Sans', sans-serif;
+                background: var(--bg);
+                color: var(--text);
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: -20%;
+                left: -10%;
+                width: 80%;
+                height: 80%;
+                background: radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 65%);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            body::after {
+                content: '';
+                position: fixed;
+                bottom: -20%;
+                right: -10%;
+                width: 60%;
+                height: 60%;
+                background: radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 65%);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            /* NAV */
+            nav {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 100;
+                padding: 16px 52px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(6,6,15,0.7);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .logo {
+                font-family: 'Syne', sans-serif;
+                font-size: 17px;
+                font-weight: 800;
+                text-decoration: none;
+                color: var(--text);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .logo-icon {
+                width: 26px;
+                height: 26px;
+                border-radius: 7px;
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 13px;
+                box-shadow: 0 0 16px rgba(124,58,237,0.4);
+            }
+
+            .logo span {
+                background: linear-gradient(135deg, var(--purple2), var(--blue));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 32px;
+                list-style: none;
+            }
+
+            .nav-links a {
+                color: var(--text2);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s;
+            }
+
+            .nav-links a:hover { color: var(--text); }
+
+            .nav-btns {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .btn-ghost {
+                padding: 8px 18px;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                background: transparent;
+                color: var(--text2);
+                font-size: 13px;
+                cursor: pointer;
+                text-decoration: none;
+                transition: all 0.2s;
+                font-family: 'DM Sans', sans-serif;
+            }
+
+            .btn-ghost:hover {
+                background: var(--glass2);
+                color: var(--text);
+                border-color: var(--border2);
+            }
+
+            .btn-primary {
+                padding: 8px 18px;
+                border: none;
+                border-radius: 8px;
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                color: #fff;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                text-decoration: none;
+                transition: all 0.25s;
+                font-family: 'DM Sans', sans-serif;
+                box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+            }
+
+            .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 8px 24px rgba(124,58,237,0.4);
+            }
+
+            /* HERO */
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 120px 24px 80px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 16px;
+                border: 1px solid rgba(124,58,237,0.25);
+                border-radius: 100px;
+                background: rgba(124,58,237,0.08);
+                color: var(--purple2);
+                font-size: 13px;
+                margin-bottom: 28px;
+                animation: fadeUp 0.6s ease forwards;
+            }
+
+            .badge-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--purple2);
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.4; transform: scale(1.4); }
+            }
+
+            .hero h1 {
+                font-family: 'Syne', sans-serif;
+                font-size: 68px;
+                font-weight: 800;
+                line-height: 1.05;
+                letter-spacing: -2.5px;
+                margin-bottom: 20px;
+                max-width: 820px;
+                animation: fadeUp 0.6s 0.1s ease both;
+            }
+
+            .hero h1 .highlight {
+                background: linear-gradient(135deg, var(--purple2), var(--blue), var(--cyan));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .hero p {
+                font-size: 18px;
+                color: var(--text2);
+                max-width: 500px;
+                line-height: 1.7;
+                margin-bottom: 36px;
+                animation: fadeUp 0.6s 0.2s ease both;
+            }
+
+            .hero-btns {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                margin-bottom: 64px;
+                animation: fadeUp 0.6s 0.3s ease both;
+            }
+
+            .btn-lg {
+                padding: 14px 30px;
+                font-size: 15px;
+                border-radius: 10px;
+            }
+
+            /* STATS */
+            .stats {
+                display: flex;
+                gap: 48px;
+                justify-content: center;
+                animation: fadeUp 0.6s 0.4s ease both;
+            }
+
+            .stat { text-align: center; }
+
+            .stat-num {
+                font-family: 'Syne', sans-serif;
+                font-size: 28px;
+                font-weight: 800;
+                background: linear-gradient(135deg, var(--purple2), var(--blue));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .stat-label { font-size: 13px; color: var(--text3); margin-top: 4px; }
+
+            .stat-divider { width: 1px; background: var(--border); }
+
+            /* FEATURES */
+            .features {
+                padding: 100px 52px;
+                max-width: 1200px;
+                margin: 0 auto;
+                position: relative;
+                z-index: 1;
+            }
+
+            .section-label {
+                font-size: 12px;
+                font-weight: 500;
+                color: var(--purple2);
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                margin-bottom: 12px;
+            }
+
+            .section-title {
+                font-family: 'Syne', sans-serif;
+                font-size: 42px;
+                font-weight: 800;
+                letter-spacing: -1.5px;
+                margin-bottom: 16px;
+                max-width: 520px;
+                line-height: 1.1;
+            }
+
+            .section-sub {
+                font-size: 16px;
+                color: var(--text2);
+                max-width: 460px;
+                line-height: 1.7;
+                margin-bottom: 56px;
+            }
+
+            .features-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+            }
+
+            .feature-card {
+                background: var(--glass);
+                border: 1px solid var(--border);
+                border-radius: 18px;
+                padding: 28px;
+                transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+            }
+
+            .feature-card::before {
+                content: '';
+                position: absolute;
+                top: 0; left: 0; right: 0;
+                height: 1px;
+                background: linear-gradient(90deg, transparent, var(--purple), transparent);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .feature-card:hover {
+                background: var(--glass2);
+                border-color: rgba(124,58,237,0.2);
+                transform: translateY(-4px);
+            }
+
+            .feature-card:hover::before { opacity: 1; }
+
+            .feature-icon {
+                width: 42px;
+                height: 42px;
+                border-radius: 10px;
+                background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
+                border: 1px solid rgba(124,58,237,0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                margin-bottom: 16px;
+            }
+
+            .feature-title {
+                font-family: 'Syne', sans-serif;
+                font-size: 15px;
+                font-weight: 700;
+                margin-bottom: 8px;
+            }
+
+            .feature-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
+
+            /* PRICING */
+            .pricing {
+                padding: 100px 52px;
+                max-width: 1200px;
+                margin: 0 auto;
+                text-align: center;
+                position: relative;
+                z-index: 1;
+            }
+
+            .pricing-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                margin-top: 56px;
+                text-align: left;
+            }
+
+            .pricing-card {
+                background: var(--glass);
+                border: 1px solid var(--border);
+                border-radius: 20px;
+                padding: 32px;
+                transition: all 0.3s;
+                backdrop-filter: blur(10px);
+                position: relative;
+            }
+
+            .pricing-card:hover {
+                background: var(--glass2);
+                transform: translateY(-4px);
+            }
+
+            .pricing-card.featured {
+                border-color: rgba(124,58,237,0.3);
+                background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04));
+            }
+
+            .featured-badge {
+                position: absolute;
+                top: -12px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                color: #fff;
+                font-size: 11px;
+                font-weight: 600;
+                padding: 4px 14px;
+                border-radius: 100px;
+                white-space: nowrap;
+                box-shadow: 0 4px 12px rgba(124,58,237,0.3);
+            }
+
+            .plan-name {
+                font-size: 12px;
+                font-weight: 500;
+                color: var(--text3);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+            }
+
+            .plan-price {
+                font-family: 'Syne', sans-serif;
+                font-size: 40px;
+                font-weight: 800;
+                letter-spacing: -1px;
+                margin-bottom: 4px;
+            }
+
+            .plan-price span { font-size: 15px; font-weight: 400; color: var(--text2); }
+
+            .plan-desc {
+                font-size: 13px;
+                color: var(--text2);
+                margin-bottom: 22px;
+                padding-bottom: 22px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .plan-features { list-style: none; margin-bottom: 28px; }
+
+            .plan-features li {
+                font-size: 13px;
+                color: var(--text2);
+                padding: 6px 0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .plan-features li::before {
+                content: '✓';
+                color: var(--purple2);
+                font-weight: 700;
+                font-size: 12px;
+            }
+
+            .btn-plan-primary {
+                display: block;
+                text-align: center;
+                padding: 12px;
+                background: linear-gradient(135deg, var(--purple), var(--blue));
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                font-size: 14px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.25s;
+                font-family: 'DM Sans', sans-serif;
+                box-shadow: 0 4px 16px rgba(124,58,237,0.3);
+            }
+
+            .btn-plan-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(124,58,237,0.4);
+            }
+
+            .btn-plan-ghost {
+                display: block;
+                text-align: center;
+                padding: 12px;
+                background: transparent;
+                color: var(--text2);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                font-size: 14px;
+                text-decoration: none;
+                transition: all 0.2s;
+                font-family: 'DM Sans', sans-serif;
+            }
+
+            .btn-plan-ghost:hover {
+                background: var(--glass2);
+                color: var(--text);
+                border-color: var(--border2);
+            }
+
+            /* FOOTER */
+            footer {
+                border-top: 1px solid var(--border);
+                padding: 36px 52px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                z-index: 1;
+            }
+
+            footer p { font-size: 13px; color: var(--text3); }
+
+            @keyframes fadeUp {
+                from { opacity: 0; transform: translateY(24px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            @media (max-width: 1024px) {
+        .features-grid { grid-template-columns: repeat(2, 1fr); }
+        .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 56px auto 0; }
+        .hero h1 { font-size: 52px; }
+    }
+
+    @media (max-width: 768px) {
+        nav { padding: 14px 20px; }
+        .nav-links { display: none; }
+        .nav-btns .btn-ghost { display: none; }
+        .nav-btns .btn-primary {
+            padding: 6px 10px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .logo { font-size: 13px; }
+    .logo-icon { width: 20px; height: 20px; font-size: 10px; }
+        .hero { padding: 100px 20px 60px; }
+        .hero h1 { font-size: 36px; letter-spacing: -1px; }
+        .hero p { font-size: 15px; }
+        .hero-btns { flex-direction: column; align-items: center; gap: 10px; }
+        .hero-btns .btn-lg { width: 100%; max-width: 300px; text-align: center; }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .stat-divider { display: none; }
+        .features { padding: 60px 20px; }
+        .features-grid { grid-template-columns: 1fr; gap: 12px; }
+        .section-title { font-size: 28px; }
+        .pricing { padding: 60px 20px; }
+        .pricing-grid { grid-template-columns: 1fr; max-width: 100%; margin: 32px auto 0; }
+        footer { padding: 24px 20px; flex-direction: column; gap: 12px; text-align: center; }
+    }
+        </style>
+    </head>
+    <body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">⚡</div>
+            Health<span>Guardian</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#features">Features</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <div class="nav-btns">
+            <a href="/login" class="btn-ghost">Log in</a>
+            <a href="/register" class="btn-primary">Get started free</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-badge">
+            <div class="badge-dot"></div>
+            AI-Powered Early Disease Detection
+        </div>
+
+        <h1>Track your health.<br><span class="highlight">Get warned early.</span></h1>
+
+        <p>2-minute daily check-in. Our AI detects patterns before they become serious problems. Used by 50,000+ people worldwide.</p>
+
+        <div class="hero-btns">
+            <a href="/register" class="btn-primary btn-lg">Start for free →</a>
+            <a href="#features" class="btn-ghost btn-lg">See how it works</a>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-num">50K+</div>
+                <div class="stat-label">Active users</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-num">92%</div>
+                <div class="stat-label">Accuracy rate</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-num">2 min</div>
+                <div class="stat-label">Daily check-in</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <div class="stat-num">Early</div>
+                <div class="stat-label">Detection</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything you need to stay healthy</h2>
+        <p class="section-sub">Our AI monitors your daily patterns and alerts you before small issues become serious problems.</p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <div class="feature-title">AI Pattern Detection</div>
+                <div class="feature-desc">Machine learning analyzes months of your data to spot early warning signs automatically.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">2-Min Daily Check-ins</div>
+                <div class="feature-desc">Track energy, sleep, mood, pain, appetite and stress. Quick and effortless every day.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Health Dashboard</div>
+                <div class="feature-desc">Beautiful charts showing exactly how your health is changing over time with clear insights.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <div class="feature-title">Smart Early Alerts</div>
+                <div class="feature-desc">Get notified instantly when concerning patterns are detected before they get serious.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <div class="feature-title">100% Private</div>
+                <div class="feature-desc">Your health data is encrypted and never shared with anyone. You own your data completely.</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-title">Works Everywhere</div>
+                <div class="feature-desc">Access from any device — desktop, tablet or mobile. No app download needed ever.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="pricing" id="pricing">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title" style="margin: 0 auto 16px; text-align:center;">Simple, transparent pricing</h2>
+        <p class="section-sub" style="margin: 0 auto;">Start free, upgrade when you need more.</p>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="plan-name">Free</div>
+                <div class="plan-price">£0 <span>/ month</span></div>
+                <div class="plan-desc">Perfect for getting started</div>
+                <ul class="plan-features">
+                    <li>30 days tracking</li>
+                    <li>Basic insights</li>
+                    <li>Daily check-in</li>
+                    <li>Health score</li>
+                </ul>
+                <a href="/register" class="btn-plan-ghost">Get started</a>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="featured-badge">Most Popular</div>
+                <div class="plan-name">Premium</div>
+                <div class="plan-price">£4.99 <span>/ month</span></div>
+                <div class="plan-desc">For serious health tracking</div>
+                <ul class="plan-features">
+                    <li>Unlimited tracking</li>
+                    <li>AI pattern detection</li>
+                    <li>Early warning alerts</li>
+                    <li>Detailed analytics</li>
+                    <li>Export health reports</li>
+                </ul>
+                <a href="/register" class="btn-plan-primary">Start free trial</a>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">Family</div>
+                <div class="plan-price">£9.99 <span>/ month</span></div>
+                <div class="plan-desc">For your whole family</div>
+                <ul class="plan-features">
+                    <li>Up to 5 members</li>
+                    <li>All Premium features</li>
+                    <li>Family health overview</li>
+                    <li>Priority support</li>
+                    <li>Custom alerts</li>
+                </ul>
+                <a href="/register" class="btn-plan-ghost">Get started</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <a href="/" class="logo">
+            <div class="logo-icon">⚡</div>
+            Health<span>Guardian</span>
+        </a>
+        <p>© 2026 HealthGuardian. All rights reserved.</p>
+        <p>Made with ❤️ for better health</p>
+    </footer>
+
+    </body>
+    </html>
