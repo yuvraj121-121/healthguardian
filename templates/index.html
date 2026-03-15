@@ -7,7 +7,6 @@
     <meta name="description" content="Track your health daily. Our AI detects patterns before they become serious problems. 2-minute daily check-in.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#7C3AED">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -83,14 +82,8 @@
             background: rgba(124,58,237,0.08); color: var(--purple2); font-size: 13px;
             margin-bottom: 28px; animation: fadeUp 0.6s ease forwards;
         }
-        .badge-dot {
-            width: 6px; height: 6px; border-radius: 50%; background: var(--purple2);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.4); }
-        }
+        .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple2); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.4); } }
         .hero h1 {
             font-family: 'Syne', sans-serif; font-size: 68px; font-weight: 800;
             line-height: 1.05; letter-spacing: -2.5px; margin-bottom: 20px;
@@ -100,71 +93,32 @@
             background: linear-gradient(135deg, var(--purple2), var(--blue), var(--cyan));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .hero p {
-            font-size: 18px; color: var(--text2); max-width: 500px; line-height: 1.7;
-            margin-bottom: 36px; animation: fadeUp 0.6s 0.2s ease both;
-        }
-        .hero-btns {
-            display: flex; gap: 12px; justify-content: center;
-            margin-bottom: 64px; animation: fadeUp 0.6s 0.3s ease both;
-        }
+        .hero p { font-size: 18px; color: var(--text2); max-width: 500px; line-height: 1.7; margin-bottom: 36px; animation: fadeUp 0.6s 0.2s ease both; }
+        .hero-btns { display: flex; gap: 12px; justify-content: center; margin-bottom: 64px; animation: fadeUp 0.6s 0.3s ease both; }
         .btn-lg { padding: 14px 30px; font-size: 15px; border-radius: 10px; }
         .stats { display: flex; gap: 48px; justify-content: center; animation: fadeUp 0.6s 0.4s ease both; }
         .stat { text-align: center; }
-        .stat-num {
-            font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800;
-            background: linear-gradient(135deg, var(--purple2), var(--blue));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-        }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .stat-label { font-size: 13px; color: var(--text3); margin-top: 4px; }
         .stat-divider { width: 1px; background: var(--border); }
         .features { padding: 100px 52px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
-        .section-label {
-            font-size: 12px; font-weight: 500; color: var(--purple2);
-            text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px;
-        }
-        .section-title {
-            font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800;
-            letter-spacing: -1.5px; margin-bottom: 16px; max-width: 520px; line-height: 1.1;
-        }
+        .section-label { font-size: 12px; font-weight: 500; color: var(--purple2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .section-title { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; max-width: 520px; line-height: 1.1; }
         .section-sub { font-size: 16px; color: var(--text2); max-width: 460px; line-height: 1.7; margin-bottom: 56px; }
         .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .feature-card {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 18px;
-            padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px);
-        }
-        .feature-card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--purple), transparent);
-            opacity: 0; transition: opacity 0.3s;
-        }
+        .feature-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--purple), transparent); opacity: 0; transition: opacity 0.3s; }
         .feature-card:hover { background: var(--glass2); border-color: rgba(124,58,237,0.2); transform: translateY(-4px); }
         .feature-card:hover::before { opacity: 1; }
-        .feature-icon {
-            width: 42px; height: 42px; border-radius: 10px;
-            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08));
-            border: 1px solid rgba(124,58,237,0.2); display: flex; align-items: center;
-            justify-content: center; font-size: 18px; margin-bottom: 16px;
-        }
+        .feature-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); border: 1px solid rgba(124,58,237,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
         .feature-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
         .feature-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
         .pricing { padding: 100px 52px; max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 1; }
         .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; text-align: left; }
-        .pricing-card {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
-            padding: 32px; transition: all 0.3s; backdrop-filter: blur(10px); position: relative;
-        }
+        .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; backdrop-filter: blur(10px); position: relative; }
         .pricing-card:hover { background: var(--glass2); transform: translateY(-4px); }
-        .pricing-card.featured {
-            border-color: rgba(124,58,237,0.3);
-            background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04));
-        }
-        .featured-badge {
-            position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px;
-            border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 12px rgba(124,58,237,0.3);
-        }
+        .pricing-card.featured { border-color: rgba(124,58,237,0.3); background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04)); }
+        .featured-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
         .plan-name { font-size: 12px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .plan-price { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
         .plan-price span { font-size: 15px; font-weight: 400; color: var(--text2); }
@@ -172,26 +126,11 @@
         .plan-features { list-style: none; margin-bottom: 28px; }
         .plan-features li { font-size: 13px; color: var(--text2); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
         .plan-features li::before { content: '✓'; color: var(--purple2); font-weight: 700; font-size: 12px; }
-        .btn-plan-primary {
-            display: block; width: 100%; text-align: center; padding: 12px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500;
-            cursor: pointer; text-decoration: none; transition: all 0.25s;
-            font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(124,58,237,0.3);
-        }
+        .btn-plan-primary { display: block; width: 100%; text-align: center; padding: 12px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
         .btn-plan-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
-        .btn-plan-ghost {
-            display: block; width: 100%; text-align: center; padding: 12px;
-            background: transparent; color: var(--text2); border: 1px solid var(--border);
-            border-radius: 10px; font-size: 14px; cursor: pointer; text-decoration: none;
-            transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-        }
+        .btn-plan-ghost { display: block; width: 100%; text-align: center; padding: 12px; background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
         .btn-plan-ghost:hover { background: var(--glass2); color: var(--text); border-color: var(--border2); }
-        footer {
-            border-top: 1px solid var(--border); padding: 36px 52px;
-            display: flex; justify-content: space-between; align-items: center;
-            position: relative; z-index: 1;
-        }
+        footer { border-top: 1px solid var(--border); padding: 36px 52px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
         footer p { font-size: 13px; color: var(--text3); }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 1024px) {
@@ -224,7 +163,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
     <a href="/" class="logo">
         <div class="logo-icon">⚡</div>
@@ -241,7 +179,6 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
     <div class="hero-badge">
         <div class="badge-dot"></div>
@@ -264,7 +201,6 @@
     </div>
 </section>
 
-<!-- FEATURES -->
 <section class="features" id="features">
     <div class="section-label">Features</div>
     <h2 class="section-title">Everything you need to stay healthy</h2>
@@ -303,7 +239,6 @@
     </div>
 </section>
 
-<!-- PRICING -->
 <section class="pricing" id="pricing">
     <div class="section-label">Pricing</div>
     <h2 class="section-title" style="margin: 0 auto 16px; text-align:center;">Simple, transparent pricing</h2>
@@ -337,10 +272,7 @@
                 <li>Detailed analytics</li>
                 <li>Export health reports</li>
             </ul>
-            <form method="POST" action="/create-checkout-session">
-                <input type="hidden" name="plan" value="premium">
-                <button type="submit" class="btn-plan-primary">Start free trial</button>
-            </form>
+            <a href="/pricing" class="btn-plan-primary">Start free trial</a>
         </div>
 
         <!-- Family Plan -->
@@ -355,10 +287,7 @@
                 <li>Priority support</li>
                 <li>Custom alerts</li>
             </ul>
-            <form method="POST" action="/create-checkout-session">
-                <input type="hidden" name="plan" value="family">
-                <button type="submit" class="btn-plan-ghost">Get started</button>
-            </form>
+            <a href="/pricing" class="btn-plan-ghost">Get started</a>
         </div>
 
     </div>
@@ -370,7 +299,7 @@
         Health<span>Guardian</span>
     </a>
     <p>© 2026 HealthGuardian. All rights reserved.</p>
-    <p>Made to improve your life</p>
+    <p>Made to improve health</p>
 </footer>
 
 </body>
