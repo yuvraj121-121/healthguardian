@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, make_response
 from flask_login import login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from extensions import db
@@ -11,7 +11,6 @@ import json
 import calendar
 from werkzeug.utils import secure_filename
 from ml_model import run_full_analysis
-from report_analyzer import analyze_report
 from report_analyzer import analyze_report, analyze_symptoms_with_groq
 
 main = Blueprint('main', __name__)
@@ -116,7 +115,8 @@ def dashboard():
         tips=tips,
         this_month=this_month,
         days_in_month=days_in_month,
-        progress_pct=progress_pct
+        progress_pct=progress_pct,
+        user_plan=current_user.plan
     )
 
 
@@ -146,7 +146,8 @@ def history():
         total=total,
         high_count=high_count,
         medium_count=medium_count,
-        low_count=low_count
+        low_count=low_count,
+        user_plan=current_user.plan
     )
 
 
@@ -179,7 +180,8 @@ def settings():
 
     return render_template('settings.html',
         msg=msg,
-        total_checkins=total_checkins
+        total_checkins=total_checkins,
+        user_plan=current_user.plan
     )
 
 
@@ -204,6 +206,9 @@ def delete_account():
 @main.route('/alerts')
 @login_required
 def alerts():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     high_alerts = CheckIn.query.filter_by(
         user_id=current_user.id,
         risk_level='high'
@@ -219,23 +224,33 @@ def alerts():
     return render_template('alerts.html',
         high_alerts=high_alerts,
         medium_alerts=medium_alerts,
-        total_alerts=total_alerts
+        total_alerts=total_alerts,
+        user_plan=current_user.plan
     )
 
 
 @main.route('/reports')
 @login_required
 def reports():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     user_reports = Report.query.filter_by(
         user_id=current_user.id
     ).order_by(Report.upload_date.desc()).all()
 
-    return render_template('reports.html', reports=user_reports)
+    return render_template('reports.html',
+        reports=user_reports,
+        user_plan=current_user.plan
+    )
 
 
 @main.route('/reports/upload', methods=['POST'])
 @login_required
 def upload_report():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     if 'file' not in request.files:
         return redirect(url_for('main.reports') + '?error=no_file')
 
@@ -283,6 +298,9 @@ def upload_report():
 @main.route('/reports/<int:report_id>')
 @login_required
 def report_detail(report_id):
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     report = Report.query.filter_by(
         id=report_id,
         user_id=current_user.id
@@ -302,13 +320,17 @@ def report_detail(report_id):
         report=report,
         results=results,
         categories=categories,
-        ai_analysis=ai_analysis
+        ai_analysis=ai_analysis,
+        user_plan=current_user.plan
     )
 
 
 @main.route('/reports/<int:report_id>/delete')
 @login_required
 def delete_report(report_id):
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     report = Report.query.filter_by(
         id=report_id,
         user_id=current_user.id
@@ -327,23 +349,88 @@ def delete_report(report_id):
 @main.route('/ml-insights')
 @login_required
 def ml_insights():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     checkins = CheckIn.query.filter_by(
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
     analysis = run_full_analysis(checkins)
 
-    return render_template('ml_insights.html', analysis=analysis)
+    return render_template('ml_insights.html',
+        analysis=analysis,
+        user_plan=current_user.plan
+    )
+
 
 @main.route('/symptoms', methods=['GET', 'POST'])
 @login_required
 def symptoms():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
     result = None
     if request.method == 'POST':
         symptoms_text = request.form.get('symptoms')
         age = request.form.get('age', current_user.age or 25)
         gender = request.form.get('gender', current_user.gender or 'unknown')
-
         result = analyze_symptoms_with_groq(symptoms_text, age, gender)
 
-    return render_template('symptoms.html', result=result)
+    return render_template('symptoms.html',
+        result=result,
+        user_plan=current_user.plan
+    )
+
+
+@main.route('/export-pdf')
+@login_required
+def export_pdf():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
+    checkins = CheckIn.query.filter_by(
+        user_id=current_user.id
+    ).order_by(CheckIn.date.desc()).limit(30).all()
+
+    avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1) if checkins else 0
+
+    html = f"""
+    <html>
+    <head><style>
+        body {{ font-family: Arial, sans-serif; padding: 40px; color: #333; }}
+        h1 {{ color: #7C3AED; }}
+        table {{ width: 100%; border-collapse: collapse; margin-top: 20px; }}
+        th {{ background: #7C3AED; color: white; padding: 10px; text-align: left; }}
+        td {{ padding: 8px 10px; border-bottom: 1px solid #eee; }}
+        tr:nth-child(even) {{ background: #f9f9f9; }}
+        .stat {{ display: inline-block; margin: 10px 20px 10px 0; }}
+        .stat-val {{ font-size: 28px; font-weight: bold; color: #7C3AED; }}
+        .stat-label {{ font-size: 13px; color: #666; }}
+    </style></head>
+    <body>
+        <h1>⚡ HealthGuardian — Health Report</h1>
+        <p style="color:#666;">Generated for <strong>{current_user.fullname}</strong> on {datetime.utcnow().strftime('%d %B %Y')}</p>
+        <hr>
+        <h2>📊 30-Day Averages</h2>
+        <div class="stat"><div class="stat-val">{avg_energy}/10</div><div class="stat-label">Avg Energy</div></div>
+        <div class="stat"><div class="stat-val">{avg_sleep}/10</div><div class="stat-label">Avg Sleep</div></div>
+        <div class="stat"><div class="stat-val">{avg_mood}/10</div><div class="stat-label">Avg Mood</div></div>
+        <div class="stat"><div class="stat-val">{avg_pain}/10</div><div class="stat-label">Avg Pain</div></div>
+        <h2>📋 Check-in History</h2>
+        <table>
+            <tr><th>Date</th><th>Energy</th><th>Sleep</th><th>Mood</th><th>Pain</th><th>Risk</th></tr>
+            {"".join(f"<tr><td>{c.date.strftime('%d %b %Y')}</td><td>{c.energy}</td><td>{c.sleep}</td><td>{c.mood}</td><td>{c.pain}</td><td>{c.risk_level.upper()}</td></tr>" for c in checkins)}
+        </table>
+        <p style="margin-top:40px; color:#999; font-size:12px;">This report is generated by HealthGuardian AI. Always consult a doctor for medical advice.</p>
+    </body>
+    </html>
+    """
+
+    response = make_response(html)
+    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Disposition'] = f'attachment; filename=healthguardian_report_{datetime.utcnow().strftime("%Y%m%d")}.html'
+    return response
