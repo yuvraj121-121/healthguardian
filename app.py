@@ -5,6 +5,7 @@ import os
 from models.user import User
 from models.checkin import CheckIn
 from models.report import Report
+from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
@@ -44,7 +45,7 @@ def manifest():
     return app.send_static_file('manifest.json'), 200, {
         'Content-Type': 'application/manifest+json'
     }
-    
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
