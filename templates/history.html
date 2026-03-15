@@ -544,7 +544,7 @@
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🩺</span> Symptom Checker<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
-    <a href="/ml-insights" class="nav-item active"><span class="nav-icon">🧠</span> AI Insights</a>
+    <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
     <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
@@ -556,7 +556,7 @@
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar" style="overflow:hidden;width:34px;height:34px;min-width:34px;min-height:34px;">
                 {% if current_user.profile_photo %}
                     <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile" style="width:100%;height:100%;object-fit:cover;">
                 {% else %}

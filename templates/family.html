@@ -164,7 +164,7 @@
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar" style="overflow:hidden;width:34px;height:34px;min-width:34px;min-height:34px;">
                 {% if current_user.profile_photo %}
                     <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
