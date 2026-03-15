@@ -537,7 +537,7 @@
     <div class="nav-section">Main</div>
     <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
     <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
-    <a href="/history" class="nav-item"><span class="nav-icon">📈</span> History</a>
+    <a href="/history" class="nav-item active"><span class="nav-icon">📈</span> History</a>
     {% if user_plan == 'free' %}
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🧠</span> AI Insights<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">📋</span> Reports<span style="font-size:10px;margin-left:auto;">🔒</span></a>
@@ -550,7 +550,7 @@
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
     {% endif %}
     {% if user_plan == 'family' %}
-    <a href="/family" class="nav-item">Family</a>
+    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:13px;">👪</span> Family</a>
 
     {% endif %}
     <div class="nav-section" style="margin-top:12px;">More</div>
@@ -569,7 +569,7 @@
                 <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
                     {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% elif user_plan == 'family' %}👪 Family
                     {% else %}Free{% endif %}
                 </span>
             </div>
