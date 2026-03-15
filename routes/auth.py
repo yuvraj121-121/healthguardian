@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from extensions import db, mail
+from extensions import db
 from models.user import User
-from flask_mail import Message
 import secrets
 from datetime import datetime, timedelta
+import resend
+import os
 
 auth = Blueprint('auth', __name__)
 
@@ -68,10 +69,12 @@ def forgot_password():
             user.reset_token_expiry = datetime.utcnow() + timedelta(hours=1)
             db.session.commit()
             reset_url = url_for('auth.reset_password', token=token, _external=True)
-            msg = Message(
-                subject='HealthGuardian - Password Reset',
-                recipients=[email],
-                body=f'''Hi {user.fullname},
+            resend.api_key = os.getenv('RESEND_API_KEY')
+            resend.Emails.send({
+                "from": "HealthGuardian <onboarding@resend.dev>",
+                "to": email,
+                "subject": "HealthGuardian - Password Reset",
+                "text": f"""Hi {user.fullname},
 
 Click the link below to reset your password:
 {reset_url}
@@ -80,9 +83,8 @@ This link expires in 1 hour.
 
 If you did not request this, ignore this email.
 
-— HealthGuardian Team'''
-            )
-            mail.send(msg)
+— HealthGuardian Team"""
+            })
         flash('If this email exists, a reset link has been sent!', 'success')
         return redirect(url_for('auth.login'))
     return render_template('forgot_password.html')
