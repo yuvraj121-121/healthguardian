@@ -43,7 +43,8 @@ from routes.auth import auth
 from routes.main import main
 from routes.checkin import checkin_bp
 from routes.payment import payment_bp
-
+from routes.family import family_bp
+app.register_blueprint(family_bp)
 app.register_blueprint(auth)
 app.register_blueprint(main)
 app.register_blueprint(checkin_bp)

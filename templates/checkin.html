@@ -167,6 +167,9 @@
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
     {% endif %}
+    {% if user_plan == 'family' %}
+    <a href="/family" class="nav-item"><span class="nav-icon">👨‍👩‍👧</span> Family</a>
+    {% endif %}
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">

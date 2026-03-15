@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family — HealthGuardian</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7C3AED">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981;
+            --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
+            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+            --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
+        }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
+        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 36px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
+        .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
+        .nav-item.active { background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); color: var(--purple2); border-color: rgba(124,58,237,0.25); }
+        .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+        .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
+        .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+        .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
+        .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+        .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+        .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
+        .mobile-topbar { display: none; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(4px); }
+        .overlay.open { display: block; }
+        .main { margin-left: 260px; padding: 32px 36px; min-height: 100vh; position: relative; z-index: 1; }
+        .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+        .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+        .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
+        .flash-msg { padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
+        .flash-success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6EE7B7; }
+
+        /* STATS BAR */
+        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: center; }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; }
+        .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
+
+        /* INVITE CARD */
+        .invite-card { background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04)); border: 1px solid rgba(124,58,237,0.2); border-radius: 20px; padding: 28px; margin-bottom: 28px; }
+        .invite-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .invite-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
+        .invite-form { display: grid; grid-template-columns: 1fr 180px 140px; gap: 10px; align-items: end; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-label { font-size: 11px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-input { padding: 11px 14px; background: var(--glass2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: all 0.2s; }
+        .form-input:focus { border-color: rgba(124,58,237,0.4); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+        .form-input::placeholder { color: var(--text3); }
+        select.form-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233D4268' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+        select.form-input option { background: #0D0D1A; }
+        .btn-invite { padding: 11px 20px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(124,58,237,0.3); white-space: nowrap; }
+        .btn-invite:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+        .limit-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; margin-left: 10px; }
+        .limit-ok { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+        .limit-full { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+
+        /* MEMBER CARDS */
+        .section-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+        .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .member-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 24px; backdrop-filter: blur(20px); transition: all 0.25s; position: relative; overflow: hidden; }
+        .member-card:hover { background: var(--glass2); border-color: rgba(124,58,237,0.2); transform: translateY(-3px); }
+        .member-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
+        .member-card.score-high::after { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+        .member-card.score-mid::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
+        .member-card.score-low::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+        .member-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+        .member-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 16px rgba(124,58,237,0.3); overflow: hidden; border: 2px solid rgba(124,58,237,0.3); position: relative; }
+        .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .member-avatar-upload { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; border-radius: 50%; }
+        .member-avatar:hover .member-avatar-upload { display: flex; }
+        .member-info { flex: 1; min-width: 0; }
+        .member-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+        .member-email { font-size: 12px; color: var(--text3); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .member-rel { font-size: 11px; padding: 2px 10px; border-radius: 100px; background: rgba(124,58,237,0.1); color: var(--purple2); border: 1px solid rgba(124,58,237,0.2); display: inline-block; }
+        .member-score { text-align: center; }
+        .score-circle { width: 52px; height: 52px; position: relative; }
+        .score-circle svg { transform: rotate(-90deg); }
+        .score-num-wrap { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
+        .score-num { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 800; }
+        .score-lbl { font-size: 8px; color: var(--text3); }
+        .member-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+        .mstat { background: var(--glass2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
+        .mstat-val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+        .mstat-label { font-size: 10px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .member-footer { display: flex; align-items: center; justify-content: space-between; }
+        .last-checkin { font-size: 12px; color: var(--text3); }
+        .btn-remove { padding: 6px 14px; background: rgba(239,68,68,0.08); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.15); border-radius: 8px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-decoration: none; }
+        .btn-remove:hover { background: rgba(239,68,68,0.15); }
+
+        /* YOU CARD */
+        .you-card { background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(59,130,246,0.03)); border: 1px solid rgba(124,58,237,0.15); border-radius: 20px; padding: 20px 24px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+        .you-badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); font-weight: 600; }
+
+        /* EMPTY STATE */
+        .empty-state { text-align: center; padding: 48px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; }
+        .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+        .empty-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
+        .empty-sub { font-size: 14px; color: var(--text3); }
+
+        .fade-in { animation: fadeUp 0.5s ease forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 240px; }
+            .sidebar.open { transform: translateX(0); }
+            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
+            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
+            .main { margin-left: 0; padding: 72px 16px 20px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .invite-form { grid-template-columns: 1fr; }
+            .members-grid { grid-template-columns: 1fr; }
+            .member-stats { grid-template-columns: repeat(2, 1fr); }
+            .page-title { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="mobile-topbar">
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+    </span>
+    <div class="hamburger" onclick="toggleSidebar()">☰</div>
+</div>
+
+<aside class="sidebar">
+    <a href="/" class="logo">
+        <div class="logo-icon">⚡</div>
+        Health<span>Guardian</span>
+    </a>
+    <div class="nav-section">Main</div>
+    <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
+    <a href="/history" class="nav-item"><span class="nav-icon">📈</span> History</a>
+    <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
+    <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
+    <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
+    <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
+    <a href="/family" class="nav-item active"><span class="nav-icon">👨‍👩‍👧</span> Family</a>
+    <div class="nav-section" style="margin-top:12px;">More</div>
+    <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+    <div class="sidebar-bottom">
+        <div class="user-card">
+            <div class="user-avatar">
+                {% if current_user.profile_photo %}
+                    <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
+                {% else %}
+                    {{ current_user.fullname[0].upper() }}
+                {% endif %}
+            </div>
+            <div>
+                <div class="user-name">{{ current_user.fullname }}</div>
+                <div class="user-email">{{ current_user.email }}</div>
+                <span class="plan-badge plan-family">👨‍👩‍👧 Family</span>
+            </div>
+        </div>
+        <a href="/logout" class="logout-btn"><span>🚪</span> Sign out</a>
+    </div>
+</aside>
+
+<main class="main fade-in">
+    <div class="topbar">
+        <div>
+            <div class="page-title">Family Health 👨‍👩‍👧</div>
+            <div class="page-sub">Monitor your family's health in one place</div>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-msg flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--purple2);">{{ total_members + 1 }}</div>
+            <div class="stat-label">Total Members</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--green);">{{ members|selectattr('latest')|list|length + 1 }}</div>
+            <div class="stat-label">Active Today</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--amber);">{{ members|selectattr('score', 'lt', 5)|list|length }}</div>
+            <div class="stat-label">Need Attention</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num" style="color:var(--text2);">{{ 4 - total_members }}</div>
+            <div class="stat-label">Slots Available</div>
+        </div>
+    </div>
+
+    <!-- INVITE -->
+    {% if can_add %}
+    <div class="invite-card">
+        <div class="invite-title">
+            ➕ Add Family Member
+            <span class="limit-badge limit-ok">{{ total_members + 1 }}/5 members</span>
+        </div>
+        <div class="invite-sub">Add someone by their email. If they're not registered yet, we'll send them an invite.</div>
+        <form method="POST" action="/family/invite">
+            <div class="invite-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" name="email" class="form-input" placeholder="family@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Relationship</label>
+                    <select name="relationship" class="form-input">
+                        <option value="Spouse">Spouse / Partner</option>
+                        <option value="Parent">Parent</option>
+                        <option value="Child">Child</option>
+                        <option value="Sibling">Sibling</option>
+                        <option value="Grandparent">Grandparent</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-invite">Send Invite →</button>
+            </div>
+        </form>
+    </div>
+    {% else %}
+    <div class="invite-card" style="opacity:0.6;">
+        <div class="invite-title">
+            ➕ Add Family Member
+            <span class="limit-badge limit-full">5/5 — Full</span>
+        </div>
+        <div class="invite-sub">Family plan allows up to 5 members. Remove a member to add someone new.</div>
+    </div>
+    {% endif %}
+
+    <!-- YOUR CARD -->
+    <div class="section-title">👥 Family Members</div>
+
+    <div class="you-card">
+        <div class="member-avatar" style="width:48px;height:48px;font-size:18px;">
+            {% if current_user.profile_photo %}
+                <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
+            {% else %}
+                {{ current_user.fullname[0].upper() }}
+            {% endif %}
+        </div>
+        <div style="flex:1;">
+            <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;">
+                {{ current_user.fullname }}
+                <span class="you-badge">You (Owner)</span>
+            </div>
+            <div style="font-size:12px;color:var(--text3);">{{ current_user.email }}</div>
+        </div>
+        <a href="/dashboard" style="padding:8px 16px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">View Dashboard →</a>
+    </div>
+
+    <!-- MEMBERS -->
+    {% if members %}
+    <div class="members-grid">
+        {% for m in members %}
+        {% set score_class = 'score-high' if m.score >= 7 else 'score-mid' if m.score >= 4 else 'score-low' %}
+        {% set score_color = '#10B981' if m.score >= 7 else '#F59E0B' if m.score >= 4 else '#EF4444' %}
+        <div class="member-card {{ score_class }}">
+            <div class="member-header">
+                <div class="member-avatar">
+                    {% if m.profile_photo %}
+                        <img src="/static/uploads/{{ m.profile_photo }}" alt="{{ m.name }}">
+                    {% else %}
+                        {{ m.name[0].upper() }}
+                    {% endif %}
+                </div>
+                <div class="member-info">
+                    <div class="member-name">{{ m.name }}</div>
+                    <div class="member-email">{{ m.email }}</div>
+                    <span class="member-rel">{{ m.relationship }}</span>
+                </div>
+                <div class="member-score">
+                    <div class="score-circle">
+                        <svg width="52" height="52" viewBox="0 0 52 52">
+                            <circle cx="26" cy="26" r="20" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+                            <circle cx="26" cy="26" r="20" fill="none" stroke="{{ score_color }}" stroke-width="4"
+                                stroke-dasharray="{{ (m.score / 10 * 125.7) | round(1) }} 125.7" stroke-linecap="round"/>
+                        </svg>
+                        <div class="score-num-wrap">
+                            <div class="score-num" style="color:{{ score_color }};">{{ m.score }}</div>
+                            <div class="score-lbl">/10</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="member-stats">
+                <div class="mstat">
+                    <div class="mstat-val" style="color:var(--green);">{{ m.avg_energy }}</div>
+                    <div class="mstat-label">Energy</div>
+                </div>
+                <div class="mstat">
+                    <div class="mstat-val" style="color:var(--blue);">{{ m.avg_sleep }}</div>
+                    <div class="mstat-label">Sleep</div>
+                </div>
+                <div class="mstat">
+                    <div class="mstat-val" style="color:var(--purple2);">{{ m.avg_mood }}</div>
+                    <div class="mstat-label">Mood</div>
+                </div>
+                <div class="mstat">
+                    <div class="mstat-val" style="color:{% if m.avg_pain >= 5 %}var(--red){% else %}var(--green){% endif %};">{{ m.avg_pain }}</div>
+                    <div class="mstat-label">Pain</div>
+                </div>
+            </div>
+
+            <div class="member-footer">
+                <div class="last-checkin">
+                    {% if m.latest %}
+                        Last check-in: {{ m.latest.date.strftime('%d %b') }}
+                        <span style="margin-left:6px;padding:2px 8px;border-radius:6px;font-size:10px;background:rgba({% if m.latest.risk_level == 'high' %}239,68,68{% elif m.latest.risk_level == 'medium' %}245,158,11{% else %}16,185,129{% endif %},0.1);color:{% if m.latest.risk_level == 'high' %}var(--red){% elif m.latest.risk_level == 'medium' %}var(--amber){% else %}var(--green){% endif %};">{{ m.latest.risk_level | upper }}</span>
+                    {% else %}
+                        <span style="color:var(--text3);">No check-ins yet</span>
+                    {% endif %}
+                </div>
+                <a href="/family/remove/{{ m.link_id }}" class="btn-remove" onclick="return confirm('Remove {{ m.name }} from your family?')">Remove</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">👨‍👩‍👧</div>
+        <div class="empty-title">No family members yet</div>
+        <div class="empty-sub">Add your family members above to monitor everyone's health in one place</div>
+    </div>
+    {% endif %}
+
+</main>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+}
+</script>
+</body>
+</html>

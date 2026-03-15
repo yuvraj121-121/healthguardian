@@ -4,13 +4,16 @@ from dotenv import load_dotenv
 load_dotenv()
 conn = psycopg2.connect(os.getenv('DATABASE_URL'))
 cur = conn.cursor()
-cur.execute("UPDATE users SET plan = 'premium' WHERE email = 'yuvrajbasnet1234@gmail.com'")
+cur.execute("""
+    CREATE TABLE IF NOT EXISTS family_members (
+        id SERIAL PRIMARY KEY,
+        owner_id INTEGER REFERENCES users(id),
+        member_id INTEGER REFERENCES users(id),
+        relationship VARCHAR(50),
+        created_at TIMESTAMP DEFAULT NOW()
+    )
+""")
 conn.commit()
-
-# Verify karo
-cur.execute("SELECT email, plan FROM users")
-rows = cur.fetchall()
-for row in rows:
-    print(row)
 cur.close()
 conn.close()
+print('Done!')
