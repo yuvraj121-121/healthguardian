@@ -63,6 +63,32 @@ def create_checkout_session():
         flash(f'Payment error: {str(e)}', 'error')
         return redirect(url_for('payment.pricing'))
 
+@payment_bp.route('/webhook', methods=['POST'])
+def webhook():
+    payload = request.get_data()
+    sig_header = request.headers.get('Stripe-Signature')
+    webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET')
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, webhook_secret
+        )
+    except Exception as e:
+        return 'Invalid', 400
+
+    if event['type'] == 'checkout.session.completed':
+        checkout_session = event['data']['object']
+        email = checkout_session.get('customer_email')
+        plan = checkout_session.get('metadata', {}).get('plan', 'premium')
+
+        from models.user import User
+        user = User.query.filter_by(email=email).first()
+        if user:
+            user.plan = plan
+            db.session.commit()
+
+    return 'OK', 200
+
 @payment_bp.route('/payment/success')
 def success():
     session_id = request.args.get('session_id')
