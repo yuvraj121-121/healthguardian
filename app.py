@@ -43,7 +43,8 @@ from routes.checkin import checkin_bp
 app.register_blueprint(auth)
 app.register_blueprint(main)
 app.register_blueprint(checkin_bp)
-
+from routes.payment import payment_bp
+app.register_blueprint(payment_bp)
 with app.app_context():
     db.create_all()
 

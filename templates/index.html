@@ -682,7 +682,10 @@
                     <li>Daily check-in</li>
                     <li>Health score</li>
                 </ul>
-                <a href="/register" class="btn-plan-ghost">Get started</a>
+                <form method="POST" action="/create-checkout-session">
+    <input type="hidden" name="plan" value="family">
+    <button type="submit" class="btn-plan-ghost">Get started</button>
+</form>
             </div>
 
             <div class="pricing-card featured">
@@ -697,7 +700,10 @@
                     <li>Detailed analytics</li>
                     <li>Export health reports</li>
                 </ul>
-                <a href="/register" class="btn-plan-primary">Start free trial</a>
+                <form method="POST" action="/create-checkout-session">
+    <input type="hidden" name="plan" value="premium">
+    <button type="submit" class="btn-plan-primary">Start free trial</button>
+</form>
             </div>
 
             <div class="pricing-card">
