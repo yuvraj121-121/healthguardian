@@ -81,4 +81,7 @@ def checkin():
         flash(warning_message, risk_level)
         return redirect(url_for('main.dashboard'))
 
-    return render_template('checkin.html', today_checkin=today_checkin)
+    return render_template('checkin.html', 
+    today_checkin=today_checkin,
+    user_plan=current_user.plan
+)
