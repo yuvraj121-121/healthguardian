@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, session
 from flask_login import current_user
+from extensions import db
 import stripe
 import os
 
@@ -52,6 +53,7 @@ def create_checkout_session():
                 'quantity': 1,
             }],
             mode='subscription',
+            metadata={'plan': plan},
             success_url=url_for('payment.success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=url_for('payment.pricing', _external=True),
             customer_email=current_user.email,
@@ -63,6 +65,16 @@ def create_checkout_session():
 
 @payment_bp.route('/payment/success')
 def success():
+    session_id = request.args.get('session_id')
+    if session_id and current_user.is_authenticated:
+        try:
+            checkout_session = stripe.checkout.Session.retrieve(session_id)
+            plan = checkout_session.metadata.get('plan', 'premium')
+            current_user.plan = plan
+            current_user.stripe_customer_id = checkout_session.customer
+            db.session.commit()
+        except Exception as e:
+            print(f'Plan update error: {e}')
     flash('Payment successful! Welcome to Premium! 🎉', 'success')
     return redirect(url_for('main.dashboard'))
 

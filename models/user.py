@@ -13,4 +13,6 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     reset_token = db.Column(db.String(100), nullable=True)
     reset_token_expiry = db.Column(db.DateTime, nullable=True)
+    plan = db.Column(db.String(20), default='free', nullable=False)
+    stripe_customer_id = db.Column(db.String(100), nullable=True)
     checkins = db.relationship('CheckIn', backref='user', lazy=True)
