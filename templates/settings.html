@@ -113,53 +113,26 @@
         <div class="logo-icon">⚡</div>
         Health<span>Guardian</span>
     </a>
-
     <div class="nav-section">Main</div>
-    <a href="/dashboard" class="nav-item">
-        <span class="nav-icon">📊</span> Dashboard
-    </a>
-    <a href="/checkin" class="nav-item">
-        <span class="nav-icon">✅</span> Daily Check-in
-    </a>
-    <a href="/history" class="nav-item">
-        <span class="nav-icon">📈</span> History
-    </a>
+    <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
+    <a href="/history" class="nav-item"><span class="nav-icon">📈</span> History</a>
     {% if user_plan == 'free' %}
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🧠</span> AI Insights
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">📋</span> Reports
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🩺</span> Symptom Checker
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🔔</span> Alerts
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🧠</span> AI Insights<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">📋</span> Reports<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🩺</span> Symptom Checker<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
-    <a href="/ml-insights" class="nav-item">
-        <span class="nav-icon">🧠</span> AI Insights
-    </a>
-    <a href="/reports" class="nav-item">
-        <span class="nav-icon">📋</span> Reports
-    </a>
-    <a href="/symptoms" class="nav-item">
-        <span class="nav-icon">🩺</span> Symptom Checker
-    </a>
-    <a href="/alerts" class="nav-item">
-        <span class="nav-icon">🔔</span> Alerts
-    </a>
+    <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
+    <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
+    <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
+    <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
+    {% endif %}
+    {% if user_plan == 'family' %}
+    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
     {% endif %}
     <div class="nav-section" style="margin-top:12px;">More</div>
-    <a href="/settings" class="nav-item active">
-        <span class="nav-icon">⚙️</span> Settings
-    </a>
-
+    <a href="/settings" class="nav-item active"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar" style="overflow:hidden;">
@@ -174,7 +147,7 @@
                 <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
                     {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% elif user_plan == 'family' %}👪 Family
                     {% else %}Free{% endif %}
                 </span>
             </div>
@@ -221,7 +194,7 @@
                 <div class="info-label">Current Plan</div>
                 <div class="info-value" style="font-size:13px;">
                     {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% elif user_plan == 'family' %}👪 Family
                     {% else %}Free{% endif %}
                 </div>
             </div>
