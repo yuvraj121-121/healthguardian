@@ -423,6 +423,13 @@ def export_pdf():
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
+@main.route('/support')
+@login_required
+def support():
+    return render_template('support.html',
+        user_plan=current_user.plan
+    )
+    
     avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
     avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1) if checkins else 0
     avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1) if checkins else 0
