@@ -160,7 +160,7 @@
         <div class="user-card">
             <div class="user-avatar">
                 {% if current_user.profile_photo %}
-                    <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
+                    <img src="{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
                     {{ current_user.fullname[0].upper() }}
                 {% endif %}

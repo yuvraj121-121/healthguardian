@@ -12,11 +12,17 @@ import calendar
 from werkzeug.utils import secure_filename
 from ml_model import run_full_analysis
 from report_analyzer import analyze_report, analyze_symptoms_with_groq
+import cloudinary
+import cloudinary.uploader
 
 main = Blueprint('main', __name__)
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 UPLOAD_FOLDER = 'static/uploads'
+
+cloudinary.config(
+    cloudinary_url=os.environ.get('CLOUDINARY_URL')
+)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -165,13 +171,22 @@ def settings():
             if 'profile_photo' in request.files:
                 file = request.files['profile_photo']
                 if file and file.filename != '' and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    ext = filename.rsplit('.', 1)[1].lower()
-                    unique_filename = f"profile_{current_user.id}_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}.{ext}"
-                    file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
-                    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-                    file.save(file_path)
-                    current_user.profile_photo = unique_filename
+                    try:
+                        result = cloudinary.uploader.upload(
+                            file,
+                            folder="healthguardian",
+                            public_id=f"profile_{current_user.id}",
+                            overwrite=True,
+                            transformation=[{
+                                'width': 200,
+                                'height': 200,
+                                'crop': 'fill',
+                                'gravity': 'face'
+                            }]
+                        )
+                        current_user.profile_photo = result['secure_url']
+                    except Exception as e:
+                        print(f"Cloudinary upload error: {e}")
 
             db.session.commit()
             return redirect(url_for('main.settings') + '?msg=profile_updated')
@@ -440,12 +455,6 @@ def export_pdf():
     </html>
     """
 
-    return render_template('history.html',
-    checkins=checkins,
-    filter_risk=filter_risk,
-    total=total,
-    high_count=high_count,
-    medium_count=medium_count,
-    low_count=low_count,
-    user_plan=current_user.plan
-)
+    response = make_response(html)
+    response.headers['Content-Type'] = 'text/html'
+    return response

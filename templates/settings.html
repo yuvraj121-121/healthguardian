@@ -227,7 +227,7 @@
                 <div class="photo-upload">
                     <div class="photo-preview" id="photoPreview">
                         {% if current_user.profile_photo %}
-                            <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile" id="previewImg">
+                            <img src="{{ current_user.profile_photo }}" alt="Profile" id="previewImg">
                         {% else %}
                             <span id="avatarLetter">{{ current_user.fullname[0].upper() }}</span>
                         {% endif %}
