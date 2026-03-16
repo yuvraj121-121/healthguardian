@@ -38,7 +38,7 @@
         .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.3); overflow: hidden; }
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
-        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
         .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
@@ -52,20 +52,14 @@
         .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; flex-wrap: wrap; gap: 10px; }
         .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
         .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
-        .back-btn { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; }
+        .back-btn { font-size: 13px; color: var(--text3); text-decoration: none; transition: color 0.2s; padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; white-space: nowrap; }
         .back-btn:hover { color: var(--text2); background: var(--glass2); }
-
-        /* DONE BANNER */
-        .done-banner { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 18px; padding: 28px; display: flex; align-items: center; gap: 20px; margin-bottom: 24px; max-width: 680px; }
-        .done-icon { font-size: 40px; flex-shrink: 0; }
-        .done-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #6EE7B7; margin-bottom: 6px; }
-        .done-sub { font-size: 14px; color: var(--text2); line-height: 1.5; }
-
-        /* CHECKIN CARD */
-        .checkin-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 40px; max-width: 680px; backdrop-filter: blur(20px); }
-
-        /* PROGRESS */
-        .progress-wrap { margin-bottom: 36px; }
+        .done-banner { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); border-radius: 18px; padding: 24px; display: flex; align-items: center; gap: 16px; margin-bottom: 24px; max-width: 680px; }
+        .done-icon { font-size: 36px; flex-shrink: 0; }
+        .done-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #6EE7B7; margin-bottom: 6px; }
+        .done-sub { font-size: 13px; color: var(--text2); line-height: 1.5; }
+        .checkin-card { background: var(--glass); border: 1px solid var(--border); border-radius: 24px; padding: 36px; max-width: 680px; backdrop-filter: blur(20px); }
+        .progress-wrap { margin-bottom: 32px; }
         .progress-bar { display: flex; gap: 5px; margin-bottom: 10px; }
         .progress-step { flex: 1; height: 4px; border-radius: 100px; background: var(--border); transition: all 0.4s; }
         .progress-step.active { background: linear-gradient(90deg, var(--purple), var(--blue)); }
@@ -73,48 +67,36 @@
         .progress-info { display: flex; justify-content: space-between; align-items: center; }
         .progress-text { font-size: 12px; color: var(--text3); }
         .progress-pct { font-size: 12px; color: var(--purple2); font-weight: 500; }
-
-        /* QUESTION */
         .question-block { display: none; }
         .question-block.visible { display: block; animation: slideIn 0.35s ease; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: translateX(0); } }
-
-        .q-emoji { font-size: 36px; margin-bottom: 14px; display: block; }
+        .q-emoji { font-size: 32px; margin-bottom: 12px; display: block; }
         .q-num { font-size: 11px; font-weight: 500; color: var(--purple2); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        .q-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; color: var(--text); }
-        .q-sub { font-size: 14px; color: var(--text2); margin-bottom: 28px; line-height: 1.5; }
-
-        /* SCALE */
-        .scale-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 32px; }
-        .scale-btn { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 16px; background: var(--glass2); color: var(--text2); font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
-        .scale-btn .emoji { font-size: 20px; }
-        .scale-btn .num { font-size: 16px; font-weight: 700; }
-        .scale-btn .lbl { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 400; color: var(--text3); }
-        .scale-btn:hover { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.08); transform: translateY(-4px); box-shadow: 0 8px 20px rgba(124,58,237,0.15); }
-        .scale-btn.selected { border-color: rgba(124,58,237,0.6); background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(59,130,246,0.1)); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(124,58,237,0.25); }
+        .q-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; color: var(--text); }
+        .q-sub { font-size: 14px; color: var(--text2); margin-bottom: 24px; line-height: 1.5; }
+        .scale-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 28px; }
+        .scale-btn { aspect-ratio: 1; border: 1px solid var(--border); border-radius: 14px; background: var(--glass2); color: var(--text2); cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 4px; }
+        .scale-btn .emoji { font-size: 18px; line-height: 1; }
+        .scale-btn .num { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; line-height: 1; }
+        .scale-btn .lbl { font-family: 'DM Sans', sans-serif; font-size: 9px; font-weight: 400; color: var(--text3); text-align: center; line-height: 1.2; }
+        .scale-btn:hover { border-color: rgba(124,58,237,0.4); background: rgba(124,58,237,0.08); transform: translateY(-3px); box-shadow: 0 6px 16px rgba(124,58,237,0.15); }
+        .scale-btn.selected { border-color: rgba(124,58,237,0.6); background: linear-gradient(135deg, rgba(124,58,237,0.18), rgba(59,130,246,0.1)); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(124,58,237,0.25); }
         .scale-btn.selected .num { color: var(--purple2); }
         .scale-btn.selected .lbl { color: rgba(159,103,255,0.7); }
-
-        /* NAV BTNS */
         .nav-btns { display: flex; justify-content: space-between; align-items: center; }
-        .btn-back-q { padding: 11px 22px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--text2); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; }
+        .btn-back-q { padding: 10px 20px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--text2); font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; }
         .btn-back-q:hover { background: var(--glass2); color: var(--text); border-color: var(--border2); }
-        .btn-next { padding: 11px 28px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
+        .btn-next { padding: 10px 24px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
         .btn-next:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
         .btn-next:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* NOTES */
-        .notes-textarea { width: 100%; padding: 14px 16px; background: var(--glass2); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; resize: vertical; min-height: 100px; outline: none; transition: all 0.2s; margin-bottom: 24px; }
+        .notes-textarea { width: 100%; padding: 14px 16px; background: var(--glass2); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; resize: vertical; min-height: 100px; outline: none; transition: all 0.2s; margin-bottom: 20px; }
         .notes-textarea:focus { border-color: rgba(124,58,237,0.4); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
         .notes-textarea::placeholder { color: var(--text3); }
-
-        /* SUMMARY */
-        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px; }
-        .summary-item { background: var(--glass2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-align: center; }
-        .summary-emoji { font-size: 18px; margin-bottom: 4px; }
-        .summary-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
-        .summary-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+        .summary-item { background: var(--glass2); border: 1px solid var(--border); border-radius: 14px; padding: 12px; text-align: center; }
+        .summary-emoji { font-size: 16px; margin-bottom: 4px; }
+        .summary-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+        .summary-val { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .fade-in { animation: fadeUp 0.5s ease forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -123,15 +105,26 @@
             .sidebar.open { transform: translateX(0); }
             .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
             .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
-            .main { margin-left: 0; padding: 72px 16px 20px; }
-            .checkin-card { padding: 24px 18px; max-width: 100%; }
-            .scale-options { gap: 6px; }
-            .scale-btn { border-radius: 12px; }
-            .scale-btn .emoji { font-size: 16px; }
-            .scale-btn .num { font-size: 14px; }
-            .q-title { font-size: 18px; }
+            .main { margin-left: 0 !important; padding: 72px 16px 24px !important; }
+            .checkin-card { padding: 20px 16px; max-width: 100%; border-radius: 18px; }
+            .scale-options { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+            .scale-btn { border-radius: 10px; }
+            .scale-btn .emoji { font-size: 14px; }
+            .scale-btn .num { font-size: 13px; }
+            .scale-btn .lbl { font-size: 8px; }
+            .q-title { font-size: 17px; }
+            .q-emoji { font-size: 28px; }
             .summary-grid { grid-template-columns: repeat(2, 1fr); }
             .page-title { font-size: 20px; }
+            .topbar { flex-wrap: wrap; gap: 8px; }
+            .done-banner { padding: 16px; gap: 12px; }
+            .done-icon { font-size: 28px; }
+        }
+
+        @media (max-width: 360px) {
+            .scale-btn .emoji { font-size: 12px; }
+            .scale-btn .num { font-size: 11px; }
+            .scale-btn .lbl { display: none; }
         }
     </style>
 </head>
@@ -168,25 +161,25 @@
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
     {% endif %}
     {% if user_plan == 'family' %}
-    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:13px;">👪</span> Family</a>
+    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
     {% endif %}
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar">
                 {% if current_user.profile_photo %}
                     <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
                     {{ current_user.fullname[0].upper() }}
                 {% endif %}
             </div>
-            <div>
+            <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
                 <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
                     {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% elif user_plan == 'family' %}👪 Family
                     {% else %}Free{% endif %}
                 </span>
             </div>
@@ -209,7 +202,7 @@
         <div class="done-icon">🎉</div>
         <div>
             <div class="done-title">Already checked in today!</div>
-            <div class="done-sub">Great job keeping your streak! Come back tomorrow for your next check-in. Consistency is key to accurate AI insights.</div>
+            <div class="done-sub">Great job keeping your streak! Come back tomorrow for your next check-in.</div>
         </div>
     </div>
     {% endif %}
@@ -234,7 +227,6 @@
 
         <form method="POST" action="/checkin" id="checkinForm">
 
-            <!-- Q1: ENERGY -->
             <div class="question-block visible" id="q1">
                 <span class="q-emoji">⚡</span>
                 <div class="q-num">Question 1 of 7</div>
@@ -248,13 +240,9 @@
                     <button type="button" class="scale-btn" data-q="energy" data-val="10"><span class="emoji">🔥</span><span class="num">10</span><span class="lbl">Excellent</span></button>
                 </div>
                 <input type="hidden" name="energy" id="energy-val">
-                <div class="nav-btns">
-                    <div></div>
-                    <button type="button" class="btn-next" id="next1" disabled onclick="nextQ(1,2)">Next →</button>
-                </div>
+                <div class="nav-btns"><div></div><button type="button" class="btn-next" id="next1" disabled onclick="nextQ(1,2)">Next →</button></div>
             </div>
 
-            <!-- Q2: SLEEP -->
             <div class="question-block" id="q2">
                 <span class="q-emoji">😴</span>
                 <div class="q-num">Question 2 of 7</div>
@@ -268,13 +256,9 @@
                     <button type="button" class="scale-btn" data-q="sleep" data-val="10"><span class="emoji">🌟</span><span class="num">10</span><span class="lbl">Great</span></button>
                 </div>
                 <input type="hidden" name="sleep" id="sleep-val">
-                <div class="nav-btns">
-                    <button type="button" class="btn-back-q" onclick="prevQ(2,1)">← Back</button>
-                    <button type="button" class="btn-next" id="next2" disabled onclick="nextQ(2,3)">Next →</button>
-                </div>
+                <div class="nav-btns"><button type="button" class="btn-back-q" onclick="prevQ(2,1)">← Back</button><button type="button" class="btn-next" id="next2" disabled onclick="nextQ(2,3)">Next →</button></div>
             </div>
 
-            <!-- Q3: MOOD -->
             <div class="question-block" id="q3">
                 <span class="q-emoji">😊</span>
                 <div class="q-num">Question 3 of 7</div>
@@ -288,13 +272,9 @@
                     <button type="button" class="scale-btn" data-q="mood" data-val="10"><span class="emoji">😁</span><span class="num">10</span><span class="lbl">Great</span></button>
                 </div>
                 <input type="hidden" name="mood" id="mood-val">
-                <div class="nav-btns">
-                    <button type="button" class="btn-back-q" onclick="prevQ(3,2)">← Back</button>
-                    <button type="button" class="btn-next" id="next3" disabled onclick="nextQ(3,4)">Next →</button>
-                </div>
+                <div class="nav-btns"><button type="button" class="btn-back-q" onclick="prevQ(3,2)">← Back</button><button type="button" class="btn-next" id="next3" disabled onclick="nextQ(3,4)">Next →</button></div>
             </div>
 
-            <!-- Q4: PAIN -->
             <div class="question-block" id="q4">
                 <span class="q-emoji">🩺</span>
                 <div class="q-num">Question 4 of 7</div>
@@ -308,13 +288,9 @@
                     <button type="button" class="scale-btn" data-q="pain" data-val="10"><span class="emoji">🆘</span><span class="num">10</span><span class="lbl">Extreme</span></button>
                 </div>
                 <input type="hidden" name="pain" id="pain-val">
-                <div class="nav-btns">
-                    <button type="button" class="btn-back-q" onclick="prevQ(4,3)">← Back</button>
-                    <button type="button" class="btn-next" id="next4" disabled onclick="nextQ(4,5)">Next →</button>
-                </div>
+                <div class="nav-btns"><button type="button" class="btn-back-q" onclick="prevQ(4,3)">← Back</button><button type="button" class="btn-next" id="next4" disabled onclick="nextQ(4,5)">Next →</button></div>
             </div>
 
-            <!-- Q5: APPETITE -->
             <div class="question-block" id="q5">
                 <span class="q-emoji">🍽️</span>
                 <div class="q-num">Question 5 of 7</div>
@@ -328,13 +304,9 @@
                     <button type="button" class="scale-btn" data-q="appetite" data-val="10"><span class="emoji">😋</span><span class="num">10</span><span class="lbl">Great</span></button>
                 </div>
                 <input type="hidden" name="appetite" id="appetite-val">
-                <div class="nav-btns">
-                    <button type="button" class="btn-back-q" onclick="prevQ(5,4)">← Back</button>
-                    <button type="button" class="btn-next" id="next5" disabled onclick="nextQ(5,6)">Next →</button>
-                </div>
+                <div class="nav-btns"><button type="button" class="btn-back-q" onclick="prevQ(5,4)">← Back</button><button type="button" class="btn-next" id="next5" disabled onclick="nextQ(5,6)">Next →</button></div>
             </div>
 
-            <!-- Q6: STRESS -->
             <div class="question-block" id="q6">
                 <span class="q-emoji">🧠</span>
                 <div class="q-num">Question 6 of 7</div>
@@ -348,13 +320,9 @@
                     <button type="button" class="scale-btn" data-q="stress" data-val="10"><span class="emoji">🤯</span><span class="num">10</span><span class="lbl">Extreme</span></button>
                 </div>
                 <input type="hidden" name="stress" id="stress-val">
-                <div class="nav-btns">
-                    <button type="button" class="btn-back-q" onclick="prevQ(6,5)">← Back</button>
-                    <button type="button" class="btn-next" id="next6" disabled onclick="nextQ(6,7)">Next →</button>
-                </div>
+                <div class="nav-btns"><button type="button" class="btn-back-q" onclick="prevQ(6,5)">← Back</button><button type="button" class="btn-next" id="next6" disabled onclick="nextQ(6,7)">Next →</button></div>
             </div>
 
-            <!-- Q7: NOTES + SUMMARY -->
             <div class="question-block" id="q7">
                 <span class="q-emoji">📝</span>
                 <div class="q-num">Question 7 of 7 — Almost done!</div>
@@ -423,12 +391,7 @@ function updateSummary() {
     grid.innerHTML = '';
     Object.keys(labels).forEach(key => {
         const val = answers[key] || '-';
-        grid.innerHTML += `
-            <div class="summary-item">
-                <div class="summary-emoji">${emojis[key]}</div>
-                <div class="summary-label">${labels[key]}</div>
-                <div class="summary-val">${val}</div>
-            </div>`;
+        grid.innerHTML += `<div class="summary-item"><div class="summary-emoji">${emojis[key]}</div><div class="summary-label">${labels[key]}</div><div class="summary-val">${val}</div></div>`;
     });
 }
 
@@ -443,4 +406,3 @@ function closeSidebar() {
 </script>
 </body>
 </html>
-
