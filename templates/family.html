@@ -34,7 +34,7 @@
         .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; }
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
-        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
@@ -49,16 +49,13 @@
         .flash-msg { padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
         .flash-success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6EE7B7; }
-
-        /* STATS BAR */
         .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
-        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: center; }
+        .stat-card { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 18px; text-align: center; transition: all 0.2s; }
+        .stat-card:hover { background: var(--glass2); transform: translateY(-2px); }
         .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; }
         .stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
-
-        /* INVITE CARD */
         .invite-card { background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04)); border: 1px solid rgba(124,58,237,0.2); border-radius: 20px; padding: 28px; margin-bottom: 28px; }
-        .invite-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .invite-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .invite-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; }
         .invite-form { display: grid; grid-template-columns: 1fr 180px 140px; gap: 10px; align-items: end; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
@@ -70,11 +67,9 @@
         select.form-input option { background: #0D0D1A; }
         .btn-invite { padding: 11px 20px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(124,58,237,0.3); white-space: nowrap; }
         .btn-invite:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
-        .limit-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; margin-left: 10px; }
+        .limit-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; }
         .limit-ok { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .limit-full { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-
-        /* MEMBER CARDS */
         .section-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text); display: flex; align-items: center; gap: 10px; }
         .members-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-bottom: 28px; }
         .member-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 24px; backdrop-filter: blur(20px); transition: all 0.25s; position: relative; overflow: hidden; }
@@ -84,10 +79,8 @@
         .member-card.score-mid::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
         .member-card.score-low::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
         .member-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-        .member-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 16px rgba(124,58,237,0.3); overflow: hidden; border: 2px solid rgba(124,58,237,0.3); position: relative; }
+        .member-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 16px rgba(124,58,237,0.3); overflow: hidden; border: 2px solid rgba(124,58,237,0.3); }
         .member-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .member-avatar-upload { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; border-radius: 50%; }
-        .member-avatar:hover .member-avatar-upload { display: flex; }
         .member-info { flex: 1; min-width: 0; }
         .member-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
         .member-email { font-size: 12px; color: var(--text3); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -102,30 +95,29 @@
         .mstat { background: var(--glass2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 8px; text-align: center; }
         .mstat-val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
         .mstat-label { font-size: 10px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .member-footer { display: flex; align-items: center; justify-content: space-between; }
+        .member-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
         .last-checkin { font-size: 12px; color: var(--text3); }
         .btn-remove { padding: 6px 14px; background: rgba(239,68,68,0.08); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.15); border-radius: 8px; font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-decoration: none; }
         .btn-remove:hover { background: rgba(239,68,68,0.15); }
-
-        /* YOU CARD */
-        .you-card { background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(59,130,246,0.03)); border: 1px solid rgba(124,58,237,0.15); border-radius: 20px; padding: 20px 24px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; }
+        .you-card { background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(59,130,246,0.03)); border: 1px solid rgba(124,58,237,0.15); border-radius: 20px; padding: 20px 24px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .you-badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); font-weight: 600; }
-
-        /* EMPTY STATE */
+        .you-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #fff; flex-shrink: 0; overflow: hidden; border: 2px solid rgba(124,58,237,0.3); }
+        .you-avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .alert-banner { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03)); border: 1px solid rgba(239,68,68,0.2); border-radius: 14px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+        .alert-banner-icon { font-size: 20px; flex-shrink: 0; }
+        .alert-banner-text { font-size: 13px; color: #FCA5A5; line-height: 1.5; }
         .empty-state { text-align: center; padding: 48px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; }
         .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
         .empty-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
         .empty-sub { font-size: 14px; color: var(--text3); }
-
         .fade-in { animation: fadeUp 0.5s ease forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 240px; }
             .sidebar.open { transform: translateX(0); }
             .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
             .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
-            .main { margin-left: 0; padding: 72px 16px 20px; }
+            .main { margin-left: 0 !important; padding: 72px 16px 20px !important; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
             .invite-form { grid-template-columns: 1fr; }
             .members-grid { grid-template-columns: 1fr; }
@@ -159,22 +151,22 @@
     <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
-    <a href="/family" class="nav-item active"><span class="nav-icon" style="font-size:13px;">👪</span> Family</a>
+    <a href="/family" class="nav-item active"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar">
                 {% if current_user.profile_photo %}
                     <img src="{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
                     {{ current_user.fullname[0].upper() }}
                 {% endif %}
             </div>
-            <div>
+            <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
                 <div class="user-email">{{ current_user.email }}</div>
-                <span class="plan-badge plan-family">👨‍👩‍👧 Family</span>
+                <span class="plan-badge plan-family">👪 Family</span>
             </div>
         </div>
         <a href="/logout" class="logout-btn"><span>🚪</span> Sign out</a>
@@ -184,7 +176,7 @@
 <main class="main fade-in">
     <div class="topbar">
         <div>
-            <div class="page-title">Family Health 👨‍👩‍👧</div>
+            <div class="page-title">Family Health 👪</div>
             <div class="page-sub">Monitor your family's health in one place</div>
         </div>
     </div>
@@ -197,6 +189,22 @@
         {% endif %}
     {% endwith %}
 
+    <!-- CUSTOM ALERTS — members needing attention -->
+    {% set at_risk = members|selectattr('score', 'lt', 5)|list %}
+    {% if at_risk %}
+    {% for m in at_risk %}
+    <div class="alert-banner">
+        <div class="alert-banner-icon">⚠️</div>
+        <div class="alert-banner-text">
+            <strong>{{ m.name }}</strong> health score is low ({{ m.score }}/10) — they may need attention!
+            {% if m.latest and m.latest.risk_level == 'high' %}
+            Last check-in was <strong>HIGH RISK</strong>.
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
     <!-- STATS -->
     <div class="stats-bar">
         <div class="stat-card">
@@ -208,7 +216,7 @@
             <div class="stat-label">Active Today</div>
         </div>
         <div class="stat-card">
-            <div class="stat-num" style="color:var(--amber);">{{ members|selectattr('score', 'lt', 5)|list|length }}</div>
+            <div class="stat-num" style="color:var(--red);">{{ members|selectattr('score', 'lt', 5)|list|length }}</div>
             <div class="stat-label">Need Attention</div>
         </div>
         <div class="stat-card">
@@ -258,23 +266,22 @@
 
     <!-- YOUR CARD -->
     <div class="section-title">👥 Family Members</div>
-
     <div class="you-card">
-        <div class="member-avatar" style="width:48px;height:48px;font-size:18px;">
+        <div class="you-avatar">
             {% if current_user.profile_photo %}
-                <img src="/static/uploads/{{ current_user.profile_photo }}" alt="Profile">
+                <img src="{{ current_user.profile_photo }}" alt="Profile">
             {% else %}
                 {{ current_user.fullname[0].upper() }}
             {% endif %}
         </div>
-        <div style="flex:1;">
+        <div style="flex:1;min-width:0;">
             <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;">
                 {{ current_user.fullname }}
                 <span class="you-badge">You (Owner)</span>
             </div>
             <div style="font-size:12px;color:var(--text3);">{{ current_user.email }}</div>
         </div>
-        <a href="/dashboard" style="padding:8px 16px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">View Dashboard →</a>
+        <a href="/dashboard" style="padding:8px 16px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;white-space:nowrap;">View Dashboard →</a>
     </div>
 
     <!-- MEMBERS -->
@@ -287,7 +294,7 @@
             <div class="member-header">
                 <div class="member-avatar">
                     {% if m.profile_photo %}
-                        <img src="/static/uploads/{{ m.profile_photo }}" alt="{{ m.name }}">
+                        <img src="{{ m.profile_photo }}" alt="{{ m.name }}">
                     {% else %}
                         {{ m.name[0].upper() }}
                     {% endif %}
@@ -334,7 +341,7 @@
             <div class="member-footer">
                 <div class="last-checkin">
                     {% if m.latest %}
-                        Last check-in: {{ m.latest.date.strftime('%d %b') }}
+                        Last: {{ m.latest.date.strftime('%d %b') }}
                         <span style="margin-left:6px;padding:2px 8px;border-radius:6px;font-size:10px;background:rgba({% if m.latest.risk_level == 'high' %}239,68,68{% elif m.latest.risk_level == 'medium' %}245,158,11{% else %}16,185,129{% endif %},0.1);color:{% if m.latest.risk_level == 'high' %}var(--red){% elif m.latest.risk_level == 'medium' %}var(--amber){% else %}var(--green){% endif %};">{{ m.latest.risk_level | upper }}</span>
                     {% else %}
                         <span style="color:var(--text3);">No check-ins yet</span>
@@ -347,7 +354,7 @@
     </div>
     {% else %}
     <div class="empty-state">
-        <div class="empty-icon">👨‍👩‍👧</div>
+        <div class="empty-icon">👪</div>
         <div class="empty-title">No family members yet</div>
         <div class="empty-sub">Add your family members above to monitor everyone's health in one place</div>
     </div>
@@ -367,4 +374,3 @@ function closeSidebar() {
 </script>
 </body>
 </html>
-
