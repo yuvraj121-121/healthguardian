@@ -134,6 +134,11 @@ def history():
 
     query = CheckIn.query.filter_by(user_id=current_user.id)
 
+    # 30 days limit for free users
+    if current_user.plan == 'free':
+        thirty_days_ago = datetime.utcnow() - timedelta(days=30)
+        query = query.filter(CheckIn.date >= thirty_days_ago)
+
     if filter_risk != 'all':
         query = query.filter_by(risk_level=filter_risk)
 
