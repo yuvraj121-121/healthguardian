@@ -457,4 +457,5 @@ def export_pdf():
 
     response = make_response(html)
     response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'
     return response
