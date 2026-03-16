@@ -200,13 +200,16 @@
 
     {% if user_plan == 'family' %}
     <a href="/family" class="nav-item">
-        <span class="nav-icon" style="font-size:13px;">👪</span> Family
+        <span class="nav-icon" style="font-size:11px;">👪</span> Family
     </a>
     {% endif %}
 
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item">
         <span class="nav-icon">⚙️</span> Settings
+    </a>
+    <a href="/support" class="nav-item">
+        <span class="nav-icon">🎧</span> Support
     </a>
 
     <div class="sidebar-bottom">
@@ -223,7 +226,7 @@
                 <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
                     {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👨‍👩‍👧 Family
+                    {% elif user_plan == 'family' %}👪 Family
                     {% else %}Free
                     {% endif %}
                 </span>
