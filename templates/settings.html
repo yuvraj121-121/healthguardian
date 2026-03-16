@@ -298,7 +298,7 @@
         <div class="settings-card">
             <div class="card-title">🔒 Change Password</div>
             <div class="card-sub">Update your account password</div>
-            <form method="POST" action="/settings">
+            <form method="POST" action="/settings" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="change_password">
                 <div class="form-group">
                     <label class="form-label">Current Password</label>
