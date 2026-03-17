@@ -9,10 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0D9488">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HealthGuardian">
-    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -25,10 +21,10 @@
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
         body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
         body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; overflow-y: auto; scrollbar-width: none; }
         .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 11px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
         .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.45); }
-        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
         .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
@@ -57,7 +53,7 @@
         .score-banner.good { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.03)); border: 1px solid rgba(16,185,129,0.2); }
         .score-banner.moderate { background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.03)); border: 1px solid rgba(245,158,11,0.2); }
         .score-banner.bad { background: linear-gradient(135deg, rgba(239,68,68,0.1), rgba(239,68,68,0.03)); border: 1px solid rgba(239,68,68,0.2); }
-        .score-big { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; flex-shrink: 0; }
+        .score-big { font-family: 'Syne', sans-serif; font-size: 56px; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; flex-shrink: 0; }
         .score-info-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
         .score-info-sub { font-size: 14px; color: var(--text2); line-height: 1.5; }
         .quick-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
@@ -67,6 +63,9 @@
         .quick-stat-val { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 3px; }
         .quick-stat-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; }
         .section-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; color: var(--text); }
+        .section-count { font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 100px; }
+        .count-red { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+        .count-amber { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
         .chart-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 24px; backdrop-filter: blur(20px); margin-bottom: 24px; }
         .chart-container { position: relative; height: 220px; }
         .patterns-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 28px; }
@@ -114,6 +113,23 @@
         .anomaly-vals { margin-left: auto; display: flex; gap: 8px; flex-shrink: 0; }
         .anom-val { text-align: center; font-size: 11px; }
         .anom-num { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+        /* ALERTS SECTION */
+        .alerts-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+        .alert-card { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px; backdrop-filter: blur(20px); transition: all 0.2s; flex-wrap: wrap; }
+        .alert-card:hover { background: var(--glass2); transform: translateX(4px); }
+        .alert-card.high { border-color: rgba(239,68,68,0.15); background: linear-gradient(135deg, rgba(239,68,68,0.05), var(--glass)); }
+        .alert-card.medium { border-color: rgba(245,158,11,0.15); background: linear-gradient(135deg, rgba(245,158,11,0.05), var(--glass)); }
+        .alert-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .icon-alert-high { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); }
+        .icon-alert-medium { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.2); }
+        .alert-content { flex: 1; min-width: 200px; }
+        .alert-date { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+        .alert-message { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 10px; line-height: 1.5; }
+        .alert-scores { display: flex; gap: 6px; flex-wrap: wrap; }
+        .score-pill { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; }
+        .alert-risk { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; flex-shrink: 0; align-self: flex-start; }
+        .risk-high { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+        .risk-medium { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
         .no-data { text-align: center; padding: 48px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 24px; }
         .no-data-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.4; }
         .no-data-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--text2); margin-bottom: 6px; }
@@ -143,10 +159,8 @@
     </style>
 </head>
 <body>
-
 <canvas id="particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
         <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
@@ -165,12 +179,12 @@
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🧠</span> AI Insights<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">📋</span> Reports<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🩺</span> Symptom Checker<span style="font-size:10px;margin-left:auto;">🔒</span></a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🗺️</span> Nearby<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
     <a href="/ml-insights" class="nav-item active"><span class="nav-icon">🧠</span> AI Insights</a>
     <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
-    <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
+    <a href="/nearby" class="nav-item"><span class="nav-icon">🗺️</span> Nearby Healthcare</a>
     <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
     {% if user_plan == 'family' %}
@@ -182,11 +196,8 @@
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar">
-                {% if current_user.profile_photo %}
-                    <img src="{{ current_user.profile_photo }}" alt="Profile">
-                {% else %}
-                    {{ current_user.fullname[0].upper() }}
-                {% endif %}
+                {% if current_user.profile_photo %}<img src="{{ current_user.profile_photo }}" alt="Profile">
+                {% else %}{{ current_user.fullname[0].upper() }}{% endif %}
             </div>
             <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
@@ -212,23 +223,19 @@
 
     {% set banner_class = 'moderate' %}
     {% if analysis.overall_score >= 7 %}{% set banner_class = 'good' %}
-    {% elif analysis.overall_score < 5 %}{% set banner_class = 'bad' %}
-    {% endif %}
+    {% elif analysis.overall_score < 5 %}{% set banner_class = 'bad' %}{% endif %}
     <div class="score-banner {{ banner_class }}">
         <div class="score-big">{{ analysis.overall_score }}</div>
         <div>
             <div class="score-info-title">
                 {% if analysis.overall_score >= 7 %}✅ {{ analysis.overall_status }}
                 {% elif analysis.overall_score >= 5 %}⚡ {{ analysis.overall_status }}
-                {% else %}⚠️ {{ analysis.overall_status }}
-                {% endif %}
+                {% else %}⚠️ {{ analysis.overall_status }}{% endif %}
             </div>
-            <div class="score-info-sub">
-                Your overall AI health score based on your recent check-ins.
+            <div class="score-info-sub">Your overall AI health score based on your recent check-ins.
                 {% if analysis.overall_score >= 7 %}Keep up the great work!
                 {% elif analysis.overall_score >= 5 %}Some areas need attention.
-                {% else %}Please consider consulting a doctor.
-                {% endif %}
+                {% else %}Please consider consulting a doctor.{% endif %}
             </div>
         </div>
     </div>
@@ -237,7 +244,7 @@
         <div class="quick-stat"><div class="quick-stat-icon">⚡</div><div class="quick-stat-val" style="color:var(--green);">{{ analysis.overall_score }}</div><div class="quick-stat-label">Health Score</div></div>
         <div class="quick-stat"><div class="quick-stat-icon">📊</div><div class="quick-stat-val" style="color:var(--purple2);">{{ analysis.patterns|length if analysis.patterns else 0 }}</div><div class="quick-stat-label">Patterns Found</div></div>
         <div class="quick-stat"><div class="quick-stat-icon">🏥</div><div class="quick-stat-val" style="color:var(--amber);">{{ analysis.risks|length if analysis.risks else 0 }}</div><div class="quick-stat-label">Risk Factors</div></div>
-        <div class="quick-stat"><div class="quick-stat-icon">🚨</div><div class="quick-stat-val" style="color:var(--red);">{{ analysis.anomalies|length if analysis.anomalies else 0 }}</div><div class="quick-stat-label">Anomalies</div></div>
+        <div class="quick-stat"><div class="quick-stat-icon">🚨</div><div class="quick-stat-val" style="color:var(--red);">{{ (high_alerts|length + medium_alerts|length) if high_alerts is defined else 0 }}</div><div class="quick-stat-label">Active Alerts</div></div>
     </div>
 
     <div class="section-title">📊 Health Patterns</div>
@@ -269,6 +276,66 @@
         </div>
         {% endfor %}
     </div>
+    {% endif %}
+
+    <!-- ── ALERTS SECTION ── -->
+    <div class="section-title">
+        🔔 Health Alerts
+        {% if high_alerts is defined and high_alerts %}
+        <span class="section-count count-red">{{ high_alerts|length }} High</span>
+        {% endif %}
+        {% if medium_alerts is defined and medium_alerts %}
+        <span class="section-count count-amber">{{ medium_alerts|length }} Medium</span>
+        {% endif %}
+    </div>
+
+    {% if (high_alerts is defined and high_alerts) or (medium_alerts is defined and medium_alerts) %}
+        <div class="alerts-list">
+            {% if high_alerts is defined %}
+            {% for c in high_alerts %}
+            <div class="alert-card high">
+                <div class="alert-icon icon-alert-high">⚠️</div>
+                <div class="alert-content">
+                    <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
+                    <div class="alert-message">{{ c.notes or 'High risk detected on ' + c.date.strftime('%d %b %Y') }}</div>
+                    <div class="alert-scores">
+                        <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">E: {{ c.energy }}</span>
+                        <span class="score-pill" style="background:rgba(6,182,212,0.1);color:#06B6D4;">S: {{ c.sleep }}</span>
+                        <span class="score-pill" style="background:rgba(45,212,191,0.1);color:#2DD4BF;">M: {{ c.mood }}</span>
+                        <span class="score-pill" style="background:rgba(239,68,68,0.1);color:#EF4444;">P: {{ c.pain }}</span>
+                        <span class="score-pill" style="background:rgba(245,158,11,0.1);color:#F59E0B;">St: {{ c.stress }}</span>
+                    </div>
+                </div>
+                <span class="alert-risk risk-high">HIGH</span>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% if medium_alerts is defined %}
+            {% for c in medium_alerts %}
+            <div class="alert-card medium">
+                <div class="alert-icon icon-alert-medium">⚡</div>
+                <div class="alert-content">
+                    <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
+                    <div class="alert-message">{{ c.warning_message }}</div>
+                    <div class="alert-scores">
+                        <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">E: {{ c.energy }}</span>
+                        <span class="score-pill" style="background:rgba(6,182,212,0.1);color:#06B6D4;">S: {{ c.sleep }}</span>
+                        <span class="score-pill" style="background:rgba(45,212,191,0.1);color:#2DD4BF;">M: {{ c.mood }}</span>
+                        <span class="score-pill" style="background:rgba(239,68,68,0.1);color:#EF4444;">P: {{ c.pain }}</span>
+                        <span class="score-pill" style="background:rgba(245,158,11,0.1);color:#F59E0B;">St: {{ c.stress }}</span>
+                    </div>
+                </div>
+                <span class="alert-risk risk-medium">MEDIUM</span>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="no-data" style="margin-bottom:28px;">
+            <div class="no-data-icon">✅</div>
+            <div class="no-data-title">No active alerts — you're doing great!</div>
+            <div class="no-data-sub">Keep completing daily check-ins to stay on top of your health.</div>
+        </div>
     {% endif %}
 
     <div class="section-title">🏥 Disease Risk Predictions</div>
@@ -321,11 +388,10 @@ const canvas = document.getElementById('particles-canvas');
 const ctx2 = canvas.getContext('2d');
 let particles = [];
 function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
 class Particle {
     constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
+    reset() { this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.size=Math.random()*1.5+0.5; this.speedX=(Math.random()-0.5)*0.3; this.speedY=(Math.random()-0.5)*0.3; this.opacity=Math.random()*0.4+0.1; this.color=Math.random()>0.5?'13,148,136':'6,182,212'; }
     update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
     draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
 }

@@ -367,17 +367,14 @@ def delete_report(report_id):
 @main.route('/ml-insights')
 @login_required
 def ml_insights():
-    if current_user.plan == 'free':
-        return redirect(url_for('payment.pricing'))
-
-    checkins = CheckIn.query.filter_by(
-        user_id=current_user.id
-    ).order_by(CheckIn.date.desc()).limit(30).all()
-
-    analysis = run_full_analysis(checkins)
-
+    # existing code...
+    high_alerts = CheckIn.query.filter_by(user_id=current_user.id, risk_level='high').order_by(CheckIn.date.desc()).all()
+    medium_alerts = CheckIn.query.filter_by(user_id=current_user.id, risk_level='medium').order_by(CheckIn.date.desc()).all()
+    
     return render_template('ml_insights.html',
-        analysis=analysis,
+        # existing variables...
+        high_alerts=high_alerts,
+        medium_alerts=medium_alerts,
         user_plan=current_user.plan
     )
 
@@ -565,10 +562,15 @@ def terms():
 def disclaimer():
     return render_template('disclaimer.html')
 
+@app.route('/nearby')
+@login_required
+def nearby():
+    return render_template('nearby.html', user_plan=current_user.plan)
+
 @main.route('/cookies')
 def cookies():
     return render_template('cookies.html')
-    
+
 @main.route('/health-ai/stats')
 @login_required
 def health_ai_stats():
