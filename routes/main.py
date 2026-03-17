@@ -545,6 +545,25 @@ Respond in the same language the user writes in."""
     # FIX 3: clean return, koi dead code nahi
     return {'response': response.choices[0].message.content}
 
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
+@main.route('/contact', methods=['GET', 'POST'])
+def contact():
+    return render_template('contact.html')
+
+@main.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@main.route('/terms')
+def terms():
+    return render_template('terms.html')
+
+@main.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
 
 @main.route('/health-ai/stats')
 @login_required

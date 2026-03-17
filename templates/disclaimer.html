@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Disclaimer — HealthGuardian</title>
+    <meta name="description" content="HealthGuardian Medical Disclaimer — important information about the limitations of our AI health monitoring service.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --red: #EF4444; --amber: #F59E0B; --green: #10B981; --bg: #06060F; --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.07); --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: -20%; left: -10%; width: 80%; height: 80%; background: radial-gradient(ellipse, rgba(239,68,68,0.05) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 52px; display: flex; justify-content: space-between; align-items: center; background: rgba(6,6,15,0.9); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .logo-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .btn-primary { padding: 8px 18px; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 13px; font-weight: 500; text-decoration: none; }
+        .main { max-width: 800px; margin: 0 auto; padding: 120px 52px 100px; position: relative; z-index: 1; }
+        .page-label { font-size: 12px; font-weight: 500; color: #FCA5A5; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .page-title { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 8px; }
+        .last-updated { font-size: 13px; color: var(--text3); margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+        .emergency-box { background: rgba(239,68,68,0.08); border: 2px solid rgba(239,68,68,0.25); border-radius: 16px; padding: 24px 28px; margin-bottom: 36px; }
+        .emergency-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: #FCA5A5; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .emergency-text { font-size: 15px; color: #FCA5A5; line-height: 1.7; }
+        h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin: 36px 0 14px; }
+        p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 14px; }
+        ul { padding-left: 20px; margin-bottom: 14px; }
+        ul li { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 8px; }
+        .do-card { background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.15); border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; }
+        .dont-card { background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.15); border-radius: 14px; padding: 20px 24px; margin-bottom: 16px; }
+        .card-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+        .do-card .card-label { color: #10B981; }
+        .dont-card .card-label { color: #FCA5A5; }
+        .do-card li { color: #6EE7B7; }
+        .dont-card li { color: #FCA5A5; }
+        a { color: var(--purple2); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        footer { border-top: 1px solid var(--border); padding: 24px 52px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; flex-wrap: wrap; gap: 12px; }
+        footer p { font-size: 12px; color: var(--text3); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 12px; color: var(--text3); text-decoration: none; }
+        @media (max-width: 768px) { nav { padding: 14px 20px; } .main { padding: 100px 20px 60px; } .page-title { font-size: 28px; } footer { padding: 20px; } }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
+    <a href="/register" class="btn-primary">Get started</a>
+</nav>
+
+<div class="main">
+    <div class="page-label">⚠️ Medical Disclaimer</div>
+    <h1 class="page-title">Important Medical Disclaimer</h1>
+    <p class="last-updated">Last updated: 1 January 2026</p>
+
+    <div class="emergency-box">
+        <div class="emergency-title">🚨 Medical Emergency?</div>
+        <div class="emergency-text">If you are experiencing a medical emergency — chest pain, difficulty breathing, stroke symptoms, severe injury, or any life-threatening situation — <strong>do not use this app</strong>. Call <strong>999</strong> (UK) or your local emergency number immediately.</div>
+    </div>
+
+    <h2>Not a Medical Service</h2>
+    <p>HealthGuardian is a <strong>health monitoring and educational tool only</strong>. It is not a medical device, clinical diagnostic tool, or healthcare service. HealthGuardian is not registered or approved by the MHRA (UK), FDA (US), CE (EU), or any other medical regulatory body.</p>
+    <p>Nothing on HealthGuardian — including AI pattern analysis, symptom checker results, AI chat responses, health scores, alerts, or any other feature — constitutes or should be treated as medical advice, medical diagnosis, or medical treatment.</p>
+
+    <h2>AI Limitations</h2>
+    <p>Our AI features are trained on general health data and are designed to identify broad patterns. They have significant limitations:</p>
+    <ul>
+        <li>They cannot account for your complete medical history</li>
+        <li>They cannot physically examine you</li>
+        <li>They may be inaccurate or miss important conditions</li>
+        <li>They are not validated as clinical diagnostic tools</li>
+        <li>The 92% accuracy claim refers to pattern anomaly detection, not disease diagnosis</li>
+    </ul>
+
+    <div class="do-card">
+        <div class="card-label">✅ HealthGuardian IS useful for:</div>
+        <ul>
+            <li>Tracking how you feel over time and identifying personal trends</li>
+            <li>Building awareness of your health patterns</li>
+            <li>Having more informed conversations with your doctor</li>
+            <li>General educational health information</li>
+            <li>Motivation to maintain healthy habits</li>
+        </ul>
+    </div>
+
+    <div class="dont-card">
+        <div class="card-label">❌ HealthGuardian is NOT a substitute for:</div>
+        <ul>
+            <li>A doctor's diagnosis or professional medical opinion</li>
+            <li>Prescribed medication or medical treatment</li>
+            <li>Emergency medical services</li>
+            <li>Mental health professional support</li>
+            <li>Any regulated medical device or service</li>
+        </ul>
+    </div>
+
+    <h2>Always Consult a Doctor</h2>
+    <p>Never delay seeking professional medical advice, never disregard a doctor's advice, and never make medical decisions based solely on HealthGuardian. If you have concerns about a symptom or health pattern, speak to a qualified healthcare professional.</p>
+    <p>In the UK, you can contact your GP, call NHS 111 for non-emergency medical advice, or go to A&E for urgent (but non-life-threatening) issues.</p>
+
+    <h2>Mental Health</h2>
+    <p>If you are experiencing mental health difficulties, please reach out to a professional. In the UK: <strong>Samaritans: 116 123</strong> (free, 24/7) | <strong>MIND: 0300 123 3393</strong> | <strong>Crisis Text Line: Text SHOUT to 85258</strong>.</p>
+
+    <h2>Acceptance</h2>
+    <p>By using HealthGuardian, you acknowledge that you have read and understood this disclaimer and agree that HealthGuardian is not liable for any health outcomes related to your use of the platform.</p>
+
+    <p>Questions? <a href="/contact">Contact us</a> or see our full <a href="/terms">Terms of Service</a>.</p>
+</div>
+
+<footer>
+    <a href="/" style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;text-decoration:none;color:#EEEEFF;display:flex;align-items:center;gap:8px;"><div style="width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:10px;">⚡</div>Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span></a>
+    <p>© 2026 HealthGuardian. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/contact">Contact</a>
+    </div>
+</footer>
+</body>
+</html>

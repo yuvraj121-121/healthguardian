@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — HealthGuardian</title>
+    <meta name="description" content="Learn about HealthGuardian — our mission to help people detect health issues early using AI technology.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981; --amber: #F59E0B; --bg: #06060F; --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06); --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12); --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: -20%; left: -10%; width: 80%; height: 80%; background: radial-gradient(ellipse, rgba(124,58,237,0.1) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.07) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 52px; display: flex; justify-content: space-between; align-items: center; background: rgba(6,6,15,0.9); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); }
+        .logo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; }
+        .logo-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; box-shadow: 0 0 16px rgba(124,58,237,0.4); }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-btns { display: flex; gap: 10px; }
+        .btn-ghost { padding: 8px 18px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--text2); font-size: 13px; text-decoration: none; transition: all 0.2s; }
+        .btn-ghost:hover { background: var(--glass2); color: var(--text); }
+        .btn-primary { padding: 8px 18px; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.25s; }
+        .btn-primary:hover { transform: translateY(-1px); }
+        .page-hero { padding: 140px 52px 80px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; text-align: center; }
+        .page-label { font-size: 12px; font-weight: 500; color: var(--purple2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+        .page-title { font-family: 'Syne', sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; }
+        .page-sub { font-size: 18px; color: var(--text2); line-height: 1.7; max-width: 600px; margin: 0 auto; }
+        .content { max-width: 860px; margin: 0 auto; padding: 0 52px 100px; position: relative; z-index: 1; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 40px; margin-bottom: 24px; backdrop-filter: blur(10px); }
+        .card-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+        .card p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; }
+        .card p:last-child { margin-bottom: 0; }
+        .mission-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .mission-item { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: center; transition: all 0.3s; }
+        .mission-item:hover { background: var(--glass2); transform: translateY(-3px); }
+        .mission-icon { font-size: 32px; margin-bottom: 12px; }
+        .mission-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .mission-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+        .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-box { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; }
+        .stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-label { font-size: 12px; color: var(--text3); margin-top: 6px; }
+        .cta-box { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05)); border: 1px solid rgba(124,58,237,0.2); border-radius: 20px; padding: 48px; text-align: center; }
+        .cta-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .cta-sub { font-size: 15px; color: var(--text2); margin-bottom: 28px; }
+        footer { border-top: 1px solid var(--border); padding: 24px 52px; display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; flex-wrap: wrap; gap: 12px; }
+        footer p { font-size: 12px; color: var(--text3); }
+        .footer-links { display: flex; gap: 20px; }
+        .footer-links a { font-size: 12px; color: var(--text3); text-decoration: none; }
+        .footer-links a:hover { color: var(--text2); }
+        @media (max-width: 768px) { nav { padding: 14px 20px; } .page-hero { padding: 100px 20px 60px; } .page-title { font-size: 32px; } .content { padding: 0 20px 60px; } .mission-grid, .stats-row { grid-template-columns: repeat(2, 1fr); } footer { padding: 20px; } }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
+    <div class="nav-btns">
+        <a href="/login" class="btn-ghost">Log in</a>
+        <a href="/register" class="btn-primary">Get started</a>
+    </div>
+</nav>
+
+<div class="page-hero">
+    <div class="page-label">About Us</div>
+    <h1 class="page-title">We believe early detection saves lives.</h1>
+    <p class="page-sub">HealthGuardian was built on a simple idea: what if technology could warn you before your health problem became serious?</p>
+</div>
+
+<div class="content">
+    <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">50K+</div><div class="stat-label">Active Users</div></div>
+        <div class="stat-box"><div class="stat-num">92%</div><div class="stat-label">AI Accuracy</div></div>
+        <div class="stat-box"><div class="stat-num">2M+</div><div class="stat-label">Check-ins Logged</div></div>
+        <div class="stat-box"><div class="stat-num">2024</div><div class="stat-label">Founded</div></div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">🎯 Our Mission</div>
+        <p>At HealthGuardian, our mission is simple: make early health detection accessible to everyone. Most serious conditions are highly treatable when caught early — but most people only see a doctor when symptoms become unbearable.</p>
+        <p>We built HealthGuardian to bridge that gap. By tracking your daily health metrics and using AI to analyse patterns, we can flag potential issues weeks or even months before traditional symptoms appear.</p>
+    </div>
+
+    <div class="mission-grid">
+        <div class="mission-item">
+            <div class="mission-icon">🧠</div>
+            <div class="mission-title">AI-First Approach</div>
+            <div class="mission-desc">Every feature is powered by machine learning trained on real health data to detect meaningful patterns.</div>
+        </div>
+        <div class="mission-item">
+            <div class="mission-icon">🔒</div>
+            <div class="mission-title">Privacy by Design</div>
+            <div class="mission-desc">Your health data is yours. We never sell, share, or use it for advertising. Full encryption, always.</div>
+        </div>
+        <div class="mission-item">
+            <div class="mission-icon">🌍</div>
+            <div class="mission-title">Accessible to All</div>
+            <div class="mission-desc">A free plan that genuinely helps, and premium features that are priced fairly for everyone.</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-title">📖 Our Story</div>
+        <p>HealthGuardian was founded in 2024 after our team experienced firsthand how difficult it is to track health patterns over time and communicate them effectively to doctors.</p>
+        <p>We realised that while wearables track steps and heart rate, no one was building a tool that helped people track how they <em>felt</em> every day — their energy, mood, sleep quality, and pain levels — and then using AI to make sense of those patterns.</p>
+        <p>Today, HealthGuardian is trusted by 50,000+ users worldwide, from individuals managing chronic conditions to busy professionals who want to stay ahead of their health.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-title">⚠️ Important Note</div>
+        <p>HealthGuardian is a health monitoring and educational tool. It is not a medical device and cannot diagnose, treat, or cure any medical condition. Our AI pattern detection is designed to help you identify trends worth discussing with your doctor — not to replace professional medical advice.</p>
+        <p>Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. If you are experiencing a medical emergency, call your local emergency services immediately.</p>
+    </div>
+
+    <div class="cta-box">
+        <div class="cta-title">Ready to take control of your health?</div>
+        <p class="cta-sub">Start your free account today. No credit card required.</p>
+        <a href="/register" class="btn-primary" style="padding:12px 28px;font-size:15px;display:inline-block;">Start for free →</a>
+    </div>
+</div>
+
+<footer>
+    <a href="/" class="logo" style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:8px;"><div class="logo-icon" style="width:20px;height:20px;border-radius:5px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:flex;align-items:center;justify-content:center;font-size:10px;">⚡</div>Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span></a>
+    <p>© 2026 HealthGuardian. All rights reserved.</p>
+    <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/disclaimer">Disclaimer</a>
+        <a href="/contact">Contact</a>
+    </div>
+</footer>
+</body>
+</html>
