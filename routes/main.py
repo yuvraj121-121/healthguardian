@@ -565,6 +565,10 @@ def terms():
 def disclaimer():
     return render_template('disclaimer.html')
 
+@main.route('/cookies')
+def cookies():
+    return render_template('cookies.html')
+    
 @main.route('/health-ai/stats')
 @login_required
 def health_ai_stats():
