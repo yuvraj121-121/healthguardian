@@ -129,10 +129,10 @@
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
     <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
-<a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item active"><span class="nav-icon">🔔</span> Alerts</a>
+    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
     {% if user_plan == 'family' %}
     <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
@@ -140,7 +140,6 @@
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <a href="/support" class="nav-item"><span class="nav-icon">🎧</span> Support</a>
-    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar">
@@ -195,7 +194,7 @@
             <div class="alert-icon icon-high">⚠️</div>
             <div class="alert-content">
                 <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
-                <div class="alert-message">{{ c.warning_message }}</div>
+                <div class="alert-message">{{ c.notes or 'Risk detected on ' + c.date.strftime('%d %b %Y') }}</div>
                 <div class="alert-scores">
                     <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">Energy: {{ c.energy }}</span>
                     <span class="score-pill" style="background:rgba(59,130,246,0.1);color:#3B82F6;">Sleep: {{ c.sleep }}</span>
