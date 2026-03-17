@@ -106,8 +106,13 @@ def dashboard():
     streak = current_user.streak or 0
     max_streak = current_user.max_streak or 0
 
-    # FIX: Removed duplicate streak/max_streak keyword arguments (was passed 4x each)
     return render_template('dashboard.html',
+        streak=streak,
+        max_streak=max_streak,
+        streak=streak,
+        max_streak=max_streak,
+        streak=streak,
+        max_streak=max_streak,
         streak=streak,
         max_streak=max_streak,
         checkins=checkins,
@@ -140,6 +145,7 @@ def history():
 
     query = CheckIn.query.filter_by(user_id=current_user.id)
 
+    # 30 days limit for free users
     if current_user.plan == 'free':
         thirty_days_ago = datetime.utcnow() - timedelta(days=30)
         query = query.filter(CheckIn.date >= thirty_days_ago)
@@ -428,7 +434,98 @@ def export_pdf():
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
-    # FIX: Moved all calculations BEFORE building the HTML response
+@main.route('/support')
+@login_required
+def support():
+    return render_template('support.html',
+        user_plan=current_user.plan
+    )
+
+@main.route('/health-ai', methods=['GET', 'POST'])
+@login_required
+def health_ai():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+    return render_template('health_ai.html',
+        user_plan=current_user.plan
+    )
+
+@main.route('/health-ai/chat', methods=['POST'])
+@login_required
+def health_ai_chat():
+    if current_user.plan == 'free':
+        return {'error': 'Premium required'}, 403
+
+    user_message = request.json.get('message')
+
+    # Get user's health data
+    checkins = CheckIn.query.filter_by(
+        user_id=current_user.id
+    ).order_by(CheckIn.date.desc()).limit(30).all()
+
+    # Build health summary
+    if checkins:
+        avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1)
+        avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1)
+        avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1)
+        avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1)
+        avg_stress = round(sum(c.stress for c in checkins) / len(checkins), 1)
+        recent = checkins[0]
+
+        health_context = f"""
+User: {current_user.fullname}, Age: {current_user.age or 'Unknown'}, Gender: {current_user.gender or 'Unknown'}
+Plan: {current_user.plan}
+
+Last 30 days averages ({len(checkins)} check-ins):
+- Energy: {avg_energy}/10
+- Sleep: {avg_sleep}/10
+- Mood: {avg_mood}/10
+- Pain: {avg_pain}/10
+- Stress: {avg_stress}/10
+
+Latest check-in ({recent.date.strftime('%d %b %Y')}):
+- Energy: {recent.energy}, Sleep: {recent.sleep}, Mood: {recent.mood}
+- Pain: {recent.pain}, Stress: {recent.stress}
+- Risk Level: {recent.risk_level}
+- Notes: {recent.notes or 'None'}
+
+Recent risk levels: {', '.join([c.risk_level for c in checkins[:7]])}
+"""
+    else:
+        health_context = f"User: {current_user.fullname}. No check-in data available yet."
+
+    # Call Groq API
+    from groq import Groq
+    client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "system",
+                "content": f"""You are HealthGuardian AI — a personal health assistant. 
+You have access to the user's real health data and provide personalized, accurate health insights.
+Always be empathetic, clear and helpful. Never give dangerous medical advice — always recommend seeing a doctor for serious issues.
+Keep responses concise but informative. Use emojis sparingly.
+
+USER'S HEALTH DATA:
+{health_context}
+
+Respond in the same language the user writes in."""
+            },
+            {
+                "role": "user", 
+                "content": user_message
+            }
+        ],
+        max_tokens=500,
+        temperature=0.7
+    )
+
+    ai_response = response.choices[0].message.content
+
+    return {'response': ai_response}
+
     avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
     avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1) if checkins else 0
     avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1) if checkins else 0
@@ -465,105 +562,6 @@ def export_pdf():
     </body>
     </html>
     """
-
-    # FIX: Now correctly builds and returns the response
-    response = make_response(html)
-    response.headers['Content-Type'] = 'text/html'
-    response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'
-    return response
-
-
-@main.route('/support')
-@login_required
-def support():
-    return render_template('support.html',
-        user_plan=current_user.plan
-    )
-
-
-@main.route('/health-ai', methods=['GET', 'POST'])
-@login_required
-def health_ai():
-    if current_user.plan == 'free':
-        return redirect(url_for('payment.pricing'))
-    return render_template('health_ai.html',
-        user_plan=current_user.plan
-    )
-
-
-@main.route('/health-ai/chat', methods=['POST'])
-@login_required
-def health_ai_chat():
-    if current_user.plan == 'free':
-        return {'error': 'Premium required'}, 403
-
-    user_message = request.json.get('message')
-
-    checkins = CheckIn.query.filter_by(
-        user_id=current_user.id
-    ).order_by(CheckIn.date.desc()).limit(30).all()
-
-    if checkins:
-        avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1)
-        avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1)
-        avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1)
-        avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1)
-        avg_stress = round(sum(c.stress for c in checkins) / len(checkins), 1)
-        recent = checkins[0]
-
-        health_context = f"""
-User: {current_user.fullname}, Age: {current_user.age or 'Unknown'}, Gender: {current_user.gender or 'Unknown'}
-Plan: {current_user.plan}
-
-Last 30 days averages ({len(checkins)} check-ins):
-- Energy: {avg_energy}/10
-- Sleep: {avg_sleep}/10
-- Mood: {avg_mood}/10
-- Pain: {avg_pain}/10
-- Stress: {avg_stress}/10
-
-Latest check-in ({recent.date.strftime('%d %b %Y')}):
-- Energy: {recent.energy}, Sleep: {recent.sleep}, Mood: {recent.mood}
-- Pain: {recent.pain}, Stress: {recent.stress}
-- Risk Level: {recent.risk_level}
-- Notes: {recent.notes or 'None'}
-
-Recent risk levels: {', '.join([c.risk_level for c in checkins[:7]])}
-"""
-    else:
-        health_context = f"User: {current_user.fullname}. No check-in data available yet."
-
-    from groq import Groq
-    client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "system",
-                "content": f"""You are HealthGuardian AI — a personal health assistant. 
-You have access to the user's real health data and provide personalized, accurate health insights.
-Always be empathetic, clear and helpful. Never give dangerous medical advice — always recommend seeing a doctor for serious issues.
-Keep responses concise but informative. Use emojis sparingly.
-
-USER'S HEALTH DATA:
-{health_context}
-
-Respond in the same language the user writes in."""
-            },
-            {
-                "role": "user",
-                "content": user_message
-            }
-        ],
-        max_tokens=500,
-        temperature=0.7
-    )
-
-    ai_response = response.choices[0].message.content
-    return {'response': ai_response}
-
-
 @main.route('/health-ai/stats')
 @login_required
 def health_ai_stats():
@@ -574,10 +572,14 @@ def health_ai_stats():
     if not checkins:
         return {'avg_energy': 0, 'avg_sleep': 0, 'avg_mood': 0, 'avg_pain': 0}
 
-    # FIX: Removed dead make_response block that was placed after this return
     return {
         'avg_energy': round(sum(c.energy for c in checkins) / len(checkins), 1),
         'avg_sleep': round(sum(c.sleep for c in checkins) / len(checkins), 1),
         'avg_mood': round(sum(c.mood for c in checkins) / len(checkins), 1),
         'avg_pain': round(sum(c.pain for c in checkins) / len(checkins), 1)
     }
+
+    response = make_response(html)
+    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'
+    return response
