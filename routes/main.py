@@ -103,7 +103,18 @@ def dashboard():
 
     warnings = [c for c in checkins if c.risk_level in ['high', 'medium']]
 
+    streak = current_user.streak or 0
+    max_streak = current_user.max_streak or 0
+
     return render_template('dashboard.html',
+        streak=streak,
+        max_streak=max_streak,
+        streak=streak,
+        max_streak=max_streak,
+        streak=streak,
+        max_streak=max_streak,
+        streak=streak,
+        max_streak=max_streak,
         checkins=checkins,
         today_checkin=today_checkin,
         avg_energy=avg_energy,
@@ -567,7 +578,7 @@ def health_ai_stats():
         'avg_mood': round(sum(c.mood for c in checkins) / len(checkins), 1),
         'avg_pain': round(sum(c.pain for c in checkins) / len(checkins), 1)
     }
-    
+
     response = make_response(html)
     response.headers['Content-Type'] = 'text/html'
     response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'

@@ -25,8 +25,8 @@
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
         body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
         body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
-        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; padding: 0 6px; margin-bottom: 36px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; overflow: hidden; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; overflow-y: auto; }
+        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; padding: 0 6px; margin-bottom: 36px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; }
         .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
         .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
@@ -37,8 +37,9 @@
         .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
         .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
         .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.3); overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
-        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
+        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
         .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
@@ -46,6 +47,8 @@
         .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
         .mobile-topbar { display: none; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(4px); }
+        .overlay.open { display: block; }
         .main { margin-left: 260px; padding: 28px 32px; min-height: 100vh; position: relative; z-index: 1; }
         .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
         .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
@@ -112,8 +115,6 @@
         .no-data-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.5; }
         .no-data-title { font-size: 14px; font-weight: 500; color: var(--text2); margin-bottom: 5px; }
         .no-data-sub { font-size: 12px; color: var(--text3); }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(4px); }
-        .overlay.open { display: block; }
         .fade-in { opacity: 0; animation: fadeUp 0.6s ease forwards; }
         .fade-in:nth-child(2) { animation-delay: 0.05s; }
         .fade-in:nth-child(3) { animation-delay: 0.1s; }
@@ -156,93 +157,55 @@
     </a>
 
     <div class="nav-section">Main</div>
-    <a href="/dashboard" class="nav-item active">
-        <span class="nav-icon">📊</span> Dashboard
-    </a>
-    <a href="/checkin" class="nav-item">
-        <span class="nav-icon">✅</span> Daily Check-in
-    </a>
-    <a href="/history" class="nav-item">
-        <span class="nav-icon">📈</span> History
-    </a>
+    <a href="/dashboard" class="nav-item active"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
+    <a href="/history" class="nav-item"><span class="nav-icon">📈</span> History</a>
 
     {% if user_plan == 'free' %}
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🧠</span> AI Insights
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">📋</span> Reports
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🩺</span> Symptom Checker
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
-    <a href="/pricing" class="nav-item" style="opacity:0.5;">
-        <span class="nav-icon">🔔</span> Alerts
-        <span style="font-size:10px;margin-left:auto;">🔒</span>
-    </a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🧠</span> AI Insights<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">📋</span> Reports<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🩺</span> Symptom Checker<span style="font-size:10px;margin-left:auto;">🔒</span></a>
+    <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
-    <a href="/ml-insights" class="nav-item">
-        <span class="nav-icon">🧠</span> AI Insights
-    </a>
-    <a href="/reports" class="nav-item">
-        <span class="nav-icon">📋</span> Reports
-    </a>
-    <a href="/symptoms" class="nav-item">
-        <span class="nav-icon">🩺</span> Symptom Checker
-    </a>
-    <a href="/alerts" class="nav-item">
-        <span class="nav-icon">🔔</span> Alerts
-    </a>
+    <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
+    <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
+    <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
+    <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
     {% endif %}
 
     {% if user_plan == 'family' %}
-    <a href="/family" class="nav-item">
-        <span class="nav-icon" style="font-size:11px;">👪</span> Family
-    </a>
+    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
     {% endif %}
 
     <div class="nav-section" style="margin-top:12px;">More</div>
-    <a href="/settings" class="nav-item">
-        <span class="nav-icon">⚙️</span> Settings
-    </a>
-    <a href="/support" class="nav-item">
-        <span class="nav-icon">🎧</span> Support
-    </a>
-    <a href="/health-ai" class="nav-item">
-        <span class="nav-icon">🤖</span> AI Chat
-    </a>
+    <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
+    <a href="/support" class="nav-item"><span class="nav-icon">🎧</span> Support</a>
+    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
 
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar">
                 {% if current_user.profile_photo %}
-                    <img src="{{ current_user.profile_photo }}" alt="Profile" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
                     {{ current_user.fullname[0].upper() }}
                 {% endif %}
             </div>
             <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
-                <div class="user-email" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px;">{{ current_user.email }}</div>
+                <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
                     {% if user_plan == 'premium' %}⭐ Premium
                     {% elif user_plan == 'family' %}👪 Family
-                    {% else %}Free
-                    {% endif %}
+                    {% else %}Free{% endif %}
                 </span>
             </div>
         </div>
-        <a href="/logout" class="logout-btn">
-            <span>🚪</span> Sign out
-        </a>
+        <a href="/logout" class="logout-btn"><span>🚪</span> Sign out</a>
     </div>
 </aside>
 
 <main class="main">
-
     <div class="topbar fade-in">
         <div>
             <div class="page-title">Good day, {{ current_user.fullname.split()[0] }} 👋</div>
@@ -250,9 +213,7 @@
         </div>
         <div style="display:flex;gap:10px;align-items:center;">
             {% if user_plan != 'free' %}
-            <a href="/export-pdf" class="btn-primary" style="background:var(--glass2);border:1px solid var(--border);box-shadow:none;color:var(--text2);">
-                📄 Export
-            </a>
+            <a href="/export-pdf" class="btn-primary" style="background:var(--glass2);border:1px solid var(--border);box-shadow:none;color:var(--text2);">📄 Export</a>
             {% endif %}
             {% if not today_checkin %}
                 <a href="/checkin" class="btn-primary">+ Daily Check-in</a>
@@ -288,6 +249,37 @@
             </div>
         </div>
     {% endif %}
+
+    <!-- STREAK CARD -->
+    <div class="card fade-in" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.03));border:1px solid rgba(245,158,11,0.2);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div style="font-size:40px;">🔥</div>
+                <div>
+                    <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#F59E0B;line-height:1;">{{ streak }} days</div>
+                    <div style="font-size:13px;color:var(--text2);margin-top:2px;">Current streak</div>
+                </div>
+            </div>
+            <div style="display:flex;gap:20px;align-items:center;">
+                <div style="text-align:center;">
+                    <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--purple2);">{{ max_streak }}</div>
+                    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;">Best</div>
+                </div>
+                <div>
+                    {% if streak == 0 %}<span style="font-size:13px;color:var(--text3);">Start today! 💪</span>
+                    {% elif streak < 3 %}<span style="font-size:13px;color:var(--amber);">Keep going! 🔥</span>
+                    {% elif streak < 7 %}<span style="font-size:13px;color:var(--green);">Great work! ⚡</span>
+                    {% else %}<span style="font-size:13px;color:var(--green);">Unstoppable! 🏆</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% if not today_checkin %}
+            <a href="/checkin" style="padding:9px 18px;background:linear-gradient(135deg,var(--amber),#F97316);color:#fff;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;box-shadow:0 4px 12px rgba(245,158,11,0.3);">Check in to continue 🔥</a>
+            {% else %}
+            <span style="padding:9px 18px;background:rgba(16,185,129,0.1);color:var(--green);border:1px solid rgba(16,185,129,0.2);border-radius:10px;font-size:13px;font-weight:600;">✅ Done today!</span>
+            {% endif %}
+        </div>
+    </div>
 
     <div class="stats-grid fade-in">
         <div class="stat-card green">
@@ -572,4 +564,3 @@ if ('serviceWorker' in navigator) {
 </script>
 </body>
 </html>
-
