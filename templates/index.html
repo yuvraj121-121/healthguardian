@@ -13,47 +13,30 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://healthguardian.app/">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#7C3AED">
+    <meta name="theme-color" content="#0D9488">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --cyan: #06B6D4;
-            --green: #10B981; --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
-            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
-            --glass3: rgba(255,255,255,0.09);
-            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4; --cyan: #06B6D4;
+            --green: #10B981; --amber: #F59E0B; --red: #EF4444; --bg: #061412;
+            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
+            --glass3: rgba(13,148,136,0.13);
+            --border: rgba(13,148,136,0.12); --border2: rgba(13,148,136,0.2);
             --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
         }
         html { scroll-behavior: smooth; }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
-
-        /* PARTICLES CANVAS */
         #particles-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        body::before { content: ''; position: fixed; top: -20%; left: -10%; width: 80%; height: 80%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
 
-        body::before {
-            content: ''; position: fixed; top: -20%; left: -10%; width: 80%; height: 80%;
-            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
-            pointer-events: none; z-index: 0;
-        }
-        body::after {
-            content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%;
-            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
-            pointer-events: none; z-index: 0;
-        }
-
-        /* NAV */
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 52px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(6,6,15,0.75); backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--border); transition: all 0.3s;
-        }
-        nav.scrolled { padding: 12px 52px; background: rgba(6,6,15,0.95); }
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; padding: 16px 52px; display: flex; justify-content: space-between; align-items: center; background: rgba(6,20,18,0.75); backdrop-filter: blur(24px); border-bottom: 1px solid var(--border); transition: all 0.3s; }
+        nav.scrolled { padding: 12px 52px; background: rgba(6,20,18,0.95); }
         .logo { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 8px; }
-        .logo-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; box-shadow: 0 0 16px rgba(124,58,237,0.4); }
+        .logo-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; box-shadow: 0 0 16px rgba(13,148,136,0.45); }
         .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-links { display: flex; gap: 32px; list-style: none; }
         .nav-links a { color: var(--text2); text-decoration: none; font-size: 14px; transition: color 0.2s; }
@@ -61,12 +44,11 @@
         .nav-btns { display: flex; gap: 10px; align-items: center; }
         .btn-ghost { padding: 8px 18px; border: 1px solid var(--border); border-radius: 8px; background: transparent; color: var(--text2); font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
         .btn-ghost:hover { background: var(--glass2); color: var(--text); border-color: var(--border2); }
-        .btn-primary { padding: 8px 18px; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+        .btn-primary { padding: 8px 18px; border: none; border-radius: 8px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(13,148,136,0.3); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(13,148,136,0.4); }
 
-        /* HERO */
         .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; z-index: 1; }
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border: 1px solid rgba(124,58,237,0.25); border-radius: 100px; background: rgba(124,58,237,0.08); color: var(--purple2); font-size: 13px; margin-bottom: 28px; animation: fadeUp 0.6s ease forwards; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border: 1px solid rgba(13,148,136,0.25); border-radius: 100px; background: rgba(13,148,136,0.08); color: var(--purple2); font-size: 13px; margin-bottom: 28px; animation: fadeUp 0.6s ease forwards; }
         .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--purple2); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.4); } }
         .hero h1 { font-family: 'Syne', sans-serif; font-size: 68px; font-weight: 800; line-height: 1.05; letter-spacing: -2.5px; margin-bottom: 20px; max-width: 820px; animation: fadeUp 0.6s 0.1s ease both; }
@@ -75,20 +57,17 @@
         .hero-btns { display: flex; gap: 12px; justify-content: center; margin-bottom: 48px; animation: fadeUp 0.6s 0.3s ease both; flex-wrap: wrap; }
         .btn-lg { padding: 14px 30px; font-size: 15px; border-radius: 10px; }
         .btn-video { display: flex; align-items: center; gap: 10px; padding: 14px 24px; border: 1px solid var(--border2); border-radius: 10px; background: var(--glass2); color: var(--text); font-size: 15px; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; }
-        .btn-video:hover { background: var(--glass3); border-color: rgba(124,58,237,0.3); transform: translateY(-1px); }
+        .btn-video:hover { background: var(--glass3); border-color: rgba(13,148,136,0.3); transform: translateY(-1px); }
         .btn-video-icon { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 12px; }
         .stats { display: flex; gap: 48px; justify-content: center; animation: fadeUp 0.6s 0.4s ease both; margin-bottom: 64px; }
         .stat { text-align: center; }
         .stat-num { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .stat-label { font-size: 13px; color: var(--text3); margin-top: 4px; }
         .stat-divider { width: 1px; background: var(--border); }
-
-        /* TRUST BADGES */
         .trust-bar { display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; animation: fadeUp 0.6s 0.5s ease both; }
         .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text3); }
         .trust-item span { color: var(--green); }
 
-        /* HOW IT WORKS */
         .section { padding: 100px 52px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
         .section-label { font-size: 12px; font-weight: 500; color: var(--purple2); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
         .section-title { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; max-width: 560px; line-height: 1.1; }
@@ -96,26 +75,22 @@
 
         .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         .step-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px; position: relative; overflow: hidden; transition: all 0.3s; }
-        .step-card:hover { background: var(--glass2); transform: translateY(-4px); border-color: rgba(124,58,237,0.2); }
-        .step-num { font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800; color: rgba(124,58,237,0.08); position: absolute; top: 16px; right: 20px; line-height: 1; }
+        .step-card:hover { background: var(--glass2); transform: translateY(-4px); border-color: rgba(13,148,136,0.25); }
+        .step-num { font-family: 'Syne', sans-serif; font-size: 64px; font-weight: 800; color: rgba(13,148,136,0.08); position: absolute; top: 16px; right: 20px; line-height: 1; }
         .step-icon { font-size: 36px; margin-bottom: 16px; }
         .step-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
         .step-desc { font-size: 14px; color: var(--text2); line-height: 1.7; }
-        .step-connector { display: flex; align-items: center; justify-content: center; }
-        .step-arrow { color: var(--text3); font-size: 20px; }
 
-        /* FEATURES */
         .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .feature-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; backdrop-filter: blur(10px); }
         .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--purple), transparent); opacity: 0; transition: opacity 0.3s; }
-        .feature-card:hover { background: var(--glass2); border-color: rgba(124,58,237,0.2); transform: translateY(-4px); }
+        .feature-card:hover { background: var(--glass2); border-color: rgba(13,148,136,0.25); transform: translateY(-4px); }
         .feature-card:hover::before { opacity: 1; }
-        .feature-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); border: 1px solid rgba(124,58,237,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
+        .feature-icon { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(6,182,212,0.08)); border: 1px solid rgba(13,148,136,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 16px; }
         .feature-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
         .feature-desc { font-size: 14px; color: var(--text2); line-height: 1.6; }
-        .feature-tag { display: inline-block; margin-top: 12px; padding: 3px 10px; background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.2); border-radius: 100px; font-size: 11px; color: var(--purple2); }
+        .feature-tag { display: inline-block; margin-top: 12px; padding: 3px 10px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.2); border-radius: 100px; font-size: 11px; color: var(--purple2); }
 
-        /* TESTIMONIALS */
         .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
         .testimonial-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 24px; transition: all 0.3s; }
         .testimonial-card:hover { background: var(--glass2); transform: translateY(-3px); }
@@ -126,22 +101,11 @@
         .author-name { font-size: 13px; font-weight: 600; color: var(--text); }
         .author-role { font-size: 11px; color: var(--text3); margin-top: 2px; }
 
-        /* FAQ */
-        .faq-list { display: flex; flex-direction: column; gap: 12px; max-width: 760px; }
-        .faq-item { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: all 0.3s; }
-        .faq-item.open { border-color: rgba(124,58,237,0.25); background: var(--glass2); }
-        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; cursor: pointer; font-size: 15px; font-weight: 500; color: var(--text); gap: 16px; }
-        .faq-icon { width: 24px; height: 24px; border-radius: 50%; background: var(--glass2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--purple2); flex-shrink: 0; transition: all 0.3s; }
-        .faq-item.open .faq-icon { background: rgba(124,58,237,0.15); border-color: rgba(124,58,237,0.3); transform: rotate(45deg); }
-        .faq-answer { padding: 0 24px; max-height: 0; overflow: hidden; transition: all 0.3s; font-size: 14px; color: var(--text2); line-height: 1.7; }
-        .faq-answer.open { padding: 0 24px 20px; max-height: 200px; }
-
-        /* PRICING */
         .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
         .pricing-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; backdrop-filter: blur(10px); position: relative; }
         .pricing-card:hover { background: var(--glass2); transform: translateY(-4px); }
-        .pricing-card.featured { border-color: rgba(124,58,237,0.3); background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04)); }
-        .featured-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+        .pricing-card.featured { border-color: rgba(13,148,136,0.3); background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(6,182,212,0.04)); }
+        .featured-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
         .plan-name { font-size: 12px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
         .plan-price { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
         .plan-price span { font-size: 15px; font-weight: 400; color: var(--text2); }
@@ -149,31 +113,28 @@
         .plan-features { list-style: none; margin-bottom: 28px; }
         .plan-features li { font-size: 13px; color: var(--text2); padding: 6px 0; display: flex; align-items: center; gap: 8px; }
         .plan-features li::before { content: '✓'; color: var(--purple2); font-weight: 700; font-size: 12px; }
-        .btn-plan-primary { display: block; width: 100%; text-align: center; padding: 12px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
-        .btn-plan-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+        .btn-plan-primary { display: block; width: 100%; text-align: center; padding: 12px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.25s; font-family: 'DM Sans', sans-serif; box-shadow: 0 4px 16px rgba(13,148,136,0.3); }
+        .btn-plan-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,148,136,0.4); }
         .btn-plan-ghost { display: block; width: 100%; text-align: center; padding: 12px; background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; cursor: pointer; text-decoration: none; transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
         .btn-plan-ghost:hover { background: var(--glass2); color: var(--text); border-color: var(--border2); }
 
-        /* CTA SECTION */
         .cta-section { position: relative; z-index: 1; padding: 0 52px 100px; }
-        .cta-box { background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(59,130,246,0.06)); border: 1px solid rgba(124,58,237,0.2); border-radius: 28px; padding: 72px 52px; text-align: center; position: relative; overflow: hidden; backdrop-filter: blur(20px); max-width: 1100px; margin: 0 auto; }
-        .cta-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse, rgba(124,58,237,0.06) 0%, transparent 60%); pointer-events: none; }
+        .cta-box { background: linear-gradient(135deg, rgba(13,148,136,0.12), rgba(6,182,212,0.06)); border: 1px solid rgba(13,148,136,0.22); border-radius: 28px; padding: 72px 52px; text-align: center; position: relative; overflow: hidden; backdrop-filter: blur(20px); max-width: 1100px; margin: 0 auto; }
+        .cta-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse, rgba(13,148,136,0.06) 0%, transparent 60%); pointer-events: none; }
         .cta-title { font-family: 'Syne', sans-serif; font-size: 46px; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
         .cta-sub { font-size: 17px; color: var(--text2); margin-bottom: 36px; max-width: 440px; margin-left: auto; margin-right: auto; line-height: 1.6; }
         .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
-        /* VIDEO MODAL */
         .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
         .modal-overlay.open { display: flex; }
         .modal-box { background: var(--glass2); border: 1px solid var(--border2); border-radius: 20px; padding: 32px; max-width: 640px; width: 90%; text-align: center; position: relative; }
         .modal-close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border-radius: 8px; background: var(--glass2); border: 1px solid var(--border); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
         .modal-close:hover { color: var(--text); background: var(--glass3); }
-        .video-placeholder { background: linear-gradient(135deg, rgba(124,58,237,0.1), rgba(59,130,246,0.05)); border: 1px solid rgba(124,58,237,0.2); border-radius: 14px; padding: 80px 40px; margin-bottom: 20px; }
+        .video-placeholder { background: linear-gradient(135deg, rgba(13,148,136,0.1), rgba(6,182,212,0.05)); border: 1px solid rgba(13,148,136,0.2); border-radius: 14px; padding: 80px 40px; margin-bottom: 20px; }
         .video-play-big { font-size: 64px; margin-bottom: 16px; }
         .modal-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 8px; }
         .modal-sub { font-size: 14px; color: var(--text2); }
 
-        /* FOOTER */
         footer { border-top: 1px solid var(--border); padding: 56px 52px 36px; position: relative; z-index: 1; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
         .footer-brand-desc { font-size: 14px; color: var(--text3); line-height: 1.7; margin-top: 12px; max-width: 280px; }
@@ -187,12 +148,10 @@
         .footer-bottom-links a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
         .footer-bottom-links a:hover { color: var(--text2); }
 
-        /* ANIMATIONS */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; transform: translateY(32px); transition: all 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        /* MOBILE */
         @media (max-width: 1024px) {
             .features-grid, .steps-grid { grid-template-columns: repeat(2, 1fr); }
             .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 56px auto 0; }
@@ -230,7 +189,6 @@
 
 <canvas id="particles-canvas"></canvas>
 
-<!-- VIDEO MODAL -->
 <div class="modal-overlay" id="videoModal" onclick="closeModal(event)">
     <div class="modal-box">
         <button class="modal-close" onclick="document.getElementById('videoModal').classList.remove('open')">✕</button>
@@ -247,12 +205,8 @@
     </div>
 </div>
 
-<!-- NAV -->
 <nav id="navbar">
-    <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
-        Health<span>Guardian</span>
-    </a>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <ul class="nav-links">
         <li><a href="#how-it-works">How It Works</a></li>
         <li><a href="#features">Features</a></li>
@@ -264,19 +218,14 @@
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-    <div class="hero-badge">
-        <div class="badge-dot"></div>
-        AI-Powered Early Disease Detection
-    </div>
+    <div class="hero-badge"><div class="badge-dot"></div>AI-Powered Early Disease Detection</div>
     <h1>Track your health.<br><span class="highlight">Get warned early.</span></h1>
     <p>2-minute daily check-in. Our AI detects patterns before they become serious problems. Trusted by 50,000+ people worldwide.</p>
     <div class="hero-btns">
         <a href="/register" class="btn-primary btn-lg">Start for free →</a>
         <a href="#" class="btn-video" onclick="document.getElementById('videoModal').classList.add('open');return false;">
-            <div class="btn-video-icon">▶</div>
-            Watch demo
+            <div class="btn-video-icon">▶</div>Watch demo
         </a>
     </div>
     <div class="stats">
@@ -297,98 +246,34 @@
     </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="section reveal" id="how-it-works">
     <div class="section-label">How It Works</div>
     <h2 class="section-title">Simple. Powerful. 2 minutes a day.</h2>
     <p class="section-sub">Our AI learns your unique health patterns over time — getting smarter with every check-in you complete.</p>
     <div class="steps-grid">
-        <div class="step-card reveal">
-            <div class="step-num">01</div>
-            <div class="step-icon">✅</div>
-            <div class="step-title">Daily 2-Min Check-in</div>
-            <div class="step-desc">Log your energy, sleep quality, mood, pain level, appetite and stress every day. Takes just 2 minutes and builds your health timeline.</div>
-        </div>
-        <div class="step-card reveal">
-            <div class="step-num">02</div>
-            <div class="step-icon">🧠</div>
-            <div class="step-title">AI Analyzes Your Patterns</div>
-            <div class="step-desc">Our machine learning engine compares your daily data against known health patterns, spotting trends that are invisible to the naked eye.</div>
-        </div>
-        <div class="step-card reveal">
-            <div class="step-num">03</div>
-            <div class="step-icon">🔔</div>
-            <div class="step-title">Get Early Warnings</div>
-            <div class="step-desc">When your patterns suggest a potential health issue, you get alerted immediately — weeks or months before symptoms become serious.</div>
-        </div>
+        <div class="step-card reveal"><div class="step-num">01</div><div class="step-icon">✅</div><div class="step-title">Daily 2-Min Check-in</div><div class="step-desc">Log your energy, sleep quality, mood, pain level, appetite and stress every day. Takes just 2 minutes and builds your health timeline.</div></div>
+        <div class="step-card reveal"><div class="step-num">02</div><div class="step-icon">🧠</div><div class="step-title">AI Analyzes Your Patterns</div><div class="step-desc">Our machine learning engine compares your daily data against known health patterns, spotting trends that are invisible to the naked eye.</div></div>
+        <div class="step-card reveal"><div class="step-num">03</div><div class="step-icon">🔔</div><div class="step-title">Get Early Warnings</div><div class="step-desc">When your patterns suggest a potential health issue, you get alerted immediately — weeks or months before symptoms become serious.</div></div>
     </div>
 </section>
 
-<!-- FEATURES -->
 <section class="section reveal" id="features">
     <div class="section-label">Features</div>
     <h2 class="section-title">Everything you need to stay healthy</h2>
     <p class="section-sub">A complete health monitoring platform powered by cutting-edge AI technology designed for real people.</p>
     <div class="features-grid">
-        <div class="feature-card reveal">
-            <div class="feature-icon">🧠</div>
-            <div class="feature-title">AI Pattern Detection</div>
-            <div class="feature-desc">Machine learning analyzes months of your data to spot early warning signs automatically — before you feel them.</div>
-            <span class="feature-tag">Premium</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">⚡</div>
-            <div class="feature-title">2-Min Daily Check-ins</div>
-            <div class="feature-desc">Track energy, sleep, mood, pain, appetite and stress. Quick, effortless, and habit-forming in the best way.</div>
-            <span class="feature-tag">Free</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">📊</div>
-            <div class="feature-title">Health Dashboard</div>
-            <div class="feature-desc">Beautiful charts showing exactly how your health is changing over time with clear, actionable insights.</div>
-            <span class="feature-tag">Free</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">🔔</div>
-            <div class="feature-title">Smart Early Alerts</div>
-            <div class="feature-desc">Get notified instantly when concerning patterns are detected, giving you time to act before problems worsen.</div>
-            <span class="feature-tag">Premium</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">🩺</div>
-            <div class="feature-title">AI Symptom Checker</div>
-            <div class="feature-desc">Describe your symptoms and our AI doctor gives you possible conditions, urgency levels, and next steps instantly.</div>
-            <span class="feature-tag">Premium</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">🤖</div>
-            <div class="feature-title">AI Health Chat</div>
-            <div class="feature-desc">Chat with an AI that knows your personal health data. Ask anything — get personalised, data-driven answers.</div>
-            <span class="feature-tag">Premium</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">📋</div>
-            <div class="feature-title">Health Reports</div>
-            <div class="feature-desc">Generate detailed PDF reports of your health history to share with your doctor or keep for your records.</div>
-            <span class="feature-tag">Premium</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">👪</div>
-            <div class="feature-title">Family Monitoring</div>
-            <div class="feature-desc">Monitor up to 5 family members from one dashboard. Keep your whole family's health in check.</div>
-            <span class="feature-tag">Family</span>
-        </div>
-        <div class="feature-card reveal">
-            <div class="feature-icon">🔒</div>
-            <div class="feature-title">100% Private & Secure</div>
-            <div class="feature-desc">Military-grade encryption. Your health data is never sold or shared. You own it completely.</div>
-            <span class="feature-tag">All Plans</span>
-        </div>
+        <div class="feature-card reveal"><div class="feature-icon">🧠</div><div class="feature-title">AI Pattern Detection</div><div class="feature-desc">Machine learning analyzes months of your data to spot early warning signs automatically — before you feel them.</div><span class="feature-tag">Premium</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">⚡</div><div class="feature-title">2-Min Daily Check-ins</div><div class="feature-desc">Track energy, sleep, mood, pain, appetite and stress. Quick, effortless, and habit-forming in the best way.</div><span class="feature-tag">Free</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">📊</div><div class="feature-title">Health Dashboard</div><div class="feature-desc">Beautiful charts showing exactly how your health is changing over time with clear, actionable insights.</div><span class="feature-tag">Free</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">🔔</div><div class="feature-title">Smart Early Alerts</div><div class="feature-desc">Get notified instantly when concerning patterns are detected, giving you time to act before problems worsen.</div><span class="feature-tag">Premium</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">🩺</div><div class="feature-title">AI Symptom Checker</div><div class="feature-desc">Describe your symptoms and our AI doctor gives you possible conditions, urgency levels, and next steps instantly.</div><span class="feature-tag">Premium</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">🤖</div><div class="feature-title">AI Health Chat</div><div class="feature-desc">Chat with an AI that knows your personal health data. Ask anything — get personalised, data-driven answers.</div><span class="feature-tag">Premium</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">📋</div><div class="feature-title">Health Reports</div><div class="feature-desc">Generate detailed PDF reports of your health history to share with your doctor or keep for your records.</div><span class="feature-tag">Premium</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">👪</div><div class="feature-title">Family Monitoring</div><div class="feature-desc">Monitor up to 5 family members from one dashboard. Keep your whole family's health in check.</div><span class="feature-tag">Family</span></div>
+        <div class="feature-card reveal"><div class="feature-icon">🔒</div><div class="feature-title">100% Private & Secure</div><div class="feature-desc">Military-grade encryption. Your health data is never sold or shared. You own it completely.</div><span class="feature-tag">All Plans</span></div>
     </div>
 </section>
 
-
-<!-- PRICING -->
 <section class="section reveal" id="pricing" style="text-align:center;max-width:1200px;">
     <div class="section-label">Pricing</div>
     <h2 class="section-title" style="margin:0 auto 16px;">Simple, transparent pricing</h2>
@@ -440,7 +325,6 @@
     </div>
 </section>
 
-<!-- CTA -->
 <div class="cta-section reveal">
     <div class="cta-box">
         <div class="cta-title">Your health deserves<br>better monitoring.</div>
@@ -457,14 +341,10 @@
     </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div class="footer-grid">
         <div>
-            <a href="/" class="logo" style="margin-bottom:12px;display:inline-flex;">
-                <div class="logo-icon">⚡</div>
-                Health<span>Guardian</span>
-            </a>
+            <a href="/" class="logo" style="margin-bottom:12px;display:inline-flex;"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
             <p class="footer-brand-desc">AI-powered health monitoring that detects patterns before they become serious problems. Track daily, get warned early.</p>
         </div>
         <div>
@@ -507,94 +387,31 @@
 </footer>
 
 <script>
-// PARTICLES
 const canvas = document.getElementById('particles-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
-
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resize();
 window.addEventListener('resize', resize);
-
 class Particle {
     constructor() { this.reset(); }
-    reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.4 + 0.1;
-        this.color = Math.random() > 0.5 ? '124,58,237' : '59,130,246';
-    }
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-    }
-    draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${this.color},${this.opacity})`;
-        ctx.fill();
-    }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
+    update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
+    draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fillStyle=`rgba(${this.color},${this.opacity})`; ctx.fill(); }
 }
-
-for (let i = 0; i < 80; i++) particles.push(new Particle());
-
+for(let i=0;i<80;i++) particles.push(new Particle());
 function drawConnections() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 120) {
-                ctx.beginPath();
-                ctx.strokeStyle = `rgba(124,58,237,${0.06 * (1 - dist / 120)})`;
-                ctx.lineWidth = 0.5;
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
-            }
-        }
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){ctx.beginPath();ctx.strokeStyle=`rgba(13,148,136,${0.06*(1-dist/120)})`;ctx.lineWidth=0.5;ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();}
     }
 }
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
-    drawConnections();
-    requestAnimationFrame(animate);
-}
+function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); drawConnections(); requestAnimationFrame(animate); }
 animate();
-
-// NAVBAR SCROLL
-window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-});
-
-// SCROLL REVEAL
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// FAQ
-function toggleFaq(item) {
-    const answer = item.querySelector('.faq-answer');
-    const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-answer').classList.remove('open');
-    });
-    if (!isOpen) { item.classList.add('open'); answer.classList.add('open'); }
-}
-
-// VIDEO MODAL
-function closeModal(e) { if (e.target === document.getElementById('videoModal')) document.getElementById('videoModal').classList.remove('open'); }
+function closeModal(e) { if(e.target===document.getElementById('videoModal')) document.getElementById('videoModal').classList.remove('open'); }
 </script>
 </body>
 </html>

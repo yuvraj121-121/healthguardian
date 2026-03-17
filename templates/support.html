@@ -7,27 +7,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#7C3AED">
+    <meta name="theme-color" content="#0D9488">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981;
-            --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
-            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
-            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
-            --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
+            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4; --green: #10B981;
+            --amber: #F59E0B; --red: #EF4444; --bg: #061412;
+            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
+            --border: rgba(13,148,136,0.12); --border2: rgba(13,148,136,0.2);
+            --text: #EEEEFF; --text2: #B0B8D4; --text3: #7B82A8;
         }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
         .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 12px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.45); }
         .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
         .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
-        .nav-item.active { background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); color: var(--purple2); border-color: rgba(124,58,237,0.25); }
+        .nav-item.active { background: linear-gradient(135deg, rgba(13,148,136,0.18), rgba(6,182,212,0.08)); color: var(--purple2); border-color: rgba(13,148,136,0.28); }
         .nav-icon { font-size: 15px; width: 20px; text-align: center; }
         .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
         .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
@@ -37,7 +37,7 @@
         .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
-        .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
+        .plan-premium { background: rgba(13,148,136,0.15); color: var(--purple2); border: 1px solid rgba(13,148,136,0.25); }
         .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
@@ -48,18 +48,14 @@
         .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 10px; }
         .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
         .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
-
-        /* PRIORITY BADGE */
         .priority-banner { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(16,185,129,0.03)); border: 1px solid rgba(16,185,129,0.2); border-radius: 16px; padding: 20px 24px; margin-bottom: 28px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .priority-icon { font-size: 32px; flex-shrink: 0; }
         .priority-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #6EE7B7; margin-bottom: 4px; }
         .priority-sub { font-size: 13px; color: var(--text2); }
         .priority-badge { padding: 6px 16px; background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); border-radius: 100px; font-size: 12px; font-weight: 600; white-space: nowrap; margin-left: auto; }
-
-        /* SUPPORT OPTIONS */
         .support-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
         .support-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 24px; backdrop-filter: blur(20px); transition: all 0.2s; cursor: pointer; text-decoration: none; display: block; }
-        .support-card:hover { background: var(--glass2); border-color: rgba(124,58,237,0.3); transform: translateY(-3px); }
+        .support-card:hover { background: var(--glass2); border-color: rgba(13,148,136,0.3); transform: translateY(-3px); }
         .support-card.priority { border-color: rgba(16,185,129,0.2); background: linear-gradient(135deg, rgba(16,185,129,0.05), var(--glass)); }
         .support-card.priority:hover { border-color: rgba(16,185,129,0.4); }
         .support-card-icon { font-size: 32px; margin-bottom: 14px; }
@@ -70,28 +66,24 @@
         .response-time { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 100px; font-size: 11px; font-weight: 500; margin-top: 8px; }
         .rt-fast { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .rt-normal { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
-
-        /* CONTACT FORM */
         .form-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 32px; backdrop-filter: blur(20px); }
-        .form-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .form-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
         .form-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
         .form-label { font-size: 12px; font-weight: 500; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
         .form-input { padding: 11px 14px; background: var(--glass2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: all 0.2s; }
-        .form-input:focus { border-color: rgba(124,58,237,0.4); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+        .form-input:focus { border-color: rgba(13,148,136,0.4); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
         .form-input::placeholder { color: var(--text3); }
-        select.form-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233D4268' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
-        select.form-input option { background: #0D0D1A; }
+        select.form-input { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237B82A8' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+        select.form-input option { background: #061412; color: #EEEEFF; }
         textarea.form-input { resize: vertical; min-height: 120px; line-height: 1.6; }
-        .btn-submit { padding: 12px 28px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(124,58,237,0.3); }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(124,58,237,0.4); }
+        .btn-submit { padding: 12px 28px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 16px rgba(13,148,136,0.3); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(13,148,136,0.4); }
         .success-msg { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); border-radius: 12px; padding: 16px 20px; font-size: 13px; color: #6EE7B7; font-weight: 500; display: none; margin-bottom: 16px; }
         .success-msg.show { display: flex; align-items: center; gap: 10px; }
-
-        /* FAQ */
         .faq-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 28px; backdrop-filter: blur(20px); }
-        .faq-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+        .faq-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text); }
         .faq-item { border-bottom: 1px solid var(--border); padding: 16px 0; }
         .faq-item:last-child { border-bottom: none; }
         .faq-q { font-size: 14px; font-weight: 600; color: var(--text); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
@@ -99,16 +91,14 @@
         .faq-a.open { display: block; }
         .faq-arrow { color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
         .faq-arrow.open { transform: rotate(180deg); }
-
         .fade-in { animation: fadeUp 0.5s ease forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
         @media (max-width: 1024px) { .support-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 240px; }
             .sidebar.open { transform: translateX(0); }
-            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
-            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
+            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,20,18,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
+            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(13,148,136,0.2); border: 1px solid rgba(13,148,136,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
             .main { margin-left: 0 !important; padding: 72px 16px 20px !important; }
             .support-grid { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
@@ -123,17 +113,14 @@
 
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
-        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
-        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#2DD4BF,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
     </span>
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
 </div>
 
 <aside class="sidebar">
-    <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
-        Health<span>Guardian</span>
-    </a>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <div class="nav-section">Main</div>
     <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
     <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
@@ -145,10 +132,10 @@
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
     <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
-<a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     <a href="/reports" class="nav-item"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
+    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
     {% if user_plan == 'family' %}
     <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
@@ -187,7 +174,6 @@
         </div>
     </div>
 
-    <!-- PRIORITY BANNER -->
     {% if user_plan == 'family' %}
     <div class="priority-banner">
         <div class="priority-icon">⭐</div>
@@ -198,7 +184,7 @@
         <span class="priority-badge">⚡ Priority Member</span>
     </div>
     {% elif user_plan == 'premium' %}
-    <div style="background:linear-gradient(135deg,rgba(124,58,237,0.08),rgba(59,130,246,0.04));border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="background:linear-gradient(135deg,rgba(13,148,136,0.09),rgba(6,182,212,0.05));border:1px solid rgba(13,148,136,0.22);border-radius:16px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
         <div style="font-size:28px;">⭐</div>
         <div>
             <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--purple2);margin-bottom:4px;">Premium Support</div>
@@ -207,60 +193,38 @@
     </div>
     {% endif %}
 
-    <!-- SUPPORT OPTIONS -->
     <div class="support-grid">
         <a href="mailto:support@healthguardian.app" class="support-card {% if user_plan == 'family' %}priority{% endif %}">
             <div class="support-card-icon">📧</div>
             <div class="support-card-title">Email Support</div>
             <div class="support-card-sub">Send us an email and we'll get back to you as soon as possible.</div>
             <div class="support-card-action">Send email →</div>
-            <div>
-                <span class="response-time {% if user_plan == 'family' %}rt-fast{% else %}rt-normal{% endif %}">
-                    {% if user_plan == 'family' %}⚡ Reply within 2 hours{% else %}📬 Reply within 24 hours{% endif %}
-                </span>
-            </div>
+            <div><span class="response-time {% if user_plan == 'family' %}rt-fast{% else %}rt-normal{% endif %}">{% if user_plan == 'family' %}⚡ Reply within 2 hours{% else %}📬 Reply within 24 hours{% endif %}</span></div>
         </a>
-
         <div class="support-card {% if user_plan == 'family' %}priority{% endif %}" onclick="document.getElementById('contactForm').scrollIntoView({behavior:'smooth'})">
             <div class="support-card-icon">💬</div>
             <div class="support-card-title">Submit a Ticket</div>
             <div class="support-card-sub">Fill out the form below and our team will respond to your query.</div>
             <div class="support-card-action">Open form →</div>
-            <div>
-                <span class="response-time {% if user_plan == 'family' %}rt-fast{% else %}rt-normal{% endif %}">
-                    {% if user_plan == 'family' %}⚡ Priority queue{% else %}📋 Standard queue{% endif %}
-                </span>
-            </div>
+            <div><span class="response-time {% if user_plan == 'family' %}rt-fast{% else %}rt-normal{% endif %}">{% if user_plan == 'family' %}⚡ Priority queue{% else %}📋 Standard queue{% endif %}</span></div>
         </div>
-
         <div class="support-card">
             <div class="support-card-icon">📖</div>
             <div class="support-card-title">Documentation</div>
             <div class="support-card-sub">Browse our help articles and guides to get the most out of HealthGuardian.</div>
             <div class="support-card-action">Browse docs →</div>
-            <div>
-                <span class="response-time rt-fast">🟢 Always available</span>
-            </div>
+            <div><span class="response-time rt-fast">🟢 Always available</span></div>
         </div>
     </div>
 
-    <!-- CONTACT FORM -->
     <div class="form-card" id="contactForm">
         <div class="form-title">📝 Submit a Support Ticket</div>
         <div class="form-sub">
-            {% if user_plan == 'family' %}
-            ⚡ Priority support — your ticket will be handled first!
-            {% elif user_plan == 'premium' %}
-            ⭐ Premium support — we'll get back to you within 24 hours.
-            {% else %}
-            We'll get back to you as soon as possible.
-            {% endif %}
+            {% if user_plan == 'family' %}⚡ Priority support — your ticket will be handled first!
+            {% elif user_plan == 'premium' %}⭐ Premium support — we'll get back to you within 24 hours.
+            {% else %}We'll get back to you as soon as possible.{% endif %}
         </div>
-
-        <div class="success-msg" id="successMsg">
-            ✅ Your ticket has been submitted! We'll get back to you {% if user_plan == 'family' %}within 2 hours{% else %}within 24 hours{% endif %}.
-        </div>
-
+        <div class="success-msg" id="successMsg">✅ Your ticket has been submitted! We'll get back to you {% if user_plan == 'family' %}within 2 hours{% else %}within 24 hours{% endif %}.</div>
         <form id="supportForm" onsubmit="submitForm(event)">
             <div class="form-grid">
                 <div class="form-group" style="margin-bottom:0;">
@@ -272,7 +236,6 @@
                     <input type="email" class="form-input" value="{{ current_user.email }}" readonly style="opacity:0.7;">
                 </div>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Category</label>
                 <select class="form-input" id="category" required>
@@ -285,64 +248,33 @@
                     <option value="other">❓ Other</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Subject</label>
                 <input type="text" class="form-input" id="subject" placeholder="Brief description of your issue" required>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Message</label>
                 <textarea class="form-input" id="message" placeholder="Please describe your issue in detail..." required></textarea>
             </div>
-
             <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                <div style="font-size:12px;color:var(--text3);">
-                    Plan: <span style="color:{% if user_plan == 'family' %}var(--green){% elif user_plan == 'premium' %}var(--purple2){% else %}var(--text2){% endif %};">
-                        {% if user_plan == 'family' %}👪 Family (Priority){% elif user_plan == 'premium' %}⭐ Premium{% else %}Free{% endif %}
-                    </span>
-                </div>
+                <div style="font-size:12px;color:var(--text3);">Plan: <span style="color:{% if user_plan == 'family' %}var(--green){% elif user_plan == 'premium' %}var(--purple2){% else %}var(--text2){% endif %};">{% if user_plan == 'family' %}👪 Family (Priority){% elif user_plan == 'premium' %}⭐ Premium{% else %}Free{% endif %}</span></div>
                 <button type="submit" class="btn-submit">Submit Ticket →</button>
             </div>
         </form>
     </div>
 
-    <!-- FAQ -->
     <div class="faq-card">
         <div class="faq-title">❓ Frequently Asked Questions</div>
-
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">How do I cancel my subscription? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">You can cancel your subscription anytime from Settings → Account → Cancel Subscription. Your plan stays active until the end of the billing period.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">Why is my profile photo not showing? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">Go to Settings and re-upload your profile photo. Make sure it's a JPG or PNG under 5MB. If the issue persists, submit a support ticket above.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">How does AI pattern detection work? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">Our AI analyzes your daily check-ins over time to detect unusual patterns. It compares your current readings against your personal baseline and flags anything concerning.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">My medical report analysis seems wrong — what should I do? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">AI analysis is for educational purposes only. Always consult a qualified doctor for medical advice. If you believe there's a technical error, submit a ticket with the report details.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">How do I add family members? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">Go to the Family page and enter the email address of the person you want to add. They need to have a HealthGuardian account. If they don't, we'll send them an invite email.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">Is my health data secure? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">Yes! All your health data is encrypted and stored securely. We never share your data with third parties. You can delete all your data anytime from Settings → Danger Zone.</div>
-        </div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I cancel my subscription? <span class="faq-arrow">▾</span></div><div class="faq-a">You can cancel your subscription anytime from Settings → Account → Cancel Subscription. Your plan stays active until the end of the billing period.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Why is my profile photo not showing? <span class="faq-arrow">▾</span></div><div class="faq-a">Go to Settings and re-upload your profile photo. Make sure it's a JPG or PNG under 5MB. If the issue persists, submit a support ticket above.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does AI pattern detection work? <span class="faq-arrow">▾</span></div><div class="faq-a">Our AI analyzes your daily check-ins over time to detect unusual patterns. It compares your current readings against your personal baseline and flags anything concerning.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">My medical report analysis seems wrong — what should I do? <span class="faq-arrow">▾</span></div><div class="faq-a">AI analysis is for educational purposes only. Always consult a qualified doctor for medical advice. If you believe there's a technical error, submit a ticket with the report details.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I add family members? <span class="faq-arrow">▾</span></div><div class="faq-a">Go to the Family page and enter the email address of the person you want to add. They need to have a HealthGuardian account. If they don't, we'll send them an invite email.</div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is my health data secure? <span class="faq-arrow">▾</span></div><div class="faq-a">Yes! All your health data is encrypted and stored securely. We never share your data with third parties. You can delete all your data anytime from Settings → Danger Zone.</div></div>
         {% if user_plan == 'family' %}
-        <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)">What does Priority Support include? <span class="faq-arrow">▾</span></div>
-            <div class="faq-a">As a Family plan member, your support tickets are handled first in our queue with a guaranteed response within 2 hours during business hours (9am-6pm GMT). You also get access to our dedicated family support email.</div>
-        </div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What does Priority Support include? <span class="faq-arrow">▾</span></div><div class="faq-a">As a Family plan member, your support tickets are handled first in our queue with a guaranteed response within 2 hours during business hours (9am-6pm GMT).</div></div>
         {% endif %}
     </div>
-
 </main>
 
 <script>
@@ -354,7 +286,7 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 class Particle {
     constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'124,58,237':'59,130,246'; }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
     update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
     draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
 }
@@ -364,39 +296,22 @@ function animateParticles() {
     particles.forEach(p=>{p.update();p.draw();});
     for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
         const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(124,58,237,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
+        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(13,148,136,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
     }
     requestAnimationFrame(animateParticles);
 }
 animateParticles();
-
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-}
-function closeSidebar() {
-    document.querySelector('.sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('open');
-}
-
-function toggleFaq(el) {
-    const answer = el.nextElementSibling;
-    const arrow = el.querySelector('.faq-arrow');
-    answer.classList.toggle('open');
-    arrow.classList.toggle('open');
-}
-
+function toggleSidebar() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+function closeSidebar() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+function toggleFaq(el) { const a = el.nextElementSibling; const arrow = el.querySelector('.faq-arrow'); a.classList.toggle('open'); arrow.classList.toggle('open'); }
 function submitForm(e) {
     e.preventDefault();
     const btn = e.target.querySelector('.btn-submit');
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-
+    btn.textContent = 'Sending...'; btn.disabled = true;
     setTimeout(() => {
         document.getElementById('successMsg').classList.add('show');
         document.getElementById('supportForm').reset();
-        btn.textContent = 'Submit Ticket →';
-        btn.disabled = false;
+        btn.textContent = 'Submit Ticket →'; btn.disabled = false;
         document.getElementById('successMsg').scrollIntoView({behavior:'smooth'});
     }, 1500);
 }

@@ -6,290 +6,63 @@
     <title>Login — HealthGuardian</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <!-- PWA -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#7C3AED">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="HealthGuardian">
-<link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0D9488">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HealthGuardian">
+    <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
-            --purple: #7C3AED;
-            --purple2: #9F67FF;
-            --blue: #3B82F6;
-            --green: #10B981;
-            --red: #EF4444;
-            --bg: #06060F;
-            --glass: rgba(255,255,255,0.03);
-            --glass2: rgba(255,255,255,0.06);
-            --border: rgba(255,255,255,0.07);
-            --border2: rgba(255,255,255,0.12);
-            --text: #EEEEFF;
-            --text2: #7B82A8;
-            --text3: #3D4268;
+            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4;
+            --green: #10B981; --red: #EF4444; --bg: #061412;
+            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
+            --border: rgba(13,148,136,0.12); --border2: rgba(13,148,136,0.2);
+            --text: #EEEEFF; --text2: #B0B8D4; --text3: #7B82A8;
         }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: -30%;
-            left: -10%;
-            width: 70%;
-            height: 70%;
-            background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%);
-            pointer-events: none;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -20%;
-            right: -10%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%);
-            pointer-events: none;
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .logo {
-            text-align: center;
-            font-family: 'Syne', sans-serif;
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 32px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            color: var(--text);
-        }
-
-        .logo-icon {
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            box-shadow: 0 0 16px rgba(124,58,237,0.4);
-        }
-
-        .logo span {
-            background: linear-gradient(135deg, var(--purple2), var(--blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 36px;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-        }
-
-        .card-title {
-            font-family: 'Syne', sans-serif;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
-        }
-
-        .card-sub {
-            font-size: 14px;
-            color: var(--text2);
-            margin-bottom: 28px;
-        }
-
-        .flash-msg {
-            padding: 11px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .flash-error {
-            background: rgba(239,68,68,0.08);
-            border: 1px solid rgba(239,68,68,0.15);
-            color: #FCA5A5;
-        }
-
-        .flash-success {
-            background: rgba(16,185,129,0.08);
-            border: 1px solid rgba(16,185,129,0.15);
-            color: #6EE7B7;
-        }
-
+        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; }
+        .container { position: relative; z-index: 1; width: 100%; max-width: 420px; }
+        .logo { text-align: center; font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; margin-bottom: 32px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text); }
+        .logo-icon { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 13px; box-shadow: 0 0 16px rgba(13,148,136,0.45); }
+        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 36px; backdrop-filter: blur(30px); }
+        .card-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 6px; color: var(--text); }
+        .card-sub { font-size: 14px; color: var(--text2); margin-bottom: 28px; }
+        .flash-msg { padding: 11px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 20px; font-weight: 500; }
+        .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
+        .flash-success { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); color: #6EE7B7; }
         .form-group { margin-bottom: 16px; }
-
-        .form-label {
-            display: block;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text2);
-            margin-bottom: 7px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px 14px;
-            background: var(--glass2);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            color: var(--text);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
-            transition: all 0.2s;
-            outline: none;
-        }
-
-        .form-input:focus {
-            border-color: rgba(124,58,237,0.4);
-            background: rgba(124,58,237,0.05);
-            box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
-        }
-
+        .form-label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-input { width: 100%; padding: 12px 14px; background: var(--glass2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; transition: all 0.2s; outline: none; }
+        .form-input:focus { border-color: rgba(13,148,136,0.4); background: rgba(13,148,136,0.07); box-shadow: 0 0 0 3px rgba(13,148,136,0.1); }
         .form-input::placeholder { color: var(--text3); }
-
-        .forgot {
-            text-align: right;
-            margin-top: -8px;
-            margin-bottom: 16px;
-        }
-
-        .forgot a {
-            font-size: 12px;
-            color: var(--text3);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
+        .forgot { text-align: right; margin-top: -8px; margin-bottom: 16px; }
+        .forgot a { font-size: 12px; color: var(--text3); text-decoration: none; transition: color 0.2s; }
         .forgot a:hover { color: var(--purple2); }
-
-        .btn-submit {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: all 0.25s;
-            margin-top: 4px;
-            letter-spacing: 0.2px;
-            box-shadow: 0 4px 20px rgba(124,58,237,0.3);
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(124,58,237,0.4);
-        }
-
+        .btn-submit { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; margin-top: 4px; letter-spacing: 0.2px; box-shadow: 0 4px 20px rgba(13,148,136,0.3); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(13,148,136,0.4); }
         .btn-submit:active { transform: translateY(0); }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 24px 0;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
+        .divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
         .divider span { font-size: 12px; color: var(--text3); }
-
-        .signup-link {
-            text-align: center;
-            font-size: 14px;
-            color: var(--text2);
-        }
-
-        .signup-link a {
-            color: var(--purple2);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
+        .signup-link { text-align: center; font-size: 14px; color: var(--text2); }
+        .signup-link a { color: var(--purple2); text-decoration: none; font-weight: 500; }
         .signup-link a:hover { text-decoration: underline; }
-
-        .back-home {
-            text-align: center;
-            margin-top: 20px;
+        .back-home { text-align: center; margin-top: 20px; }
+        .back-home a { font-size: 13px; color: var(--text2); text-decoration: none; transition: color 0.2s; }
+        .back-home a:hover { color: var(--text); }
+        .fade-in { animation: fadeUp 0.5s ease forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #061412 inset !important;
+            -webkit-text-fill-color: #EEEEFF !important;
+            caret-color: #EEEEFF;
+            border-color: rgba(13,148,136,0.4) !important;
         }
-
-        .back-home a {
-            font-size: 13px;
-            color: var(--text3);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .back-home a:hover { color: var(--text2); }
-
-        .fade-in {
-            animation: fadeUp 0.5s ease forwards;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 30px #0D0D1F inset !important;
-        -webkit-text-fill-color: #EEEEFF !important;
-        caret-color: #EEEEFF;
-        border-color: rgba(124,58,237,0.4) !important;
-}
-
-@media (max-width: 480px) {
-    body { padding: 16px; }
-    .card { padding: 24px 20px; }
-    .card-title { font-size: 20px; }
-    .logo { font-size: 17px; }
-    .btn-submit { font-size: 13px; }
-}
+        @media (max-width: 480px) { body { padding: 16px; } .card { padding: 24px 20px; } .card-title { font-size: 20px; } .logo { font-size: 17px; } .btn-submit { font-size: 13px; } }
     </style>
 </head>
 <body>
@@ -318,29 +91,19 @@
                 <label class="form-label">Email address</label>
                 <input type="email" name="email" class="form-input" placeholder="you@example.com" required autofocus>
             </div>
-
             <div class="form-group">
                 <label class="form-label">Password</label>
                 <input type="password" name="password" class="form-input" placeholder="Enter your password" required>
             </div>
-
-            <div class="forgot">
-                <a href="/forgot-password">Forgot password?</a>
-            </div>
-
+            <div class="forgot"><a href="/forgot-password">Forgot password?</a></div>
             <button type="submit" class="btn-submit">Sign in →</button>
         </form>
 
         <div class="divider"><span>or</span></div>
-
-        <div class="signup-link">
-            Don't have an account? <a href="/register">Create one free</a>
-        </div>
+        <div class="signup-link">Don't have an account? <a href="/register">Create one free</a></div>
     </div>
 
-    <div class="back-home">
-        <a href="/">← Back to home</a>
-    </div>
+    <div class="back-home"><a href="/">← Back to home</a></div>
 </div>
 
 <script>
@@ -352,7 +115,7 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 class Particle {
     constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'124,58,237':'59,130,246'; }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
     update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
     draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
 }
@@ -362,7 +125,7 @@ function animateParticles() {
     particles.forEach(p=>{p.update();p.draw();});
     for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
         const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(124,58,237,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
+        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(13,148,136,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
     }
     requestAnimationFrame(animateParticles);
 }
@@ -370,4 +133,3 @@ animateParticles();
 </script>
 </body>
 </html>
-

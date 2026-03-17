@@ -7,38 +7,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#7C3AED">
+    <meta name="theme-color" content="#0D9488">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --green: #10B981;
-            --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
-            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
-            --glass3: rgba(255,255,255,0.09);
-            --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
-            --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
+            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4; --green: #10B981;
+            --amber: #F59E0B; --red: #EF4444; --bg: #061412;
+            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
+            --glass3: rgba(13,148,136,0.13);
+            --border: rgba(13,148,136,0.12); --border2: rgba(13,148,136,0.2);
+            --text: #EEEEFF; --text2: #B0B8D4; --text3: #7B82A8;
         }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
-        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 36px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
+        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 12px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.45); }
         .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
         .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
-        .nav-item.active { background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); color: var(--purple2); border-color: rgba(124,58,237,0.25); }
+        .nav-item.active { background: linear-gradient(135deg, rgba(13,148,136,0.18), rgba(6,182,212,0.08)); color: var(--purple2); border-color: rgba(13,148,136,0.28); }
         .nav-icon { font-size: 15px; width: 20px; text-align: center; }
         .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
         .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
-        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.3); overflow: hidden; }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.3); overflow: hidden; }
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
         .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
-        .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
+        .plan-premium { background: rgba(13,148,136,0.15); color: var(--purple2); border: 1px solid rgba(13,148,136,0.25); }
         .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
@@ -51,40 +51,32 @@
         .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
         .btn-back { padding: 9px 18px; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.2s; }
         .btn-back:hover { background: var(--glass2); color: var(--text); }
-
-        /* TABS */
         .tabs { display: flex; gap: 4px; background: var(--glass); border: 1px solid var(--border); border-radius: 12px; padding: 4px; margin-bottom: 24px; width: fit-content; }
         .tab-btn { padding: 8px 20px; border-radius: 9px; border: none; background: transparent; color: var(--text2); font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
-        .tab-btn.active { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+        .tab-btn.active { background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-
-        /* FILE PREVIEW */
         .file-preview-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 24px; }
         .file-preview-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: var(--glass2); }
-        .file-preview-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .file-preview-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; color: var(--text); }
         .file-type-badge { font-size: 11px; padding: 3px 10px; border-radius: 100px; font-weight: 600; }
         .badge-pdf { background: rgba(239,68,68,0.1); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.2); }
-        .badge-image { background: rgba(59,130,246,0.1); color: var(--blue); border: 1px solid rgba(59,130,246,0.2); }
+        .badge-image { background: rgba(6,182,212,0.1); color: var(--blue); border: 1px solid rgba(6,182,212,0.2); }
         .image-preview { width: 100%; max-height: 500px; object-fit: contain; display: block; background: rgba(0,0,0,0.3); padding: 20px; }
         .pdf-embed { width: 100%; height: 600px; border: none; }
-        .btn-download { padding: 8px 16px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+        .btn-download { padding: 8px 16px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 8px; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 10px rgba(13,148,136,0.3); }
         .btn-download:hover { opacity: 0.9; }
-
-        /* SUMMARY */
         .summary-card { border-radius: 20px; padding: 28px; margin-bottom: 24px; position: relative; overflow: hidden; backdrop-filter: blur(20px); }
         .summary-card.all-normal { background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.03)); border: 1px solid rgba(16,185,129,0.2); }
         .summary-card.has-warning { background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.03)); border: 1px solid rgba(245,158,11,0.2); }
         .summary-card.has-critical { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03)); border: 1px solid rgba(239,68,68,0.2); }
         .summary-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
-        .summary-status { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+        .summary-status { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 4px; color: var(--text); }
         .summary-rec { font-size: 14px; color: var(--text2); line-height: 1.5; max-width: 600px; }
         .summary-stats { display: flex; gap: 20px; flex-wrap: wrap; }
         .sum-stat { text-align: center; min-width: 60px; }
         .sum-stat-val { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
         .sum-stat-label { font-size: 11px; color: var(--text2); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* VALUES */
         .category-section { margin-bottom: 24px; }
         .category-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--text); }
         .category-count { font-size: 12px; font-weight: 500; padding: 2px 10px; border-radius: 100px; background: var(--glass2); color: var(--text2); border: 1px solid var(--border); }
@@ -111,16 +103,14 @@
         .no-results-sub { font-size: 13px; color: var(--text3); line-height: 1.5; }
         .fade-in { animation: fadeUp 0.5s ease forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* AI ANALYSIS */
         #aiContent { font-size: 14px; color: var(--text2); line-height: 1.7; }
         .ai-section { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
         .ai-section:last-child { border-bottom: none; margin-bottom: 0; }
         .ai-section h3 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .ai-section p { color: var(--text2); line-height: 1.8; font-size: 14px; }
         .ai-table { width: 100%; border-collapse: collapse; font-size: 13px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-        .ai-table thead tr { background: rgba(124,58,237,0.1); }
-        .ai-table th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; color: var(--purple2); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(124,58,237,0.15); }
+        .ai-table thead tr { background: rgba(13,148,136,0.1); }
+        .ai-table th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; color: var(--purple2); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(13,148,136,0.15); }
         .ai-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
         .ai-table tr:last-child td { border-bottom: none; }
         .ai-table tr:hover td { background: var(--glass2); }
@@ -140,23 +130,22 @@
         .risk-desc { font-size: 13px; color: var(--text2); flex: 1; line-height: 1.5; }
         .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
         .tip-card { background: var(--glass2); border: 1px solid var(--border); border-radius: 14px; padding: 18px; transition: all 0.2s; }
-        .tip-card:hover { background: var(--glass3); transform: translateY(-2px); border-color: rgba(124,58,237,0.2); }
+        .tip-card:hover { background: var(--glass3); transform: translateY(-2px); border-color: rgba(13,148,136,0.25); }
         .tip-icon { font-size: 24px; margin-bottom: 10px; }
         .tip-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
         .tip-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
         .urgency-banner { padding: 16px 20px; border-radius: 12px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
-        .urgency-banner p { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; margin-top: 6px; }
+        .urgency-banner p { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 400; margin-top: 6px; color: inherit; opacity: 0.85; }
         .urgency-low { background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); color: #10B981; }
         .urgency-medium { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); color: #F59E0B; }
         .urgency-high { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #EF4444; }
         .urgency-critical { background: rgba(239,68,68,0.12); border: 2px solid rgba(239,68,68,0.3); color: #EF4444; }
-        .ai-disclaimer { background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.15); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text2); line-height: 1.6; margin-top: 8px; }
-
+        .ai-disclaimer { background: rgba(13,148,136,0.06); border: 1px solid rgba(13,148,136,0.15); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--text2); line-height: 1.6; margin-top: 8px; }
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 240px; }
             .sidebar.open { transform: translateX(0); }
-            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
-            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
+            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,20,18,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
+            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(13,148,136,0.2); border: 1px solid rgba(13,148,136,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
             .main { margin-left: 0; padding: 72px 16px 20px; }
             .values-grid { grid-template-columns: 1fr; }
             .summary-stats { gap: 12px; }
@@ -177,17 +166,14 @@
 
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
-        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
-        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#2DD4BF,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
     </span>
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
 </div>
 
 <aside class="sidebar">
-    <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
-        Health<span>Guardian</span>
-    </a>
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <div class="nav-section">Main</div>
     <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
     <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
@@ -199,10 +185,10 @@
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🔔</span> Alerts<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     {% else %}
     <a href="/ml-insights" class="nav-item"><span class="nav-icon">🧠</span> AI Insights</a>
-<a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     <a href="/reports" class="nav-item active"><span class="nav-icon">📋</span> Reports</a>
     <a href="/symptoms" class="nav-item"><span class="nav-icon">🩺</span> Symptom Checker</a>
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
+    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
     {% if user_plan == 'family' %}
     <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
@@ -210,10 +196,9 @@
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <a href="/support" class="nav-item"><span class="nav-icon">🎧</span> Support</a>
-    <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     <div class="sidebar-bottom">
         <div class="user-card">
-            <div class="user-avatar" style="overflow:hidden;">
+            <div class="user-avatar">
                 {% if current_user.profile_photo %}
                     <img src="{{ current_user.profile_photo }}" alt="Profile">
                 {% else %}
@@ -247,62 +232,36 @@
         </div>
     </div>
 
-    <!-- TABS -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('analysis')">
-            📊 Analysis
-        </button>
+        <button class="tab-btn active" onclick="switchTab('analysis', event)">📊 Analysis</button>
         {% if report.file_type == 'pdf' %}
-        <button class="tab-btn" onclick="switchTab('document')">
-            📄 Document
-        </button>
+        <button class="tab-btn" onclick="switchTab('document', event)">📄 Document</button>
         {% else %}
-        <button class="tab-btn" onclick="switchTab('image')">
-            🖼️ Image
-        </button>
+        <button class="tab-btn" onclick="switchTab('image', event)">🖼️ Image</button>
         {% endif %}
         {% if ai_analysis %}
-        <button class="tab-btn" onclick="switchTab('ai')">
-            🧠 AI Analysis
-        </button>
+        <button class="tab-btn" onclick="switchTab('ai', event)">🧠 AI Analysis</button>
         {% endif %}
     </div>
 
-    <!-- TAB: ANALYSIS -->
     <div class="tab-content active" id="tab-analysis">
-
         {% set card_class = 'all-normal' %}
         {% if report.critical_values > 0 %}{% set card_class = 'has-critical' %}
         {% elif report.abnormal_values > 0 %}{% set card_class = 'has-warning' %}{% endif %}
-
         <div class="summary-card {{ card_class }}">
             <div class="summary-top">
                 <div>
                     <div class="summary-status">
-                        {% if report.critical_values > 0 %}🚨
-                        {% elif report.abnormal_values > 0 %}⚠️
-                        {% else %}✅{% endif %}
+                        {% if report.critical_values > 0 %}🚨{% elif report.abnormal_values > 0 %}⚠️{% else %}✅{% endif %}
                         {{ report.overall_status }}
                     </div>
                     <div class="summary-rec">{{ report.recommendation }}</div>
                 </div>
                 <div class="summary-stats">
-                    <div class="sum-stat">
-                        <div class="sum-stat-val" style="color:var(--purple2);">{{ report.total_values }}</div>
-                        <div class="sum-stat-label">Total</div>
-                    </div>
-                    <div class="sum-stat">
-                        <div class="sum-stat-val" style="color:var(--green);">{{ report.normal_values }}</div>
-                        <div class="sum-stat-label">Normal</div>
-                    </div>
-                    <div class="sum-stat">
-                        <div class="sum-stat-val" style="color:var(--amber);">{{ report.abnormal_values }}</div>
-                        <div class="sum-stat-label">Abnormal</div>
-                    </div>
-                    <div class="sum-stat">
-                        <div class="sum-stat-val" style="color:var(--red);">{{ report.critical_values }}</div>
-                        <div class="sum-stat-label">Critical</div>
-                    </div>
+                    <div class="sum-stat"><div class="sum-stat-val" style="color:var(--purple2);">{{ report.total_values }}</div><div class="sum-stat-label">Total</div></div>
+                    <div class="sum-stat"><div class="sum-stat-val" style="color:var(--green);">{{ report.normal_values }}</div><div class="sum-stat-label">Normal</div></div>
+                    <div class="sum-stat"><div class="sum-stat-val" style="color:var(--amber);">{{ report.abnormal_values }}</div><div class="sum-stat-label">Abnormal</div></div>
+                    <div class="sum-stat"><div class="sum-stat-val" style="color:var(--red);">{{ report.critical_values }}</div><div class="sum-stat-label">Critical</div></div>
                 </div>
             </div>
         </div>
@@ -310,34 +269,21 @@
         {% if categories %}
             {% for category, values in categories.items() %}
             <div class="category-section">
-                <div class="category-title">
-                    {{ category }}
-                    <span class="category-count">{{ values|length }} values</span>
-                </div>
+                <div class="category-title">{{ category }}<span class="category-count">{{ values|length }} values</span></div>
                 <div class="values-grid">
                     {% for r in values %}
                     <div class="value-card {{ r.status }}">
                         <div class="value-header">
                             <div class="value-name">{{ r.name }}</div>
-                            <div class="value-icon">
-                                {% if r.status == 'normal' %}✅
-                                {% elif r.status in ['critically_high', 'critically_low'] %}🚨
-                                {% else %}⚠️{% endif %}
-                            </div>
+                            <div class="value-icon">{% if r.status == 'normal' %}✅{% elif r.status in ['critically_high', 'critically_low'] %}🚨{% else %}⚠️{% endif %}</div>
                         </div>
-                        <div class="value-number" style="color:{% if r.status == 'normal' %}var(--green){% elif r.status in ['critically_high','critically_low'] %}var(--red){% else %}var(--amber){% endif %};">
-                            {{ r.value }}
-                        </div>
+                        <div class="value-number" style="color:{% if r.status == 'normal' %}var(--green){% elif r.status in ['critically_high','critically_low'] %}var(--red){% else %}var(--amber){% endif %};">{{ r.value }}</div>
                         <div class="value-unit">{{ r.unit }}</div>
                         {% if r.min_range and r.max_range %}
-                        <div class="value-bar-wrap">
-                            <div class="value-bar" style="width:{{ [[(r.value - r.min_range) / (r.max_range - r.min_range) * 100, 0]|max, 100]|min }}%;background:{% if r.status == 'normal' %}var(--green){% elif r.status in ['critically_high','critically_low'] %}var(--red){% else %}var(--amber){% endif %};"></div>
-                        </div>
+                        <div class="value-bar-wrap"><div class="value-bar" style="width:{{ [[(r.value - r.min_range) / (r.max_range - r.min_range) * 100, 0]|max, 100]|min }}%;background:{% if r.status == 'normal' %}var(--green){% elif r.status in ['critically_high','critically_low'] %}var(--red){% else %}var(--amber){% endif %};"></div></div>
                         {% endif %}
                         <div class="value-message">{{ r.message }}</div>
-                        {% if r.min_range and r.max_range %}
-                        <div class="value-range">Normal: {{ r.min_range }} – {{ r.max_range }} {{ r.unit }}</div>
-                        {% endif %}
+                        {% if r.min_range and r.max_range %}<div class="value-range">Normal: {{ r.min_range }} – {{ r.max_range }} {{ r.unit }}</div>{% endif %}
                     </div>
                     {% endfor %}
                 </div>
@@ -352,16 +298,13 @@
         {% endif %}
     </div>
 
-    <!-- TAB: DOCUMENT/IMAGE -->
     <div class="tab-content" id="tab-document">
         <div class="file-preview-card">
             <div class="file-preview-header">
                 <div class="file-preview-title">
                     {% if report.file_type == 'pdf' %}📄{% else %}🖼️{% endif %}
                     {{ report.original_name }}
-                    <span class="file-type-badge {% if report.file_type == 'pdf' %}badge-pdf{% else %}badge-image{% endif %}">
-                        {{ report.file_type | upper }}
-                    </span>
+                    <span class="file-type-badge {% if report.file_type == 'pdf' %}badge-pdf{% else %}badge-image{% endif %}">{{ report.file_type | upper }}</span>
                 </div>
                 <a href="/static/uploads/{{ report.filename }}" download="{{ report.original_name }}" class="btn-download">⬇️ Download</a>
             </div>
@@ -373,49 +316,32 @@
         </div>
     </div>
 
-    <!-- TAB: AI ANALYSIS -->
     <div class="tab-content" id="tab-ai">
         {% if ai_analysis %}
-        <div style="background:var(--glass); border:1px solid var(--border); border-radius:20px; overflow:hidden; backdrop-filter:blur(20px);">
-            <div style="padding:20px 28px; border-bottom:1px solid var(--border); background:linear-gradient(135deg, rgba(124,58,237,0.08), rgba(59,130,246,0.04)); display:flex; align-items:center; gap:12px;">
-                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🧠</div>
+        <div style="background:var(--glass);border:1px solid var(--border);border-radius:20px;overflow:hidden;backdrop-filter:blur(20px);">
+            <div style="padding:20px 28px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(13,148,136,0.09),rgba(6,182,212,0.05));display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🧠</div>
                 <div>
                     <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--text);">AI Medical Analysis</div>
-                    <div style="font-size:12px;color:var(--text3);margin-top:2px;">Powered by Llama 3.3 70B — For educational purposes only</div>
+                    <div style="font-size:12px;color:var(--text3);margin-top:2px;">Powered by Groq — For educational purposes only</div>
                 </div>
             </div>
-            <div style="padding:28px;" id="aiContent">
-                {{ ai_analysis | safe }}
-            </div>
+            <div style="padding:28px;" id="aiContent">{{ ai_analysis | safe }}</div>
         </div>
         {% endif %}
     </div>
-
 </main>
 
 <script>
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-}
-function closeSidebar() {
-    document.querySelector('.sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('open');
-}
-
-function switchTab(tab) {
-    // Hide all tabs
+function toggleSidebar() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+function closeSidebar() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
+function switchTab(tab, event) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-
-    // Show selected tab
     const tabEl = document.getElementById('tab-' + tab);
     if (tabEl) tabEl.classList.add('active');
-
-    // Active button
-    event.target.classList.add('active');
+    if (event) event.target.classList.add('active');
 }
-
 window.addEventListener('load', () => {
     document.querySelectorAll('.value-bar').forEach(bar => {
         const width = bar.style.width;
@@ -426,4 +352,3 @@ window.addEventListener('load', () => {
 </script>
 </body>
 </html>
-
