@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#7C3AED">
+    <meta name="theme-color" content="#0D9488">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HealthGuardian">
@@ -16,33 +16,33 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --purple: #7C3AED; --purple2: #9F67FF; --blue: #3B82F6; --cyan: #06B6D4;
-            --green: #10B981; --amber: #F59E0B; --red: #EF4444; --bg: #06060F;
-            --glass: rgba(255,255,255,0.03); --glass2: rgba(255,255,255,0.06);
-            --glass3: rgba(255,255,255,0.09); --border: rgba(255,255,255,0.07);
-            --border2: rgba(255,255,255,0.12); --text: #EEEEFF; --text2: #7B82A8; --text3: #3D4268;
+            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4; --cyan: #06B6D4;
+            --green: #10B981; --amber: #F59E0B; --red: #EF4444; --bg: #061412;
+            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
+            --glass3: rgba(13,148,136,0.13); --border: rgba(13,148,136,0.12);
+            --border2: rgba(13,148,136,0.2); --text: #EEEEFF; --text2: #B0B8D4; --text3: #7B82A8;
         }
         body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(124,58,237,0.12) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,6,15,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; overflow-y: auto; scrollbar-width: none; }
+        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
+        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; overflow-y: auto; scrollbar-width: none; }
         .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; letter-spacing: -0.3px; padding: 0 6px; margin-bottom: 12px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; }
-        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4); }
+        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.45); }
         .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
         .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; font-weight: 400; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
         .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
-        .nav-item.active { background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(59,130,246,0.08)); color: var(--purple2); border-color: rgba(124,58,237,0.25); }
+        .nav-item.active { background: linear-gradient(135deg, rgba(13,148,136,0.18), rgba(6,182,212,0.08)); color: var(--purple2); border-color: rgba(13,148,136,0.28); }
         .nav-icon { font-size: 15px; width: 20px; text-align: center; opacity: 0.8; }
         .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
         .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
-        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.3); overflow: hidden; }
+        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.3); overflow: hidden; }
         .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
         .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 160px; }
         .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
         .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
-        .plan-premium { background: rgba(124,58,237,0.15); color: var(--purple2); border: 1px solid rgba(124,58,237,0.25); }
+        .plan-premium { background: rgba(13,148,136,0.15); color: var(--purple2); border: 1px solid rgba(13,148,136,0.25); }
         .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
         .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
         .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
@@ -53,8 +53,8 @@
         .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
         .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
         .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
-        .btn-primary { padding: 10px 22px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.25s; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 20px rgba(124,58,237,0.35); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.45); }
+        .btn-primary { padding: 10px 22px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.25s; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 20px rgba(13,148,136,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(13,148,136,0.4); }
         .warning-banner { background: linear-gradient(135deg, rgba(245,158,11,0.07), rgba(245,158,11,0.03)); border: 1px solid rgba(245,158,11,0.15); border-radius: 14px; padding: 14px 18px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
         .warning-banner.high { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03)); border-color: rgba(239,68,68,0.15); }
         .warning-icon { font-size: 18px; flex-shrink: 0; }
@@ -75,7 +75,7 @@
         .stat-card.blue::after { background: linear-gradient(90deg, transparent, var(--blue), transparent); }
         .stat-card.amber::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
         .stat-card.red::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
-        .stat-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
+        .stat-label { font-size: 11px; color: var(--text2); font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
         .stat-value { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 700; letter-spacing: -1px; margin-bottom: 2px; }
         .stat-value.green { color: var(--green); }
         .stat-value.blue { color: var(--blue); }
@@ -87,7 +87,7 @@
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .card-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
         .card-badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 100px; }
-        .badge-purple { background: rgba(124,58,237,0.12); color: var(--purple2); border: 1px solid rgba(124,58,237,0.2); }
+        .badge-purple { background: rgba(13,148,136,0.12); color: var(--purple2); border: 1px solid rgba(13,148,136,0.2); }
         .badge-green { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); text-decoration: none; cursor: pointer; }
         .chart-container { position: relative; height: 210px; }
         .health-score-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 16px 0; }
@@ -121,14 +121,14 @@
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .extra-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
         .locked-card { position: relative; overflow: hidden; }
-        .locked-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(6,6,15,0.7); backdrop-filter: blur(4px); border-radius: 18px; }
+        .locked-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(6,20,18,0.75); backdrop-filter: blur(4px); border-radius: 18px; }
         .locked-blur { filter: blur(3px); pointer-events: none; opacity: 0.3; }
         @media (max-width: 1024px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } .grid-2 { grid-template-columns: 1fr; } .extra-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); width: 240px; }
             .sidebar.open { transform: translateX(0); }
-            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,6,15,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
-            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
+            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,20,18,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
+            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(13,148,136,0.2); border: 1px solid rgba(13,148,136,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
             .main { margin-left: 0; padding: 72px 16px 20px; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .grid-2 { grid-template-columns: 1fr; }
@@ -145,23 +145,18 @@
 
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
-        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7C3AED,#3B82F6);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
-        Health<span style="background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
+        <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
+        Health<span style="background:linear-gradient(135deg,#2DD4BF,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Guardian</span>
     </span>
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
 </div>
 
 <aside class="sidebar">
-    <a href="/" class="logo">
-        <div class="logo-icon">⚡</div>
-        Health<span>Guardian</span>
-    </a>
-
+    <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <div class="nav-section">Main</div>
     <a href="/dashboard" class="nav-item active"><span class="nav-icon">📊</span> Dashboard</a>
     <a href="/checkin" class="nav-item"><span class="nav-icon">✅</span> Daily Check-in</a>
     <a href="/history" class="nav-item"><span class="nav-icon">📈</span> History</a>
-
     {% if user_plan == 'free' %}
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">🧠</span> AI Insights<span style="font-size:10px;margin-left:auto;">🔒</span></a>
     <a href="/pricing" class="nav-item" style="opacity:0.5;"><span class="nav-icon">📋</span> Reports<span style="font-size:10px;margin-left:auto;">🔒</span></a>
@@ -174,23 +169,17 @@
     <a href="/alerts" class="nav-item"><span class="nav-icon">🔔</span> Alerts</a>
     <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
-
     {% if user_plan == 'family' %}
     <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
     {% endif %}
-
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
     <a href="/support" class="nav-item"><span class="nav-icon">🎧</span> Support</a>
-
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar">
-                {% if current_user.profile_photo %}
-                    <img src="{{ current_user.profile_photo }}" alt="Profile">
-                {% else %}
-                    {{ current_user.fullname[0].upper() }}
-                {% endif %}
+                {% if current_user.profile_photo %}<img src="{{ current_user.profile_photo }}" alt="Profile">
+                {% else %}{{ current_user.fullname[0].upper() }}{% endif %}
             </div>
             <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
@@ -228,7 +217,7 @@
     </div>
 
     {% if user_plan == 'free' %}
-    <div style="background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(59,130,246,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+    <div style="background:linear-gradient(135deg,rgba(13,148,136,0.1),rgba(6,182,212,0.06));border:1px solid rgba(13,148,136,0.22);border-radius:14px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
         <div style="display:flex;align-items:center;gap:10px;">
             <span style="font-size:20px;">⭐</span>
             <div>
@@ -251,7 +240,6 @@
         </div>
     {% endif %}
 
-    <!-- STREAK CARD -->
     <div class="card fade-in" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(245,158,11,0.03));border:1px solid rgba(245,158,11,0.2);">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
             <div style="display:flex;align-items:center;gap:16px;">
@@ -283,38 +271,15 @@
     </div>
 
     <div class="stats-grid fade-in">
-        <div class="stat-card green">
-            <div class="stat-glow"></div>
-            <div class="stat-label">Avg Energy</div>
-            <div class="stat-value green">{{ avg_energy }}<span style="font-size:15px;font-weight:400;">/10</span></div>
-            <div class="stat-change">Last 30 days</div>
-        </div>
-        <div class="stat-card blue">
-            <div class="stat-glow"></div>
-            <div class="stat-label">Avg Sleep</div>
-            <div class="stat-value blue">{{ avg_sleep }}<span style="font-size:15px;font-weight:400;">/10</span></div>
-            <div class="stat-change">Last 30 days</div>
-        </div>
-        <div class="stat-card amber">
-            <div class="stat-glow"></div>
-            <div class="stat-label">Avg Mood</div>
-            <div class="stat-value amber">{{ avg_mood }}<span style="font-size:15px;font-weight:400;">/10</span></div>
-            <div class="stat-change">Last 30 days</div>
-        </div>
-        <div class="stat-card red">
-            <div class="stat-glow"></div>
-            <div class="stat-label">Avg Pain</div>
-            <div class="stat-value red">{{ avg_pain }}<span style="font-size:15px;font-weight:400;">/10</span></div>
-            <div class="stat-change">Last 30 days</div>
-        </div>
+        <div class="stat-card green"><div class="stat-glow"></div><div class="stat-label">Avg Energy</div><div class="stat-value green">{{ avg_energy }}<span style="font-size:15px;font-weight:400;">/10</span></div><div class="stat-change">Last 30 days</div></div>
+        <div class="stat-card blue"><div class="stat-glow"></div><div class="stat-label">Avg Sleep</div><div class="stat-value blue">{{ avg_sleep }}<span style="font-size:15px;font-weight:400;">/10</span></div><div class="stat-change">Last 30 days</div></div>
+        <div class="stat-card amber"><div class="stat-glow"></div><div class="stat-label">Avg Mood</div><div class="stat-value amber">{{ avg_mood }}<span style="font-size:15px;font-weight:400;">/10</span></div><div class="stat-change">Last 30 days</div></div>
+        <div class="stat-card red"><div class="stat-glow"></div><div class="stat-label">Avg Pain</div><div class="stat-value red">{{ avg_pain }}<span style="font-size:15px;font-weight:400;">/10</span></div><div class="stat-change">Last 30 days</div></div>
     </div>
 
     <div class="extra-grid fade-in">
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">📊 Weekly Summary</div>
-                <span class="card-badge badge-purple">vs last week</span>
-            </div>
+            <div class="card-header"><div class="card-title">📊 Weekly Summary</div><span class="card-badge badge-purple">vs last week</span></div>
             <div style="display:flex;flex-direction:column;gap:10px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);">
                     <span style="font-size:13px;color:var(--text2);">Energy</span>
@@ -347,36 +312,29 @@
         </div>
 
         <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
-            <div class="card-header" style="width:100%;">
-                <div class="card-title">🎯 Monthly Progress</div>
-            </div>
+            <div class="card-header" style="width:100%;"><div class="card-title">🎯 Monthly Progress</div></div>
             <div style="position:relative;width:120px;height:120px;margin:8px 0 14px;">
                 <svg width="120" height="120" viewBox="0 0 120 120" style="transform:rotate(-90deg);">
-                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(124,58,237,0.1)" stroke-width="10"/>
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(13,148,136,0.12)" stroke-width="10"/>
                     <circle cx="60" cy="60" r="50" fill="none" stroke="url(#progressGrad)" stroke-width="10"
                         stroke-dasharray="{{ (progress_pct / 100 * 314.2) | round(1) }} 314.2" stroke-linecap="round"/>
                     <defs>
                         <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#7C3AED"/>
-                            <stop offset="100%" stop-color="#3B82F6"/>
+                            <stop offset="0%" stop-color="#0D9488"/>
+                            <stop offset="100%" stop-color="#06B6D4"/>
                         </linearGradient>
                     </defs>
                 </svg>
                 <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-                    <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,#9F67FF,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">{{ progress_pct }}%</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;background:linear-gradient(135deg,#2DD4BF,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;">{{ progress_pct }}%</div>
                 </div>
             </div>
-            <div style="font-size:13px;color:var(--text2);text-align:center;">
-                <span style="color:var(--text);font-weight:600;">{{ this_month }}</span> / {{ days_in_month }} days
-            </div>
+            <div style="font-size:13px;color:var(--text2);text-align:center;"><span style="color:var(--text);font-weight:600;">{{ this_month }}</span> / {{ days_in_month }} days</div>
             <div style="font-size:11px;color:var(--text3);margin-top:4px;">This month</div>
         </div>
 
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">💡 Health Tips</div>
-                <span class="card-badge badge-green">Personalised</span>
-            </div>
+            <div class="card-header"><div class="card-title">💡 Health Tips</div><span class="card-badge badge-green">Personalised</span></div>
             <div style="display:flex;flex-direction:column;gap:10px;">
                 {% for tip in tips %}
                 <div style="padding:10px 14px;background:var(--glass2);border-radius:10px;border:1px solid var(--border);font-size:13px;color:var(--text2);line-height:1.5;">{{ tip }}</div>
@@ -391,58 +349,27 @@
     {% if user_plan == 'free' %}
     <div class="extra-grid fade-in" style="margin-bottom:14px;">
         <div class="card locked-card">
-            <div class="locked-blur">
-                <div class="card-header"><div class="card-title">🧠 AI Insights</div></div>
-                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
-            </div>
-            <div class="locked-overlay">
-                <span style="font-size:28px;">🔒</span>
-                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
-                <div style="font-size:12px;color:var(--text2);text-align:center;">AI pattern detection & insights</div>
-                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
-            </div>
+            <div class="locked-blur"><div class="card-header"><div class="card-title">🧠 AI Insights</div></div><div style="height:100px;background:var(--glass2);border-radius:10px;"></div></div>
+            <div class="locked-overlay"><span style="font-size:28px;">🔒</span><div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div><div style="font-size:12px;color:var(--text2);text-align:center;">AI pattern detection & insights</div><a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a></div>
         </div>
         <div class="card locked-card">
-            <div class="locked-blur">
-                <div class="card-header"><div class="card-title">📋 Medical Reports</div></div>
-                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
-            </div>
-            <div class="locked-overlay">
-                <span style="font-size:28px;">🔒</span>
-                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
-                <div style="font-size:12px;color:var(--text2);text-align:center;">Upload & analyze medical reports</div>
-                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
-            </div>
+            <div class="locked-blur"><div class="card-header"><div class="card-title">📋 Medical Reports</div></div><div style="height:100px;background:var(--glass2);border-radius:10px;"></div></div>
+            <div class="locked-overlay"><span style="font-size:28px;">🔒</span><div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div><div style="font-size:12px;color:var(--text2);text-align:center;">Upload & analyze medical reports</div><a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a></div>
         </div>
         <div class="card locked-card">
-            <div class="locked-blur">
-                <div class="card-header"><div class="card-title">🩺 Symptom Checker</div></div>
-                <div style="height:100px;background:var(--glass2);border-radius:10px;"></div>
-            </div>
-            <div class="locked-overlay">
-                <span style="font-size:28px;">🔒</span>
-                <div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div>
-                <div style="font-size:12px;color:var(--text2);text-align:center;">AI-powered symptom analysis</div>
-                <a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a>
-            </div>
+            <div class="locked-blur"><div class="card-header"><div class="card-title">🩺 Symptom Checker</div></div><div style="height:100px;background:var(--glass2);border-radius:10px;"></div></div>
+            <div class="locked-overlay"><span style="font-size:28px;">🔒</span><div style="font-size:14px;font-weight:600;color:var(--text);">Premium Feature</div><div style="font-size:12px;color:var(--text2);text-align:center;">AI-powered symptom analysis</div><a href="/pricing" style="padding:8px 18px;background:linear-gradient(135deg,var(--purple),var(--blue));color:#fff;border-radius:8px;font-size:12px;font-weight:500;text-decoration:none;">Unlock Now →</a></div>
         </div>
     </div>
     {% endif %}
 
     <div class="grid-2 fade-in">
         <div class="card">
-            <div class="card-header">
-                <div class="card-title">Health Trends</div>
-                <span class="card-badge badge-purple">Last 7 days</span>
-            </div>
+            <div class="card-header"><div class="card-title">Health Trends</div><span class="card-badge badge-purple">Last 7 days</span></div>
             {% if chart_labels %}
                 <div class="chart-container"><canvas id="trendChart"></canvas></div>
             {% else %}
-                <div class="no-data">
-                    <div class="no-data-icon">📊</div>
-                    <div class="no-data-title">No data yet</div>
-                    <div class="no-data-sub">Complete your first check-in to see trends</div>
-                </div>
+                <div class="no-data"><div class="no-data-icon">📊</div><div class="no-data-title">No data yet</div><div class="no-data-sub">Complete your first check-in to see trends</div></div>
             {% endif %}
         </div>
         <div class="card">
@@ -452,51 +379,34 @@
                     {% set score = ((avg_energy + avg_sleep + avg_mood + (10 - avg_pain)) / 4) | round(0) | int %}
                     <div class="score-circle">
                         <svg width="140" height="140" viewBox="0 0 140 140">
-                            <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(124,58,237,0.1)" stroke-width="10"/>
+                            <circle cx="70" cy="70" r="56" fill="none" stroke="rgba(13,148,136,0.12)" stroke-width="10"/>
                             <circle cx="70" cy="70" r="56" fill="none" stroke="url(#scoreGrad)" stroke-width="10"
                                 stroke-dasharray="{{ (score / 10 * 351.9) | round(1) }} 351.9" stroke-linecap="round"/>
                             <defs>
                                 <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                                    <stop offset="0%" stop-color="#7C3AED"/>
-                                    <stop offset="100%" stop-color="#3B82F6"/>
+                                    <stop offset="0%" stop-color="#0D9488"/>
+                                    <stop offset="100%" stop-color="#06B6D4"/>
                                 </linearGradient>
                             </defs>
                         </svg>
-                        <div class="score-number">
-                            <div class="score-num">{{ score }}</div>
-                            <div class="score-label">/ 10</div>
-                        </div>
+                        <div class="score-number"><div class="score-num">{{ score }}</div><div class="score-label">/ 10</div></div>
                     </div>
-                    <div class="score-status">
-                        {% if score >= 7 %}Good Health ✅
-                        {% elif score >= 5 %}Moderate ⚡
-                        {% else %}Needs Attention ⚠️{% endif %}
-                    </div>
+                    <div class="score-status">{% if score >= 7 %}Good Health ✅{% elif score >= 5 %}Moderate ⚡{% else %}Needs Attention ⚠️{% endif %}</div>
                     <div class="score-sub">Based on {{ checkins|length }} check-ins</div>
                 {% else %}
-                    <div class="no-data">
-                        <div class="no-data-icon">🎯</div>
-                        <div class="no-data-title">No score yet</div>
-                        <div class="no-data-sub">Complete check-ins to get your score</div>
-                    </div>
+                    <div class="no-data"><div class="no-data-icon">🎯</div><div class="no-data-title">No score yet</div><div class="no-data-sub">Complete check-ins to get your score</div></div>
                 {% endif %}
             </div>
         </div>
     </div>
 
     <div class="card fade-in">
-        <div class="card-header">
-            <div class="card-title">Recent Check-ins</div>
-            <a href="/checkin" class="card-badge badge-green">+ New</a>
-        </div>
+        <div class="card-header"><div class="card-title">Recent Check-ins</div><a href="/checkin" class="card-badge badge-green">+ New</a></div>
         {% if checkins %}
             <ul class="checkin-list">
                 {% for c in checkins[:7] %}
                 <li class="checkin-item">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                        <div class="risk-dot dot-{{ c.risk_level }}"></div>
-                        <div class="checkin-date">{{ c.date.strftime('%d %b %Y') }}</div>
-                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;"><div class="risk-dot dot-{{ c.risk_level }}"></div><div class="checkin-date">{{ c.date.strftime('%d %b %Y') }}</div></div>
                     <div class="checkin-scores">
                         <span class="mini-badge mini-green">E: {{ c.energy }}</span>
                         <span class="mini-badge mini-green">S: {{ c.sleep }}</span>
@@ -507,14 +417,9 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <div class="no-data">
-                <div class="no-data-icon">📝</div>
-                <div class="no-data-title">No check-ins yet</div>
-                <div class="no-data-sub">Start your first daily check-in now</div>
-            </div>
+            <div class="no-data"><div class="no-data-icon">📝</div><div class="no-data-title">No check-ins yet</div><div class="no-data-sub">Start your first daily check-in now</div></div>
         {% endif %}
     </div>
-
 </main>
 
 <script>
@@ -526,20 +431,20 @@ new Chart(ctx, {
         labels: {{ chart_labels | tojson }},
         datasets: [
             { label: 'Energy', data: {{ chart_energy | tojson }}, borderColor: '#10B981', backgroundColor: 'rgba(16,185,129,0.08)', tension: 0.4, fill: true, pointBackgroundColor: '#10B981', pointRadius: 4, pointHoverRadius: 6 },
-            { label: 'Sleep', data: {{ chart_sleep | tojson }}, borderColor: '#3B82F6', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#3B82F6', pointRadius: 4, pointHoverRadius: 6 },
-            { label: 'Mood', data: {{ chart_mood | tojson }}, borderColor: '#9F67FF', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#9F67FF', pointRadius: 4, pointHoverRadius: 6 }
+            { label: 'Sleep', data: {{ chart_sleep | tojson }}, borderColor: '#06B6D4', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#06B6D4', pointRadius: 4, pointHoverRadius: 6 },
+            { label: 'Mood', data: {{ chart_mood | tojson }}, borderColor: '#2DD4BF', backgroundColor: 'transparent', tension: 0.4, fill: false, pointBackgroundColor: '#2DD4BF', pointRadius: 4, pointHoverRadius: 6 }
         ]
     },
     options: {
         responsive: true, maintainAspectRatio: false,
         interaction: { intersect: false, mode: 'index' },
         plugins: {
-            legend: { labels: { color: '#7B82A8', font: { family: 'DM Sans', size: 12 }, boxWidth: 10, boxHeight: 10, borderRadius: 3, padding: 16 } },
-            tooltip: { backgroundColor: 'rgba(6,6,15,0.9)', borderColor: 'rgba(124,58,237,0.3)', borderWidth: 1, titleColor: '#EEEEFF', bodyColor: '#7B82A8', padding: 10, cornerRadius: 10 }
+            legend: { labels: { color: '#B0B8D4', font: { family: 'DM Sans', size: 12 }, boxWidth: 10, boxHeight: 10, borderRadius: 3, padding: 16 } },
+            tooltip: { backgroundColor: 'rgba(6,20,18,0.92)', borderColor: 'rgba(13,148,136,0.3)', borderWidth: 1, titleColor: '#EEEEFF', bodyColor: '#B0B8D4', padding: 10, cornerRadius: 10 }
         },
         scales: {
-            x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } } },
-            y: { min: 0, max: 10, grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#3D4268', font: { family: 'DM Sans', size: 11 } } }
+            x: { grid: { color: 'rgba(13,148,136,0.05)' }, ticks: { color: '#7B82A8', font: { family: 'DM Sans', size: 11 } } },
+            y: { min: 0, max: 10, grid: { color: 'rgba(13,148,136,0.05)' }, ticks: { color: '#7B82A8', font: { family: 'DM Sans', size: 11 } } }
         }
     }
 });
@@ -553,7 +458,7 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 class Particle {
     constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'124,58,237':'59,130,246'; }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
     update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
     draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
 }
@@ -563,20 +468,13 @@ function animateParticles() {
     particles.forEach(p=>{p.update();p.draw();});
     for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
         const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(124,58,237,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
+        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(13,148,136,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
     }
     requestAnimationFrame(animateParticles);
 }
 animateParticles();
-
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('open');
-    document.getElementById('overlay').classList.toggle('open');
-}
-function closeSidebar() {
-    document.querySelector('.sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('open');
-}
+function toggleSidebar() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
+function closeSidebar() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
 </script>
 <script>
 if ('serviceWorker' in navigator) {
