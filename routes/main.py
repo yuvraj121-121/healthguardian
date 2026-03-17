@@ -71,17 +71,17 @@ def dashboard():
     progress_pct = round((this_month / days_in_month) * 100)
 
     avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_sleep  = round(sum(c.sleep  for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_mood   = round(sum(c.mood   for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_pain   = round(sum(c.pain   for c in checkins) / len(checkins), 1) if checkins else 0
 
     lw_energy = round(sum(c.energy for c in last_week) / len(last_week), 1) if last_week else 0
-    lw_sleep = round(sum(c.sleep for c in last_week) / len(last_week), 1) if last_week else 0
-    lw_mood = round(sum(c.mood for c in last_week) / len(last_week), 1) if last_week else 0
+    lw_sleep  = round(sum(c.sleep  for c in last_week) / len(last_week), 1) if last_week else 0
+    lw_mood   = round(sum(c.mood   for c in last_week) / len(last_week), 1) if last_week else 0
 
     energy_change = round(avg_energy - lw_energy, 1) if lw_energy else 0
-    sleep_change = round(avg_sleep - lw_sleep, 1) if lw_sleep else 0
-    mood_change = round(avg_mood - lw_mood, 1) if lw_mood else 0
+    sleep_change  = round(avg_sleep  - lw_sleep,  1) if lw_sleep  else 0
+    mood_change   = round(avg_mood   - lw_mood,   1) if lw_mood   else 0
 
     tips = []
     if checkins:
@@ -98,48 +98,48 @@ def dashboard():
 
     chart_labels = [c.date.strftime('%d %b') for c in last_7]
     chart_energy = [c.energy for c in last_7]
-    chart_sleep = [c.sleep for c in last_7]
-    chart_mood = [c.mood for c in last_7]
+    chart_sleep  = [c.sleep  for c in last_7]
+    chart_mood   = [c.mood   for c in last_7]
 
     warnings = [c for c in checkins if c.risk_level in ['high', 'medium']]
 
-    streak = current_user.streak or 0
-    max_streak = current_user.max_streak or 0
+    # FIX 1: getattr — streak column nahi hai model mein abhi, crash nahi hoga
+    streak     = getattr(current_user, 'streak', 0) or 0
+    max_streak = getattr(current_user, 'max_streak', 0) or 0
 
     return render_template('dashboard.html',
-    streak=streak,
-    max_streak=max_streak,
-    checkins=checkins,
-    today_checkin=today_checkin,
-    avg_energy=avg_energy,
-    avg_sleep=avg_sleep,
-    avg_mood=avg_mood,
-    avg_pain=avg_pain,
-    energy_change=energy_change,
-    sleep_change=sleep_change,
-    mood_change=mood_change,
-    chart_labels=chart_labels,
-    chart_energy=chart_energy,
-    chart_sleep=chart_sleep,
-    chart_mood=chart_mood,
-    warnings=warnings,
-    tips=tips,
-    this_month=this_month,
-    days_in_month=days_in_month,
-    progress_pct=progress_pct,
-    user_plan=current_user.plan
-)
+        streak=streak,
+        max_streak=max_streak,
+        checkins=checkins,
+        today_checkin=today_checkin,
+        avg_energy=avg_energy,
+        avg_sleep=avg_sleep,
+        avg_mood=avg_mood,
+        avg_pain=avg_pain,
+        energy_change=energy_change,
+        sleep_change=sleep_change,
+        mood_change=mood_change,
+        chart_labels=chart_labels,
+        chart_energy=chart_energy,
+        chart_sleep=chart_sleep,
+        chart_mood=chart_mood,
+        warnings=warnings,
+        tips=tips,
+        this_month=this_month,
+        days_in_month=days_in_month,
+        progress_pct=progress_pct,
+        user_plan=current_user.plan
+    )
 
 
 @main.route('/history')
 @login_required
 def history():
-    page = request.args.get('page', 1, type=int)
+    page        = request.args.get('page', 1, type=int)
     filter_risk = request.args.get('risk', 'all')
 
     query = CheckIn.query.filter_by(user_id=current_user.id)
 
-    # 30 days limit for free users
     if current_user.plan == 'free':
         thirty_days_ago = datetime.utcnow() - timedelta(days=30)
         query = query.filter(CheckIn.date >= thirty_days_ago)
@@ -147,14 +147,11 @@ def history():
     if filter_risk != 'all':
         query = query.filter_by(risk_level=filter_risk)
 
-    checkins = query.order_by(CheckIn.date.desc()).paginate(
-        page=page, per_page=10, error_out=False
-    )
-
-    total = CheckIn.query.filter_by(user_id=current_user.id).count()
-    high_count = CheckIn.query.filter_by(user_id=current_user.id, risk_level='high').count()
+    checkins     = query.order_by(CheckIn.date.desc()).paginate(page=page, per_page=10, error_out=False)
+    total        = CheckIn.query.filter_by(user_id=current_user.id).count()
+    high_count   = CheckIn.query.filter_by(user_id=current_user.id, risk_level='high').count()
     medium_count = CheckIn.query.filter_by(user_id=current_user.id, risk_level='medium').count()
-    low_count = CheckIn.query.filter_by(user_id=current_user.id, risk_level='low').count()
+    low_count    = CheckIn.query.filter_by(user_id=current_user.id, risk_level='low').count()
 
     return render_template('history.html',
         checkins=checkins,
@@ -175,8 +172,8 @@ def settings():
 
         if action == 'update_profile':
             current_user.fullname = request.form.get('fullname')
-            current_user.age = request.form.get('age')
-            current_user.gender = request.form.get('gender')
+            current_user.age      = request.form.get('age')
+            current_user.gender   = request.form.get('gender')
 
             if 'profile_photo' in request.files:
                 file = request.files['profile_photo']
@@ -187,12 +184,7 @@ def settings():
                             folder="healthguardian",
                             public_id=f"profile_{current_user.id}",
                             overwrite=True,
-                            transformation=[{
-                                'width': 200,
-                                'height': 200,
-                                'crop': 'fill',
-                                'gravity': 'face'
-                            }]
+                            transformation=[{'width': 200, 'height': 200, 'crop': 'fill', 'gravity': 'face'}]
                         )
                         current_user.profile_photo = result['secure_url']
                     except Exception as e:
@@ -210,7 +202,7 @@ def settings():
             db.session.commit()
             return redirect(url_for('main.settings') + '?msg=password_updated')
 
-    msg = request.args.get('msg', '')
+    msg            = request.args.get('msg', '')
     total_checkins = CheckIn.query.filter_by(user_id=current_user.id).count()
 
     return render_template('settings.html',
@@ -245,13 +237,11 @@ def alerts():
         return redirect(url_for('payment.pricing'))
 
     high_alerts = CheckIn.query.filter_by(
-        user_id=current_user.id,
-        risk_level='high'
+        user_id=current_user.id, risk_level='high'
     ).order_by(CheckIn.date.desc()).all()
 
     medium_alerts = CheckIn.query.filter_by(
-        user_id=current_user.id,
-        risk_level='medium'
+        user_id=current_user.id, risk_level='medium'
     ).order_by(CheckIn.date.desc()).all()
 
     total_alerts = len(high_alerts) + len(medium_alerts)
@@ -297,16 +287,16 @@ def upload_report():
     if not allowed_file(file.filename):
         return redirect(url_for('main.reports') + '?error=invalid_type')
 
-    filename = secure_filename(file.filename)
-    ext = filename.rsplit('.', 1)[1].lower()
+    filename        = secure_filename(file.filename)
+    ext             = filename.rsplit('.', 1)[1].lower()
     unique_filename = f"{current_user.id}_{datetime.utcnow().strftime('%Y%m%d%H%M%S')}_{filename}"
-    file_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+    file_path       = os.path.join(UPLOAD_FOLDER, unique_filename)
 
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     file.save(file_path)
 
     file_type = 'pdf' if ext == 'pdf' else 'image'
-    analysis = analyze_report(file_path, file_type)
+    analysis  = analyze_report(file_path, file_type)
 
     new_report = Report(
         user_id=current_user.id,
@@ -336,15 +326,11 @@ def report_detail(report_id):
     if current_user.plan == 'free':
         return redirect(url_for('payment.pricing'))
 
-    report = Report.query.filter_by(
-        id=report_id,
-        user_id=current_user.id
-    ).first_or_404()
-
-    results = json.loads(report.raw_results) if report.raw_results else []
+    report      = Report.query.filter_by(id=report_id, user_id=current_user.id).first_or_404()
+    results     = json.loads(report.raw_results) if report.raw_results else []
     ai_analysis = report.ai_analysis
+    categories  = {}
 
-    categories = {}
     for r in results:
         cat = r['category']
         if cat not in categories:
@@ -366,12 +352,9 @@ def delete_report(report_id):
     if current_user.plan == 'free':
         return redirect(url_for('payment.pricing'))
 
-    report = Report.query.filter_by(
-        id=report_id,
-        user_id=current_user.id
-    ).first_or_404()
-
+    report    = Report.query.filter_by(id=report_id, user_id=current_user.id).first_or_404()
     file_path = os.path.join(UPLOAD_FOLDER, report.filename)
+
     if os.path.exists(file_path):
         os.remove(file_path)
 
@@ -408,9 +391,9 @@ def symptoms():
     result = None
     if request.method == 'POST':
         symptoms_text = request.form.get('symptoms')
-        age = request.form.get('age', current_user.age or 25)
-        gender = request.form.get('gender', current_user.gender or 'unknown')
-        result = analyze_symptoms_with_groq(symptoms_text, age, gender)
+        age           = request.form.get('age', current_user.age or 25)
+        gender        = request.form.get('gender', current_user.gender or 'unknown')
+        result        = analyze_symptoms_with_groq(symptoms_text, age, gender)
 
     return render_template('symptoms.html',
         result=result,
@@ -428,102 +411,11 @@ def export_pdf():
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
-@main.route('/support')
-@login_required
-def support():
-    return render_template('support.html',
-        user_plan=current_user.plan
-    )
-
-@main.route('/health-ai', methods=['GET', 'POST'])
-@login_required
-def health_ai():
-    if current_user.plan == 'free':
-        return redirect(url_for('payment.pricing'))
-    return render_template('health_ai.html',
-        user_plan=current_user.plan
-    )
-
-@main.route('/health-ai/chat', methods=['POST'])
-@login_required
-def health_ai_chat():
-    if current_user.plan == 'free':
-        return {'error': 'Premium required'}, 403
-
-    user_message = request.json.get('message')
-
-    # Get user's health data
-    checkins = CheckIn.query.filter_by(
-        user_id=current_user.id
-    ).order_by(CheckIn.date.desc()).limit(30).all()
-
-    # Build health summary
-    if checkins:
-        avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1)
-        avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1)
-        avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1)
-        avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1)
-        avg_stress = round(sum(c.stress for c in checkins) / len(checkins), 1)
-        recent = checkins[0]
-
-        health_context = f"""
-User: {current_user.fullname}, Age: {current_user.age or 'Unknown'}, Gender: {current_user.gender or 'Unknown'}
-Plan: {current_user.plan}
-
-Last 30 days averages ({len(checkins)} check-ins):
-- Energy: {avg_energy}/10
-- Sleep: {avg_sleep}/10
-- Mood: {avg_mood}/10
-- Pain: {avg_pain}/10
-- Stress: {avg_stress}/10
-
-Latest check-in ({recent.date.strftime('%d %b %Y')}):
-- Energy: {recent.energy}, Sleep: {recent.sleep}, Mood: {recent.mood}
-- Pain: {recent.pain}, Stress: {recent.stress}
-- Risk Level: {recent.risk_level}
-- Notes: {recent.notes or 'None'}
-
-Recent risk levels: {', '.join([c.risk_level for c in checkins[:7]])}
-"""
-    else:
-        health_context = f"User: {current_user.fullname}. No check-in data available yet."
-
-    # Call Groq API
-    from groq import Groq
-    client = Groq(api_key=os.getenv('GROQ_API_KEY'))
-
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {
-                "role": "system",
-                "content": f"""You are HealthGuardian AI — a personal health assistant. 
-You have access to the user's real health data and provide personalized, accurate health insights.
-Always be empathetic, clear and helpful. Never give dangerous medical advice — always recommend seeing a doctor for serious issues.
-Keep responses concise but informative. Use emojis sparingly.
-
-USER'S HEALTH DATA:
-{health_context}
-
-Respond in the same language the user writes in."""
-            },
-            {
-                "role": "user", 
-                "content": user_message
-            }
-        ],
-        max_tokens=500,
-        temperature=0.7
-    )
-
-    ai_response = response.choices[0].message.content
-
-    return {'response': ai_response}
-
+    # FIX 2: pehle calculations, phir html, phir return
     avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_sleep = round(sum(c.sleep for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_mood = round(sum(c.mood for c in checkins) / len(checkins), 1) if checkins else 0
-    avg_pain = round(sum(c.pain for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_sleep  = round(sum(c.sleep  for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_mood   = round(sum(c.mood   for c in checkins) / len(checkins), 1) if checkins else 0
+    avg_pain   = round(sum(c.pain   for c in checkins) / len(checkins), 1) if checkins else 0
 
     html = f"""
     <html>
@@ -556,6 +448,104 @@ Respond in the same language the user writes in."""
     </body>
     </html>
     """
+
+    response = make_response(html)
+    response.headers['Content-Type'] = 'text/html'
+    response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'
+    return response
+
+
+@main.route('/support')
+@login_required
+def support():
+    return render_template('support.html',
+        user_plan=current_user.plan
+    )
+
+
+@main.route('/health-ai', methods=['GET', 'POST'])
+@login_required
+def health_ai():
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+    return render_template('health_ai.html',
+        user_plan=current_user.plan
+    )
+
+
+@main.route('/health-ai/chat', methods=['POST'])
+@login_required
+def health_ai_chat():
+    if current_user.plan == 'free':
+        return {'error': 'Premium required'}, 403
+
+    user_message = request.json.get('message')
+
+    checkins = CheckIn.query.filter_by(
+        user_id=current_user.id
+    ).order_by(CheckIn.date.desc()).limit(30).all()
+
+    if checkins:
+        avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1)
+        avg_sleep  = round(sum(c.sleep  for c in checkins) / len(checkins), 1)
+        avg_mood   = round(sum(c.mood   for c in checkins) / len(checkins), 1)
+        avg_pain   = round(sum(c.pain   for c in checkins) / len(checkins), 1)
+        avg_stress = round(sum(c.stress for c in checkins) / len(checkins), 1)
+        recent     = checkins[0]
+
+        health_context = f"""
+User: {current_user.fullname}, Age: {current_user.age or 'Unknown'}, Gender: {current_user.gender or 'Unknown'}
+Plan: {current_user.plan}
+
+Last 30 days averages ({len(checkins)} check-ins):
+- Energy: {avg_energy}/10
+- Sleep: {avg_sleep}/10
+- Mood: {avg_mood}/10
+- Pain: {avg_pain}/10
+- Stress: {avg_stress}/10
+
+Latest check-in ({recent.date.strftime('%d %b %Y')}):
+- Energy: {recent.energy}, Sleep: {recent.sleep}, Mood: {recent.mood}
+- Pain: {recent.pain}, Stress: {recent.stress}
+- Risk Level: {recent.risk_level}
+- Notes: {recent.notes or 'None'}
+
+Recent risk levels: {', '.join([c.risk_level for c in checkins[:7]])}
+"""
+    else:
+        health_context = f"User: {current_user.fullname}. No check-in data available yet."
+
+    from groq import Groq
+    client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "system",
+                "content": f"""You are HealthGuardian AI — a personal health assistant.
+You have access to the user's real health data and provide personalized, accurate health insights.
+Always be empathetic, clear and helpful. Never give dangerous medical advice — always recommend seeing a doctor for serious issues.
+Keep responses concise but informative. Use emojis sparingly.
+
+USER'S HEALTH DATA:
+{health_context}
+
+Respond in the same language the user writes in."""
+            },
+            {
+                "role": "user",
+                "content": user_message
+            }
+        ],
+        max_tokens=500,
+        temperature=0.7
+    )
+
+    # FIX 3: clean return, koi dead code nahi
+    return {'response': response.choices[0].message.content}
+
+
 @main.route('/health-ai/stats')
 @login_required
 def health_ai_stats():
@@ -566,14 +556,10 @@ def health_ai_stats():
     if not checkins:
         return {'avg_energy': 0, 'avg_sleep': 0, 'avg_mood': 0, 'avg_pain': 0}
 
+    # FIX 4: make_response dead block remove
     return {
         'avg_energy': round(sum(c.energy for c in checkins) / len(checkins), 1),
-        'avg_sleep': round(sum(c.sleep for c in checkins) / len(checkins), 1),
-        'avg_mood': round(sum(c.mood for c in checkins) / len(checkins), 1),
-        'avg_pain': round(sum(c.pain for c in checkins) / len(checkins), 1)
+        'avg_sleep':  round(sum(c.sleep  for c in checkins) / len(checkins), 1),
+        'avg_mood':   round(sum(c.mood   for c in checkins) / len(checkins), 1),
+        'avg_pain':   round(sum(c.pain   for c in checkins) / len(checkins), 1)
     }
-
-    response = make_response(html)
-    response.headers['Content-Type'] = 'text/html'
-    response.headers['Content-Disposition'] = 'attachment; filename=health-report.html'
-    return response

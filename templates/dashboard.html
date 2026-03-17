@@ -245,7 +245,7 @@
             <div class="warning-icon">⚠️</div>
             <div>
                 <div class="warning-title">Health Alert Detected</div>
-                <div class="warning-text">{{ latest.warning_message }}</div>
+                <div class="warning-text">{{ latest.notes or 'Risk detected on ' + latest.date.strftime('%d %b %Y') }}</div>
             </div>
         </div>
     {% endif %}
