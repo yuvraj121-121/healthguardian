@@ -98,6 +98,7 @@
 </head>
 <body>
 
+<canvas id="particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <div class="mobile-topbar">
@@ -310,6 +311,30 @@
 </main>
 
 <script>
+const canvas = document.getElementById('particles-canvas');
+const ctx2 = canvas.getContext('2d');
+let particles = [];
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+class Particle {
+    constructor() { this.reset(); }
+    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'124,58,237':'59,130,246'; }
+    update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
+    draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
+}
+for(let i=0;i<80;i++) particles.push(new Particle());
+function animateParticles() {
+    ctx2.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{p.update();p.draw();});
+    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(124,58,237,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
+    }
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
 function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('open');
     document.getElementById('overlay').classList.toggle('open');
