@@ -562,7 +562,7 @@ def terms():
 def disclaimer():
     return render_template('disclaimer.html')
 
-@app.route('/nearby')
+@main.route('/nearby')
 @login_required
 def nearby():
     return render_template('nearby.html', user_plan=current_user.plan)
