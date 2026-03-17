@@ -16,7 +16,4 @@ class User(UserMixin, db.Model):
     plan               = db.Column(db.String(20), default='free', nullable=False)
     stripe_customer_id = db.Column(db.String(100), nullable=True)
     profile_photo      = db.Column(db.String(200), nullable=True)
-    streak             = db.Column(db.Integer, nullable=True)
-    max_streak         = db.Column(db.Integer, nullable=True)
-
-    checkins = db.relationship('CheckIn', backref='user', lazy=True)
+    checkins           = db.relationship('CheckIn', backref='user', lazy=True)
