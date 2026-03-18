@@ -103,7 +103,6 @@ def dashboard():
 
     warnings = [c for c in checkins if c.risk_level in ['high', 'medium']]
 
-    # FIX 1: getattr — streak column nahi hai model mein abhi, crash nahi hoga
     streak     = getattr(current_user, 'streak', 0) or 0
     max_streak = getattr(current_user, 'max_streak', 0) or 0
 
@@ -367,14 +366,39 @@ def delete_report(report_id):
 @main.route('/ml-insights')
 @login_required
 def ml_insights():
-    # existing code...
-    high_alerts = CheckIn.query.filter_by(user_id=current_user.id, risk_level='high').order_by(CheckIn.date.desc()).all()
-    medium_alerts = CheckIn.query.filter_by(user_id=current_user.id, risk_level='medium').order_by(CheckIn.date.desc()).all()
-    
+    if current_user.plan == 'free':
+        return redirect(url_for('payment.pricing'))
+
+    checkins = CheckIn.query.filter_by(
+        user_id=current_user.id
+    ).order_by(CheckIn.date.desc()).limit(30).all()
+
+    analysis = run_full_analysis(current_user.id) if checkins else None
+
+    high_alerts = CheckIn.query.filter_by(
+        user_id=current_user.id, risk_level='high'
+    ).order_by(CheckIn.date.desc()).all()
+
+    medium_alerts = CheckIn.query.filter_by(
+        user_id=current_user.id, risk_level='medium'
+    ).order_by(CheckIn.date.desc()).all()
+
+    chart_labels = [c.date.strftime('%d %b') for c in reversed(checkins[:14])]
+    chart_energy = [c.energy for c in reversed(checkins[:14])]
+    chart_sleep  = [c.sleep  for c in reversed(checkins[:14])]
+    chart_mood   = [c.mood   for c in reversed(checkins[:14])]
+    chart_pain   = [c.pain   for c in reversed(checkins[:14])]
+
     return render_template('ml_insights.html',
-        # existing variables...
+        analysis=analysis,
+        checkins=checkins,
         high_alerts=high_alerts,
         medium_alerts=medium_alerts,
+        chart_labels=chart_labels,
+        chart_energy=chart_energy,
+        chart_sleep=chart_sleep,
+        chart_mood=chart_mood,
+        chart_pain=chart_pain,
         user_plan=current_user.plan
     )
 
@@ -408,7 +432,6 @@ def export_pdf():
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
-    # FIX 2: pehle calculations, phir html, phir return
     avg_energy = round(sum(c.energy for c in checkins) / len(checkins), 1) if checkins else 0
     avg_sleep  = round(sum(c.sleep  for c in checkins) / len(checkins), 1) if checkins else 0
     avg_mood   = round(sum(c.mood   for c in checkins) / len(checkins), 1) if checkins else 0
@@ -539,37 +562,44 @@ Respond in the same language the user writes in."""
         temperature=0.7
     )
 
-    # FIX 3: clean return, koi dead code nahi
     return {'response': response.choices[0].message.content}
+
 
 @main.route('/about')
 def about():
     return render_template('about.html')
 
+
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
     return render_template('contact.html')
+
 
 @main.route('/privacy')
 def privacy():
     return render_template('privacy.html')
 
+
 @main.route('/terms')
 def terms():
     return render_template('terms.html')
 
+
 @main.route('/disclaimer')
 def disclaimer():
     return render_template('disclaimer.html')
+
 
 @main.route('/nearby')
 @login_required
 def nearby():
     return render_template('nearby.html', user_plan=current_user.plan)
 
+
 @main.route('/cookies')
 def cookies():
     return render_template('cookies.html')
+
 
 @main.route('/health-ai/stats')
 @login_required
@@ -581,7 +611,6 @@ def health_ai_stats():
     if not checkins:
         return {'avg_energy': 0, 'avg_sleep': 0, 'avg_mood': 0, 'avg_pain': 0}
 
-    # FIX 4: make_response dead block remove
     return {
         'avg_energy': round(sum(c.energy for c in checkins) / len(checkins), 1),
         'avg_sleep':  round(sum(c.sleep  for c in checkins) / len(checkins), 1),
