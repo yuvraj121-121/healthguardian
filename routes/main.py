@@ -373,7 +373,11 @@ def ml_insights():
         user_id=current_user.id
     ).order_by(CheckIn.date.desc()).limit(30).all()
 
-    analysis = run_full_analysis(current_user.id) if checkins else None
+    try:
+        analysis = run_full_analysis(current_user.id) if checkins else None
+    except Exception as e:
+        print(f"ML analysis error: {e}")
+        analysis = None
 
     high_alerts = CheckIn.query.filter_by(
         user_id=current_user.id, risk_level='high'
