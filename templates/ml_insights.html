@@ -113,7 +113,6 @@
         .anomaly-vals { margin-left: auto; display: flex; gap: 8px; flex-shrink: 0; }
         .anom-val { text-align: center; font-size: 11px; }
         .anom-num { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
-        /* ALERTS SECTION */
         .alerts-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
         .alert-card { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 16px; backdrop-filter: blur(20px); transition: all 0.2s; flex-wrap: wrap; }
         .alert-card:hover { background: var(--glass2); transform: translateX(4px); }
@@ -221,77 +220,65 @@
         </div>
     </div>
 
-    {% set banner_class = 'moderate' %}
-    {% if analysis.overall_score >= 7 %}{% set banner_class = 'good' %}
-    {% elif analysis.overall_score < 5 %}{% set banner_class = 'bad' %}{% endif %}
-    <div class="score-banner {{ banner_class }}">
-        <div class="score-big">{{ analysis.overall_score }}</div>
-        <div>
-            <div class="score-info-title">
-                {% if analysis.overall_score >= 7 %}✅ {{ analysis.overall_status }}
-                {% elif analysis.overall_score >= 5 %}⚡ {{ analysis.overall_status }}
-                {% else %}⚠️ {{ analysis.overall_status }}{% endif %}
-            </div>
-            <div class="score-info-sub">Your overall AI health score based on your recent check-ins.
-                {% if analysis.overall_score >= 7 %}Keep up the great work!
-                {% elif analysis.overall_score >= 5 %}Some areas need attention.
-                {% else %}Please consider consulting a doctor.{% endif %}
+    {% if analysis %}
+        {% set overall_score = analysis.overall_score if analysis.overall_score is defined else 0 %}
+        {% set banner_class = 'moderate' %}
+        {% if overall_score >= 7 %}{% set banner_class = 'good' %}
+        {% elif overall_score < 5 %}{% set banner_class = 'bad' %}{% endif %}
+
+        <div class="score-banner {{ banner_class }}">
+            <div class="score-big">{{ overall_score }}</div>
+            <div>
+                <div class="score-info-title">
+                    {% if overall_score >= 7 %}✅ {{ analysis.overall_status }}
+                    {% elif overall_score >= 5 %}⚡ {{ analysis.overall_status }}
+                    {% else %}⚠️ {{ analysis.overall_status }}{% endif %}
+                </div>
+                <div class="score-info-sub">Your overall AI health score based on your recent check-ins.
+                    {% if overall_score >= 7 %}Keep up the great work!
+                    {% elif overall_score >= 5 %}Some areas need attention.
+                    {% else %}Please consider consulting a doctor.{% endif %}
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="quick-stats">
-        <div class="quick-stat"><div class="quick-stat-icon">⚡</div><div class="quick-stat-val" style="color:var(--green);">{{ analysis.overall_score }}</div><div class="quick-stat-label">Health Score</div></div>
-        <div class="quick-stat"><div class="quick-stat-icon">📊</div><div class="quick-stat-val" style="color:var(--purple2);">{{ analysis.patterns|length if analysis.patterns else 0 }}</div><div class="quick-stat-label">Patterns Found</div></div>
-        <div class="quick-stat"><div class="quick-stat-icon">🏥</div><div class="quick-stat-val" style="color:var(--amber);">{{ analysis.risks|length if analysis.risks else 0 }}</div><div class="quick-stat-label">Risk Factors</div></div>
-        <div class="quick-stat"><div class="quick-stat-icon">🚨</div><div class="quick-stat-val" style="color:var(--red);">{{ (high_alerts|length + medium_alerts|length) if high_alerts is defined else 0 }}</div><div class="quick-stat-label">Active Alerts</div></div>
-    </div>
-
-    <div class="section-title">📊 Health Patterns</div>
-    {% if analysis.patterns %}
-        <div class="patterns-grid">
-            {% for p in analysis.patterns %}
-            <div class="pattern-card {{ p.severity }}">
-                <div class="pattern-icon icon-{{ p.severity }}">{{ p.icon }}</div>
-                <div><div class="pattern-title">{{ p.title }}</div><div class="pattern-msg">{{ p.message }}</div></div>
-            </div>
-            {% endfor %}
+        <div class="quick-stats">
+            <div class="quick-stat"><div class="quick-stat-icon">⚡</div><div class="quick-stat-val" style="color:var(--green);">{{ overall_score }}</div><div class="quick-stat-label">Health Score</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">📊</div><div class="quick-stat-val" style="color:var(--purple2);">{{ analysis.patterns|length if analysis.patterns else 0 }}</div><div class="quick-stat-label">Patterns Found</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">🏥</div><div class="quick-stat-val" style="color:var(--amber);">{{ analysis.risks|length if analysis.risks else 0 }}</div><div class="quick-stat-label">Risk Factors</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">🚨</div><div class="quick-stat-val" style="color:var(--red);">{{ (high_alerts|length + medium_alerts|length) }}</div><div class="quick-stat-label">Active Alerts</div></div>
         </div>
+
     {% else %}
-        <div class="no-data"><div class="no-data-icon">📊</div><div class="no-data-title">Not enough data</div><div class="no-data-sub">Complete at least 3 check-ins to see patterns</div></div>
-    {% endif %}
-
-    {% if analysis.anomalies %}
-    <div class="section-title">🚨 Today's Anomalies</div>
-    <div style="margin-bottom:28px;">
-        {% for a in analysis.anomalies %}
-        <div class="anomaly-card">
-            <div class="anomaly-icon">⚡</div>
-            <div class="anomaly-msg">{{ a.message }}</div>
-            <div class="anomaly-vals">
-                <div class="anom-val"><div class="anom-num" style="color:var(--red);">{{ a.current }}</div><div style="font-size:10px;color:var(--text3);">Today</div></div>
-                <div style="font-size:11px;color:var(--text3);align-self:center;">vs</div>
-                <div class="anom-val"><div class="anom-num" style="color:var(--green);">{{ a.average }}</div><div style="font-size:10px;color:var(--text3);">Avg</div></div>
+        <!-- No analysis data — show placeholder score banner -->
+        <div class="score-banner moderate">
+            <div class="score-big">–</div>
+            <div>
+                <div class="score-info-title">⚡ Not enough data yet</div>
+                <div class="score-info-sub">Complete at least 3 daily check-ins to unlock your AI health score and insights.</div>
             </div>
         </div>
-        {% endfor %}
-    </div>
+        <div class="quick-stats">
+            <div class="quick-stat"><div class="quick-stat-icon">⚡</div><div class="quick-stat-val" style="color:var(--green);">–</div><div class="quick-stat-label">Health Score</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">📊</div><div class="quick-stat-val" style="color:var(--purple2);">0</div><div class="quick-stat-label">Patterns Found</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">🏥</div><div class="quick-stat-val" style="color:var(--amber);">0</div><div class="quick-stat-label">Risk Factors</div></div>
+            <div class="quick-stat"><div class="quick-stat-icon">🚨</div><div class="quick-stat-val" style="color:var(--red);">{{ (high_alerts|length + medium_alerts|length) }}</div><div class="quick-stat-label">Active Alerts</div></div>
+        </div>
     {% endif %}
 
     <!-- ── ALERTS SECTION ── -->
     <div class="section-title">
         🔔 Health Alerts
-        {% if high_alerts is defined and high_alerts %}
+        {% if high_alerts %}
         <span class="section-count count-red">{{ high_alerts|length }} High</span>
         {% endif %}
-        {% if medium_alerts is defined and medium_alerts %}
+        {% if medium_alerts %}
         <span class="section-count count-amber">{{ medium_alerts|length }} Medium</span>
         {% endif %}
     </div>
 
-    {% if (high_alerts is defined and high_alerts) or (medium_alerts is defined and medium_alerts) %}
+    {% if high_alerts or medium_alerts %}
         <div class="alerts-list">
-            {% if high_alerts is defined %}
             {% for c in high_alerts %}
             <div class="alert-card high">
                 <div class="alert-icon icon-alert-high">⚠️</div>
@@ -309,14 +296,12 @@
                 <span class="alert-risk risk-high">HIGH</span>
             </div>
             {% endfor %}
-            {% endif %}
-            {% if medium_alerts is defined %}
             {% for c in medium_alerts %}
             <div class="alert-card medium">
                 <div class="alert-icon icon-alert-medium">⚡</div>
                 <div class="alert-content">
                     <div class="alert-date">{{ c.date.strftime('%d %B %Y') }}</div>
-                    <div class="alert-message">{{ c.warning_message }}</div>
+                    <div class="alert-message">{{ c.notes or 'Medium risk detected on ' + c.date.strftime('%d %b %Y') }}</div>
                     <div class="alert-scores">
                         <span class="score-pill" style="background:rgba(16,185,129,0.1);color:#10B981;">E: {{ c.energy }}</span>
                         <span class="score-pill" style="background:rgba(6,182,212,0.1);color:#06B6D4;">S: {{ c.sleep }}</span>
@@ -328,7 +313,6 @@
                 <span class="alert-risk risk-medium">MEDIUM</span>
             </div>
             {% endfor %}
-            {% endif %}
         </div>
     {% else %}
         <div class="no-data" style="margin-bottom:28px;">
@@ -338,8 +322,42 @@
         </div>
     {% endif %}
 
+    <!-- ── PATTERNS ── -->
+    <div class="section-title">📊 Health Patterns</div>
+    {% if analysis and analysis.patterns %}
+        <div class="patterns-grid">
+            {% for p in analysis.patterns %}
+            <div class="pattern-card {{ p.severity }}">
+                <div class="pattern-icon icon-{{ p.severity }}">{{ p.icon }}</div>
+                <div><div class="pattern-title">{{ p.title }}</div><div class="pattern-msg">{{ p.message }}</div></div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-data"><div class="no-data-icon">📊</div><div class="no-data-title">Not enough data</div><div class="no-data-sub">Complete at least 3 check-ins to see patterns</div></div>
+    {% endif %}
+
+    <!-- ── ANOMALIES ── -->
+    {% if analysis and analysis.anomalies %}
+    <div class="section-title">🚨 Today's Anomalies</div>
+    <div style="margin-bottom:28px;">
+        {% for a in analysis.anomalies %}
+        <div class="anomaly-card">
+            <div class="anomaly-icon">⚡</div>
+            <div class="anomaly-msg">{{ a.message }}</div>
+            <div class="anomaly-vals">
+                <div class="anom-val"><div class="anom-num" style="color:var(--red);">{{ a.current }}</div><div style="font-size:10px;color:var(--text3);">Today</div></div>
+                <div style="font-size:11px;color:var(--text3);align-self:center;">vs</div>
+                <div class="anom-val"><div class="anom-num" style="color:var(--green);">{{ a.average }}</div><div style="font-size:10px;color:var(--text3);">Avg</div></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ── DISEASE RISKS ── -->
     <div class="section-title">🏥 Disease Risk Predictions</div>
-    {% if analysis.risks %}
+    {% if analysis and analysis.risks %}
         <div class="risks-grid">
             {% for risk in analysis.risks %}
             <div class="risk-card {{ risk.color }}">
@@ -354,8 +372,9 @@
         <div class="no-data"><div class="no-data-icon">✅</div><div class="no-data-title">No disease risks detected</div><div class="no-data-sub">Your symptom patterns don't indicate any specific disease risks right now.</div></div>
     {% endif %}
 
+    <!-- ── FORECASTS ── -->
     <div class="section-title" style="margin-top:28px;">📈 7-Day Forecast</div>
-    {% if analysis.forecasts %}
+    {% if analysis and analysis.forecasts %}
         <div class="forecasts-grid">
             {% for metric, data in analysis.forecasts.items() %}
             <div class="forecast-card">
@@ -372,6 +391,7 @@
         <div class="no-data"><div class="no-data-icon">📈</div><div class="no-data-title">Not enough data for forecast</div><div class="no-data-sub">Complete at least 7 check-ins to see forecasts</div></div>
     {% endif %}
 
+    <!-- ── TIPS ── -->
     <div class="section-title">💡 Wellness Tips</div>
     <div class="tips-row">
         <div class="tip-card"><div class="tip-icon">😴</div><div class="tip-title">Sleep Quality</div><div class="tip-desc">Try to maintain a consistent sleep schedule. Go to bed and wake up at the same time every day, even on weekends.</div></div>
