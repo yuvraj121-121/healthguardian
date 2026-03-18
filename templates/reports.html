@@ -5,134 +5,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Reports — HealthGuardian</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0D9488">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HealthGuardian">
     <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
         :root {
-            --purple: #0D9488; --purple2: #2DD4BF; --blue: #06B6D4; --green: #10B981;
-            --amber: #F59E0B; --red: #EF4444; --bg: #061412;
-            --glass: rgba(13,148,136,0.05); --glass2: rgba(13,148,136,0.09);
-            --border: rgba(13,148,136,0.12); --border2: rgba(13,148,136,0.2);
-            --text: #EEEEFF; --text2: #B0B8D4; --text3: #7B82A8;
+            --purple:#0D9488; --purple2:#2DD4BF; --blue:#06B6D4;
+            --green:#10B981; --amber:#F59E0B; --red:#EF4444; --bg:#061412;
+            --glass:rgba(13,148,136,0.05); --glass2:rgba(13,148,136,0.09);
+            --glass3:rgba(13,148,136,0.14); --glass4:rgba(13,148,136,0.2);
+            --border:rgba(13,148,136,0.12); --border2:rgba(13,148,136,0.22);
+            --text:#EEEEFF; --text2:#B0B8D4; --text3:#7B82A8;
+            --shadow:0 8px 32px rgba(0,0,0,0.3);
+            --shadow-sm:0 2px 8px rgba(0,0,0,0.2);
         }
-        body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
-        body::before { content: ''; position: fixed; top: -30%; left: -10%; width: 70%; height: 70%; background: radial-gradient(ellipse, rgba(13,148,136,0.18) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        body::after { content: ''; position: fixed; bottom: -20%; right: -10%; width: 60%; height: 60%; background: radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%); pointer-events: none; z-index: 0; }
-        .sidebar { position: fixed; left: 0; top: 0; width: 260px; height: 100vh; background: rgba(6,20,18,0.95); backdrop-filter: blur(30px); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 28px 16px; z-index: 100; transition: transform 0.3s ease; }
-        .logo { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 800; padding: 0 6px; margin-bottom: 11px; text-decoration: none; color: var(--text); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-        .logo-icon { width: 22px; height: 22px; border-radius: 6px; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.45); }
-        .logo span { background: linear-gradient(135deg, var(--purple2), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .nav-section { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 10px; margin-bottom: 6px; margin-top: 8px; }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; color: var(--text2); text-decoration: none; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; border: 1px solid transparent; }
-        .nav-item:hover { background: var(--glass2); color: var(--text); border-color: var(--border); }
-        .nav-item.active { background: linear-gradient(135deg, rgba(13,148,136,0.18), rgba(6,182,212,0.08)); color: var(--purple2); border-color: rgba(13,148,136,0.28); }
-        .nav-icon { font-size: 15px; width: 20px; text-align: center; }
-        .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
-        .user-card { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--glass); border: 1px solid var(--border); margin-bottom: 8px; }
-        .user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; box-shadow: 0 0 12px rgba(13,148,136,0.3); overflow: hidden; }
-        .user-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .user-name { font-size: 13px; font-weight: 500; color: var(--text); }
-        .user-email { font-size: 11px; color: var(--text3); margin-top: 1px; }
-        .plan-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; margin-top: 3px; display: inline-block; }
-        .plan-free { background: rgba(255,255,255,0.06); color: var(--text3); border: 1px solid var(--border); }
-        .plan-premium { background: rgba(13,148,136,0.15); color: var(--purple2); border: 1px solid rgba(13,148,136,0.25); }
-        .plan-family { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
-        .logout-btn { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; color: var(--text3); text-decoration: none; font-size: 13px; transition: all 0.2s; width: 100%; background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-        .logout-btn:hover { background: rgba(239,68,68,0.08); color: #FCA5A5; }
-        .mobile-topbar { display: none; }
-        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; backdrop-filter: blur(4px); }
-        .overlay.open { display: block; }
-        .main { margin-left: 260px; padding: 32px 36px; min-height: 100vh; position: relative; z-index: 1; }
-        .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
-        .page-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
-        .page-sub { font-size: 14px; color: var(--text2); margin-top: 3px; }
-        .upload-area { background: var(--glass); border: 2px dashed rgba(13,148,136,0.3); border-radius: 20px; padding: 48px 32px; text-align: center; margin-bottom: 32px; transition: all 0.3s; cursor: pointer; position: relative; }
-        .upload-area:hover { border-color: rgba(13,148,136,0.6); background: rgba(13,148,136,0.07); }
-        .upload-area.dragover { border-color: var(--purple2); background: rgba(13,148,136,0.12); transform: scale(1.01); }
-        .upload-icon { font-size: 48px; margin-bottom: 16px; display: block; }
-        .upload-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-        .upload-sub { font-size: 14px; color: var(--text2); margin-bottom: 20px; }
-        .upload-formats { display: flex; gap: 8px; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; }
-        .format-badge { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; background: rgba(13,148,136,0.1); color: var(--purple2); border: 1px solid rgba(13,148,136,0.2); }
-        .btn-upload { padding: 12px 28px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 20px rgba(13,148,136,0.3); }
-        .btn-upload:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(13,148,136,0.4); }
-        #fileInput { display: none; }
-        .loading-overlay { display: none; position: fixed; inset: 0; background: rgba(6,20,18,0.92); z-index: 999; align-items: center; justify-content: center; flex-direction: column; gap: 20px; backdrop-filter: blur(10px); }
-        .loading-overlay.show { display: flex; }
-        .loading-spinner { width: 60px; height: 60px; border: 3px solid rgba(13,148,136,0.2); border-top-color: var(--purple2); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); }
-        .loading-sub { font-size: 13px; color: var(--text2); }
-        .alert { padding: 12px 16px; border-radius: 10px; font-size: 13px; font-weight: 500; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .alert-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); color: #FCA5A5; }
-        .reports-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
-        .report-card { background: var(--glass); border: 1px solid var(--border); border-radius: 18px; padding: 22px; backdrop-filter: blur(20px); transition: all 0.2s; position: relative; overflow: hidden; }
-        .report-card:hover { background: var(--glass2); border-color: rgba(13,148,136,0.25); transform: translateY(-3px); }
-        .report-card.urgent { border-color: rgba(239,68,68,0.25); background: linear-gradient(135deg, rgba(239,68,68,0.05), var(--glass)); }
-        .report-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
-        .report-card.status-normal::after { background: linear-gradient(90deg, transparent, var(--green), transparent); }
-        .report-card.status-warning::after { background: linear-gradient(90deg, transparent, var(--amber), transparent); }
-        .report-card.status-critical::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
-        .report-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
-        .report-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(6,182,212,0.08)); border: 1px solid rgba(13,148,136,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-        .report-status-badge { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 100px; }
-        .badge-normal { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
-        .badge-warning { background: rgba(245,158,11,0.1); color: var(--amber); border: 1px solid rgba(245,158,11,0.2); }
-        .badge-critical { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
-        .badge-unknown { background: var(--glass2); color: var(--text2); border: 1px solid var(--border); }
-        .report-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--text); word-break: break-word; }
-        .report-date { font-size: 12px; color: var(--text3); margin-bottom: 14px; }
-        .report-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-        .report-stat { background: var(--glass2); border-radius: 8px; padding: 8px; text-align: center; border: 1px solid var(--border); }
-        .report-stat-val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
-        .report-stat-label { font-size: 10px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .report-recommendation { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 16px; padding: 10px 12px; background: var(--glass2); border-radius: 8px; border: 1px solid var(--border); }
-        .report-actions { display: flex; gap: 8px; }
-        .btn-view { flex: 1; padding: 9px; background: linear-gradient(135deg, var(--purple), var(--blue)); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.2s; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
-        .btn-view:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(13,148,136,0.4); }
-        .btn-delete { padding: 9px 14px; background: rgba(239,68,68,0.08); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.15); border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; text-decoration: none; }
-        .btn-delete:hover { background: rgba(239,68,68,0.15); }
-        .no-data { text-align: center; padding: 60px 20px; background: var(--glass); border: 1px solid var(--border); border-radius: 20px; }
-        .no-data-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
-        .no-data-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text2); margin-bottom: 8px; }
-        .no-data-sub { font-size: 14px; color: var(--text3); }
-        .section-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
-        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
-        .stat-item { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
-        .stat-num { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
-        .stat-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
-        .fade-in { animation: fadeUp 0.5s ease forwards; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); width: 240px; }
-            .sidebar.open { transform: translateX(0); }
-            .mobile-topbar { display: flex; position: fixed; top: 0; left: 0; right: 0; z-index: 150; height: 56px; background: rgba(6,20,18,0.95); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 0 16px; justify-content: space-between; align-items: center; }
-            .hamburger { width: 36px; height: 36px; border-radius: 8px; background: rgba(13,148,136,0.2); border: 1px solid rgba(13,148,136,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--purple2); }
-            .main { margin-left: 0; padding: 72px 16px 20px; }
-            .upload-area { padding: 32px 20px; }
-            .reports-grid { grid-template-columns: 1fr; }
-            .stats-bar { grid-template-columns: repeat(2, 1fr); }
-            .page-title { font-size: 20px; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+        body::before { content:''; position:fixed; top:-30%; left:-10%; width:70%; height:70%; background:radial-gradient(ellipse,rgba(13,148,136,0.18) 0%,transparent 65%); pointer-events:none; z-index:0; }
+        body::after { content:''; position:fixed; bottom:-20%; right:-10%; width:60%; height:60%; background:radial-gradient(ellipse,rgba(6,182,212,0.08) 0%,transparent 65%); pointer-events:none; z-index:0; }
+
+        /* ── SIDEBAR ── */
+        .sidebar { position:fixed; left:0; top:0; width:260px; height:100vh; background:rgba(6,20,18,0.95); backdrop-filter:blur(30px); border-right:1px solid var(--border); display:flex; flex-direction:column; padding:28px 16px; z-index:100; transition:transform 0.3s ease; overflow-y:auto; scrollbar-width:none; }
+        .logo { font-family:'Syne',sans-serif; font-size:15px; font-weight:800; padding:0 6px; margin-bottom:11px; text-decoration:none; color:var(--text); display:flex; align-items:center; gap:6px; white-space:nowrap; }
+        .logo-icon { width:22px; height:22px; border-radius:6px; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:11px; flex-shrink:0; box-shadow:0 0 12px rgba(13,148,136,0.45); }
+        .logo span { background:linear-gradient(135deg,var(--purple2),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .nav-section { font-size:10px; font-weight:500; color:var(--text3); text-transform:uppercase; letter-spacing:1.5px; padding:0 10px; margin-bottom:6px; margin-top:8px; }
+        .nav-item { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px; color:var(--text2); text-decoration:none; font-size:14px; transition:all 0.2s; margin-bottom:2px; border:1px solid transparent; }
+        .nav-item:hover { background:var(--glass2); color:var(--text); border-color:var(--border); }
+        .nav-item.active { background:linear-gradient(135deg,rgba(13,148,136,0.18),rgba(6,182,212,0.08)); color:var(--purple2); border-color:rgba(13,148,136,0.28); }
+        .nav-icon { font-size:15px; width:20px; text-align:center; }
+        .sidebar-bottom { margin-top:auto; border-top:1px solid var(--border); padding-top:16px; }
+        .user-card { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:var(--glass); border:1px solid var(--border); margin-bottom:8px; }
+        .user-avatar { width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; flex-shrink:0; overflow:hidden; }
+        .user-avatar img { width:100%; height:100%; object-fit:cover; }
+        .user-name { font-size:13px; font-weight:500; color:var(--text); }
+        .user-email { font-size:11px; color:var(--text3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:160px; }
+        .plan-badge { font-size:10px; padding:2px 8px; border-radius:100px; font-weight:600; margin-top:3px; display:inline-block; }
+        .plan-free { background:rgba(255,255,255,0.06); color:var(--text3); border:1px solid var(--border); }
+        .plan-premium { background:rgba(13,148,136,0.15); color:var(--purple2); border:1px solid rgba(13,148,136,0.25); }
+        .plan-family { background:rgba(16,185,129,0.1); color:var(--green); border:1px solid rgba(16,185,129,0.2); }
+        .logout-btn { display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:10px; color:var(--text3); text-decoration:none; font-size:13px; transition:all 0.2s; width:100%; background:none; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; }
+        .logout-btn:hover { background:rgba(239,68,68,0.08); color:#FCA5A5; }
+        .mobile-topbar { display:none; }
+        .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:99; backdrop-filter:blur(4px); }
+        .overlay.open { display:block; }
+
+        /* ── MAIN ── */
+        .main { margin-left:260px; padding:28px 32px; min-height:100vh; position:relative; z-index:1; }
+
+        /* ── TOP HEADER ── */
+        .topbar { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+        .page-title { font-family:'Syne',sans-serif; font-size:26px; font-weight:700; letter-spacing:-0.5px; }
+        .page-sub { font-size:14px; color:var(--text2); margin-top:3px; }
+        .topbar-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .btn-primary { display:flex; align-items:center; gap:7px; padding:10px 20px; background:linear-gradient(135deg,var(--purple),var(--blue)); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; box-shadow:0 4px 16px rgba(13,148,136,0.35); text-decoration:none; }
+        .btn-primary:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(13,148,136,0.45); }
+        .btn-secondary { display:flex; align-items:center; gap:7px; padding:10px 18px; background:var(--glass2); color:var(--text2); border:1px solid var(--border); border-radius:10px; font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; text-decoration:none; }
+        .btn-secondary:hover { background:var(--glass3); border-color:var(--border2); color:var(--text); }
+
+        /* ── STATS ROW ── */
+        .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+        .stat-card { background:var(--glass); border:1px solid var(--border); border-radius:14px; padding:18px 20px; backdrop-filter:blur(20px); transition:all 0.2s; position:relative; overflow:hidden; }
+        .stat-card:hover { background:var(--glass2); transform:translateY(-2px); }
+        .stat-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; }
+        .stat-card.teal::after { background:linear-gradient(90deg,transparent,var(--purple2),transparent); }
+        .stat-card.red::after { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+        .stat-card.green::after { background:linear-gradient(90deg,transparent,var(--green),transparent); }
+        .stat-card.amber::after { background:linear-gradient(90deg,transparent,var(--amber),transparent); }
+        .stat-glow { position:absolute; top:-10px; right:-10px; width:60px; height:60px; border-radius:50%; filter:blur(20px); opacity:0.25; }
+        .stat-label { font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px; }
+        .stat-num { font-family:'Syne',sans-serif; font-size:28px; font-weight:800; line-height:1; }
+        .stat-sub { font-size:11px; color:var(--text3); margin-top:4px; }
+
+        /* ── UPLOAD ZONE ── */
+        .upload-section { margin-bottom:28px; }
+        .upload-zone {
+            background:var(--glass); border:2px dashed rgba(13,148,136,0.3);
+            border-radius:20px; padding:0; transition:all 0.3s; cursor:pointer;
+            position:relative; overflow:hidden;
+        }
+        .upload-zone:hover, .upload-zone.drag { border-color:var(--purple2); background:rgba(13,148,136,0.08); }
+        .upload-zone.drag { transform:scale(1.005); box-shadow:0 0 30px rgba(13,148,136,0.2); }
+        .upload-inner { padding:40px 32px; text-align:center; }
+        .upload-anim { width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,rgba(13,148,136,0.15),rgba(6,182,212,0.08)); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:30px; margin:0 auto 18px; transition:all 0.3s; position:relative; }
+        .upload-zone:hover .upload-anim, .upload-zone.drag .upload-anim { background:linear-gradient(135deg,rgba(13,148,136,0.25),rgba(6,182,212,0.15)); transform:scale(1.08); box-shadow:0 0 24px rgba(13,148,136,0.3); }
+        .upload-pulse { position:absolute; inset:-6px; border-radius:50%; border:2px solid rgba(13,148,136,0.25); animation:upload-pulse 2s ease-in-out infinite; }
+        @keyframes upload-pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0;transform:scale(1.2);} }
+        .upload-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:6px; }
+        .upload-sub { font-size:13.5px; color:var(--text2); margin-bottom:16px; line-height:1.5; }
+        .upload-formats { display:flex; gap:7px; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+        .fmt-badge { padding:4px 12px; border-radius:100px; font-size:11.5px; font-weight:600; background:var(--glass2); color:var(--purple2); border:1px solid rgba(13,148,136,0.2); }
+        .upload-limits { font-size:12px; color:var(--text3); margin-bottom:20px; }
+        .upload-cta { display:inline-flex; align-items:center; gap:8px; padding:11px 28px; background:linear-gradient(135deg,var(--purple),var(--blue)); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 20px rgba(13,148,136,0.3); font-family:'DM Sans',sans-serif; }
+        .upload-cta:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(13,148,136,0.45); }
+
+        /* Upload progress */
+        .upload-progress { display:none; padding:28px 32px; }
+        .upload-progress.show { display:block; }
+        .progress-title { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+        .progress-sub { font-size:13px; color:var(--text2); margin-bottom:16px; }
+        .progress-bar-wrap { background:var(--glass2); border-radius:100px; height:8px; overflow:hidden; margin-bottom:8px; }
+        .progress-bar { height:100%; background:linear-gradient(90deg,var(--purple),var(--purple2)); border-radius:100px; width:0%; transition:width 0.3s ease; }
+        .progress-steps { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+        .progress-step { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text3); padding:4px 10px; border-radius:100px; background:var(--glass2); border:1px solid var(--border); }
+        .progress-step.done { color:var(--green); border-color:rgba(16,185,129,0.2); background:rgba(16,185,129,0.06); }
+        .progress-step.active { color:var(--purple2); border-color:rgba(13,148,136,0.3); background:var(--glass3); animation:step-pulse 1s ease-in-out infinite; }
+        @keyframes step-pulse { 0%,100%{opacity:1;}50%{opacity:0.6;} }
+
+        /* ── FILTERS & SEARCH ── */
+        .controls-row { display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+        .search-wrap { position:relative; flex:1; min-width:200px; }
+        .search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:13px; color:var(--text3); pointer-events:none; }
+        .search-input { width:100%; padding:9px 12px 9px 34px; background:var(--glass2); border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:13px; font-family:'DM Sans',sans-serif; outline:none; transition:all 0.2s; }
+        .search-input:focus { border-color:rgba(13,148,136,0.45); box-shadow:0 0 0 3px rgba(13,148,136,0.1); }
+        .search-input::placeholder { color:var(--text3); }
+        .filter-btn { padding:9px 14px; background:var(--glass2); border:1px solid var(--border); border-radius:10px; color:var(--text2); font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.18s; white-space:nowrap; }
+        .filter-btn:hover { background:var(--glass3); border-color:var(--border2); color:var(--text); }
+        .filter-btn.active { background:var(--glass3); border-color:rgba(13,148,136,0.4); color:var(--purple2); }
+        .view-toggle { display:flex; border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+        .view-btn { padding:8px 12px; background:var(--glass); color:var(--text3); border:none; cursor:pointer; font-size:14px; transition:all 0.18s; }
+        .view-btn.active { background:var(--glass3); color:var(--purple2); }
+
+        /* ── REPORT CARDS ── */
+        .section-label { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+        .reports-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+        .reports-list { display:flex; flex-direction:column; gap:10px; }
+
+        .rcard {
+            background:var(--glass); border:1px solid var(--border); border-radius:18px;
+            padding:22px; backdrop-filter:blur(20px); transition:all 0.25s; position:relative; overflow:hidden;
+        }
+        .rcard:hover { background:var(--glass2); border-color:var(--border2); transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.2); }
+        .rcard.urgent { border-color:rgba(239,68,68,0.3); }
+        .rcard.urgent::before { content:'🔴 URGENT'; position:absolute; top:14px; right:14px; font-size:10px; font-weight:700; color:var(--red); background:rgba(239,68,68,0.1); padding:3px 8px; border-radius:6px; border:1px solid rgba(239,68,68,0.2); }
+        .rcard::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; border-radius:0 0 18px 18px; }
+        .rcard.s-normal::after { background:linear-gradient(90deg,transparent,var(--green),transparent); }
+        .rcard.s-warning::after { background:linear-gradient(90deg,transparent,var(--amber),transparent); }
+        .rcard.s-critical::after { background:linear-gradient(90deg,transparent,var(--red),transparent); }
+
+        .rcard-top { display:flex; align-items:flex-start; gap:14px; margin-bottom:14px; }
+        .rcard-icon { width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,var(--glass3),var(--glass2)); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+        .rcard-title-wrap { flex:1; min-width:0; }
+        .rcard-name { font-family:'Syne',sans-serif; font-size:14.5px; font-weight:700; color:var(--text); margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .rcard-date { font-size:12px; color:var(--text3); }
+        .status-badge { font-size:11px; font-weight:700; padding:4px 10px; border-radius:100px; flex-shrink:0; margin-top:2px; }
+        .sb-normal { background:rgba(16,185,129,0.1); color:var(--green); border:1px solid rgba(16,185,129,0.2); }
+        .sb-warning { background:rgba(245,158,11,0.1); color:var(--amber); border:1px solid rgba(245,158,11,0.2); }
+        .sb-critical { background:rgba(239,68,68,0.1); color:var(--red); border:1px solid rgba(239,68,68,0.2); }
+        .sb-unknown { background:var(--glass2); color:var(--text2); border:1px solid var(--border); }
+
+        /* Mini bar chart for values */
+        .values-bars { display:flex; gap:5px; margin-bottom:14px; align-items:flex-end; height:36px; }
+        .vbar { flex:1; border-radius:4px 4px 0 0; min-height:6px; transition:all 0.3s; }
+        .vbar-normal { background:linear-gradient(to top,var(--green),rgba(16,185,129,0.5)); }
+        .vbar-warning { background:linear-gradient(to top,var(--amber),rgba(245,158,11,0.5)); }
+        .vbar-critical { background:linear-gradient(to top,var(--red),rgba(239,68,68,0.5)); }
+
+        .rcard-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
+        .mini-stat { background:var(--glass2); border:1px solid var(--border); border-radius:9px; padding:9px; text-align:center; }
+        .mini-stat-val { font-family:'Syne',sans-serif; font-size:17px; font-weight:800; line-height:1; }
+        .mini-stat-lbl { font-size:10px; color:var(--text3); margin-top:3px; text-transform:uppercase; letter-spacing:0.5px; }
+
+        .rcard-rec { font-size:12.5px; color:var(--text2); line-height:1.55; padding:10px 12px; background:var(--glass2); border-radius:9px; border:1px solid var(--border); margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+        /* Tags */
+        .rcard-tags { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:14px; }
+        .tag { font-size:11px; padding:3px 9px; border-radius:100px; border:1px solid var(--border); background:var(--glass2); color:var(--text3); }
+
+        .rcard-actions { display:flex; gap:8px; }
+        .act-btn { flex:1; padding:9px 8px; border-radius:9px; font-size:12.5px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; text-decoration:none; text-align:center; display:flex; align-items:center; justify-content:center; gap:5px; }
+        .act-primary { background:linear-gradient(135deg,rgba(13,148,136,0.25),rgba(6,182,212,0.15)); color:var(--purple2); border:1px solid rgba(13,148,136,0.35); }
+        .act-primary:hover { background:linear-gradient(135deg,rgba(13,148,136,0.35),rgba(6,182,212,0.25)); box-shadow:0 4px 14px rgba(13,148,136,0.2); }
+        .act-secondary { background:var(--glass2); color:var(--text2); border:1px solid var(--border); }
+        .act-secondary:hover { background:var(--glass3); border-color:var(--border2); color:var(--text); }
+        .act-danger { background:rgba(239,68,68,0.07); color:#FCA5A5; border:1px solid rgba(239,68,68,0.15); }
+        .act-danger:hover { background:rgba(239,68,68,0.14); }
+
+        /* List view card */
+        .rcard-list { display:flex; align-items:center; gap:16px; padding:16px 20px; background:var(--glass); border:1px solid var(--border); border-radius:14px; transition:all 0.2s; text-decoration:none; }
+        .rcard-list:hover { background:var(--glass2); border-color:var(--border2); transform:translateX(4px); }
+        .rcard-list-icon { width:40px; height:40px; border-radius:11px; background:var(--glass3); border:1px solid var(--border2); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        .rcard-list-info { flex:1; min-width:0; }
+        .rcard-list-name { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .rcard-list-meta { font-size:12px; color:var(--text3); margin-top:2px; }
+        .rcard-list-stats { display:flex; gap:10px; align-items:center; flex-shrink:0; }
+
+        /* Empty state */
+        .empty-state { text-align:center; padding:60px 20px; background:var(--glass); border:1px solid var(--border); border-radius:20px; }
+        .empty-icon { font-size:52px; margin-bottom:16px; opacity:0.3; }
+        .empty-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text2); margin-bottom:8px; }
+        .empty-sub { font-size:14px; color:var(--text3); line-height:1.6; }
+
+        /* ── LOADING OVERLAY ── */
+        .loading-overlay { display:none; position:fixed; inset:0; background:rgba(6,20,18,0.92); z-index:999; flex-direction:column; align-items:center; justify-content:center; gap:0; backdrop-filter:blur(10px); }
+        .loading-overlay.show { display:flex; }
+        .loading-orb { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,var(--purple),var(--blue)); display:flex; align-items:center; justify-content:center; font-size:34px; margin-bottom:24px; animation:orb-spin 3s linear infinite; box-shadow:0 0 40px rgba(13,148,136,0.5); }
+        @keyframes orb-spin { 0%{box-shadow:0 0 30px rgba(13,148,136,0.4);}50%{box-shadow:0 0 60px rgba(13,148,136,0.8);}100%{box-shadow:0 0 30px rgba(13,148,136,0.4);} }
+        .loading-title { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; margin-bottom:8px; background:linear-gradient(135deg,var(--purple2),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .loading-steps-list { display:flex; flex-direction:column; gap:10px; margin-top:20px; min-width:280px; }
+        .lst { display:flex; align-items:center; gap:10px; font-size:13.5px; color:var(--text3); }
+        .lst.active { color:var(--text); }
+        .lst.done { color:var(--green); }
+        .lst-dot { width:8px; height:8px; border-radius:50%; background:var(--text3); flex-shrink:0; }
+        .lst.active .lst-dot { background:var(--purple2); animation:lst-pulse 1s ease-in-out infinite; }
+        .lst.done .lst-dot { background:var(--green); }
+        @keyframes lst-pulse { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+        .loading-bar { width:280px; height:4px; background:var(--glass2); border-radius:100px; margin-top:20px; overflow:hidden; }
+        .loading-bar-fill { height:100%; background:linear-gradient(90deg,var(--purple),var(--purple2)); border-radius:100px; width:0%; transition:width 0.4s ease; }
+
+        /* ── ALERT ── */
+        .alert { padding:12px 16px; border-radius:10px; font-size:13px; font-weight:500; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+        .alert-error { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#FCA5A5; }
+        .alert-success { background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); color:#6EE7B7; }
+
+        /* ── TOAST ── */
+        .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px); background:rgba(13,148,136,0.95); color:#fff; padding:10px 22px; border-radius:100px; font-size:13px; font-weight:500; z-index:9999; transition:transform 0.3s cubic-bezier(.4,0,.2,1); box-shadow:0 8px 24px rgba(13,148,136,0.4); white-space:nowrap; }
+        .toast.show { transform:translateX(-50%) translateY(0); }
+
+        /* ── REPORT DETAIL MODAL ── */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:500; backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:20px; }
+        .modal-overlay.open { display:flex; }
+        .modal-box { background:rgba(6,20,18,0.98); border:1px solid var(--border2); border-radius:22px; padding:28px; max-width:560px; width:100%; box-shadow:0 24px 80px rgba(0,0,0,0.5); animation:modalIn 0.25s ease; backdrop-filter:blur(30px); max-height:85vh; overflow-y:auto; }
+        @keyframes modalIn { from{opacity:0;transform:scale(0.94) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);} }
+        .modal-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; gap:12px; }
+        .modal-title { font-family:'Syne',sans-serif; font-size:17px; font-weight:800; }
+        .modal-close { width:32px; height:32px; border-radius:8px; border:1px solid var(--border); background:var(--glass2); color:var(--text2); cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.18s; }
+        .modal-close:hover { background:var(--glass3); color:var(--text); }
+        .param-row { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; border-radius:10px; background:var(--glass); border:1px solid var(--border); margin-bottom:7px; gap:10px; }
+        .param-name { font-size:13px; color:var(--text2); flex:1; }
+        .param-val { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; }
+        .param-range { font-size:11px; color:var(--text3); }
+        .param-status { font-size:11px; font-weight:600; padding:2px 8px; border-radius:100px; }
+
+        .fade-in { animation:fadeUp 0.5s ease forwards; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+
+        @media(max-width:1024px){ .stats-row{grid-template-columns:repeat(2,1fr);} }
+        @media(max-width:768px){
+            .sidebar{transform:translateX(-100%);width:240px;} .sidebar.open{transform:translateX(0);}
+            .mobile-topbar{display:flex;position:fixed;top:0;left:0;right:0;z-index:150;height:56px;background:rgba(6,20,18,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px;justify-content:space-between;align-items:center;}
+            .hamburger{width:36px;height:36px;border-radius:8px;background:rgba(13,148,136,0.2);border:1px solid rgba(13,148,136,0.3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--purple2);}
+            .main{margin-left:0;padding:72px 14px 20px;} .stats-row{grid-template-columns:repeat(2,1fr);} .reports-grid{grid-template-columns:1fr;} .page-title{font-size:20px;} .upload-inner{padding:28px 20px;}
         }
     </style>
 </head>
 <body>
 
+<!-- LOADING -->
 <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Analyzing your report...</div>
-    <div class="loading-sub">AI is reading your medical values</div>
+    <div class="loading-orb">🔬</div>
+    <div class="loading-title">Analyzing Report</div>
+    <div style="font-size:13px;color:var(--text2);">AI is reading your medical values…</div>
+    <div class="loading-steps-list">
+        <div class="lst active" id="ls1"><div class="lst-dot"></div> Uploading file securely</div>
+        <div class="lst" id="ls2"><div class="lst-dot"></div> Extracting medical values</div>
+        <div class="lst" id="ls3"><div class="lst-dot"></div> Analyzing abnormalities</div>
+        <div class="lst" id="ls4"><div class="lst-dot"></div> Generating recommendations</div>
+        <div class="lst" id="ls5"><div class="lst-dot"></div> Saving to your profile</div>
+    </div>
+    <div class="loading-bar"><div class="loading-bar-fill" id="loadingBarFill"></div></div>
 </div>
 
-<canvas id="particles-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+<!-- REPORT DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal-box" id="modalContent">
+        <div class="modal-header">
+            <div class="modal-title" id="modalTitle">Report Details</div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<canvas id="pcanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+<div class="toast" id="toast"></div>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
+<!-- MOBILE TOP -->
 <div class="mobile-topbar">
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;color:#EEEEFF;display:flex;align-items:center;gap:6px;">
         <span style="width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#0D9488,#06B6D4);display:inline-flex;align-items:center;justify-content:center;font-size:11px;">⚡</span>
@@ -141,7 +292,8 @@
     <div class="hamburger" onclick="toggleSidebar()">☰</div>
 </div>
 
-<aside class="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
     <a href="/" class="logo"><div class="logo-icon">⚡</div>Health<span>Guardian</span></a>
     <div class="nav-section">Main</div>
     <a href="/dashboard" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
@@ -160,7 +312,7 @@
     <a href="/health-ai" class="nav-item"><span class="nav-icon">🤖</span> AI Chat</a>
     {% endif %}
     {% if user_plan == 'family' %}
-    <a href="/family" class="nav-item"><span class="nav-icon" style="font-size:11px;">👪</span> Family</a>
+    <a href="/family" class="nav-item"><span class="nav-icon">👪</span> Family</a>
     {% endif %}
     <div class="nav-section" style="margin-top:12px;">More</div>
     <a href="/settings" class="nav-item"><span class="nav-icon">⚙️</span> Settings</a>
@@ -168,19 +320,14 @@
     <div class="sidebar-bottom">
         <div class="user-card">
             <div class="user-avatar">
-                {% if current_user.profile_photo %}
-                    <img src="{{ current_user.profile_photo }}" alt="Profile" style="width:100%;height:100%;object-fit:cover;">
-                {% else %}
-                    {{ current_user.fullname[0].upper() }}
-                {% endif %}
+                {% if current_user.profile_photo %}<img src="{{ current_user.profile_photo }}" alt="">
+                {% else %}{{ current_user.fullname[0].upper() }}{% endif %}
             </div>
-            <div>
+            <div style="min-width:0;">
                 <div class="user-name">{{ current_user.fullname }}</div>
                 <div class="user-email">{{ current_user.email }}</div>
                 <span class="plan-badge plan-{{ user_plan }}">
-                    {% if user_plan == 'premium' %}⭐ Premium
-                    {% elif user_plan == 'family' %}👪 Family
-                    {% else %}Free{% endif %}
+                    {% if user_plan=='premium' %}⭐ Premium{% elif user_plan=='family' %}👪 Family{% else %}Free{% endif %}
                 </span>
             </div>
         </div>
@@ -188,134 +335,331 @@
     </div>
 </aside>
 
+<!-- MAIN -->
 <main class="main fade-in">
+
+    <!-- TOPBAR -->
     <div class="topbar">
         <div>
             <div class="page-title">Medical Reports 📋</div>
-            <div class="page-sub">Upload and analyze your medical reports with AI</div>
+            <div class="page-sub">Upload, analyze & track your medical reports with AI</div>
+        </div>
+        <div class="topbar-actions">
+            {% if reports %}
+            <button class="btn-secondary" onclick="exportSummary()">📊 Export Summary</button>
+            <button class="btn-secondary" onclick="compareReports()">🔄 Compare</button>
+            {% endif %}
+            <button class="btn-primary" onclick="triggerUpload()">📤 Upload Report</button>
         </div>
     </div>
 
     {% if request.args.get('error') == 'invalid_type' %}
     <div class="alert alert-error">❌ Invalid file type. Please upload PDF, PNG, or JPG files only.</div>
     {% endif %}
-    {% if request.args.get('error') == 'no_file' %}
-    <div class="alert alert-error">❌ No file selected. Please choose a file to upload.</div>
+    {% if request.args.get('success') %}
+    <div class="alert alert-success">✅ Report uploaded and analyzed successfully!</div>
     {% endif %}
 
+    <!-- STATS -->
     {% if reports %}
-    <div class="stats-bar">
-        <div class="stat-item"><div class="stat-num" style="color:var(--purple2);">{{ reports|length }}</div><div class="stat-label">Total Reports</div></div>
-        <div class="stat-item"><div class="stat-num" style="color:var(--red);">{{ reports|selectattr('urgent')|list|length }}</div><div class="stat-label">Urgent</div></div>
-        <div class="stat-item"><div class="stat-num" style="color:var(--green);">{{ reports|selectattr('overall_status', 'equalto', 'All Normal')|list|length }}</div><div class="stat-label">All Normal</div></div>
-        <div class="stat-item"><div class="stat-num" style="color:var(--amber);">{{ reports|selectattr('overall_status', 'in', ['Needs Attention', 'Minor Issues'])|list|length }}</div><div class="stat-label">Need Attention</div></div>
+    <div class="stats-row">
+        <div class="stat-card teal">
+            <div class="stat-glow" style="background:var(--purple2);"></div>
+            <div class="stat-label">Total Reports</div>
+            <div class="stat-num" style="color:var(--purple2);">{{ reports|length }}</div>
+            <div class="stat-sub">All time uploads</div>
+        </div>
+        <div class="stat-card red">
+            <div class="stat-glow" style="background:var(--red);"></div>
+            <div class="stat-label">Urgent / Critical</div>
+            <div class="stat-num" style="color:var(--red);">{{ reports|selectattr('urgent')|list|length }}</div>
+            <div class="stat-sub">Needs immediate attention</div>
+        </div>
+        <div class="stat-card green">
+            <div class="stat-glow" style="background:var(--green);"></div>
+            <div class="stat-label">All Normal</div>
+            <div class="stat-num" style="color:var(--green);">{{ reports|selectattr('overall_status','equalto','All Normal')|list|length }}</div>
+            <div class="stat-sub">Healthy results</div>
+        </div>
+        <div class="stat-card amber">
+            <div class="stat-glow" style="background:var(--amber);"></div>
+            <div class="stat-label">Needs Review</div>
+            <div class="stat-num" style="color:var(--amber);">{{ reports|selectattr('overall_status','in',['Needs Attention','Minor Issues'])|list|length }}</div>
+            <div class="stat-sub">Follow up suggested</div>
+        </div>
     </div>
     {% endif %}
 
-    <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
-        <span class="upload-icon">📤</span>
-        <div class="upload-title">Upload Medical Report</div>
-        <div class="upload-sub">Drag & drop or click to upload your report</div>
-        <div class="upload-formats">
-            <span class="format-badge">PDF</span>
-            <span class="format-badge">PNG</span>
-            <span class="format-badge">JPG</span>
-            <span class="format-badge">JPEG</span>
+    <!-- UPLOAD ZONE -->
+    <div class="upload-section">
+        <div class="upload-zone" id="uploadZone" onclick="triggerUpload()">
+            <div class="upload-inner" id="uploadInner">
+                <div class="upload-anim">
+                    <div class="upload-pulse"></div>
+                    📤
+                </div>
+                <div class="upload-title">Upload Medical Report</div>
+                <div class="upload-sub">Drag & drop your report here, or click to browse.<br>AI will instantly analyze your values and flag abnormalities.</div>
+                <div class="upload-formats">
+                    <span class="fmt-badge">PDF</span>
+                    <span class="fmt-badge">PNG</span>
+                    <span class="fmt-badge">JPG</span>
+                    <span class="fmt-badge">JPEG</span>
+                </div>
+                <div class="upload-limits">Max file size: 10MB • Encrypted & secure</div>
+                <button class="upload-cta" onclick="event.stopPropagation();triggerUpload()">📁 Choose File →</button>
+            </div>
+            <div class="upload-progress" id="uploadProgress">
+                <div class="progress-title">🔬 Analyzing your report…</div>
+                <div class="progress-sub" id="progressSub">Uploading file securely</div>
+                <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+                <div class="progress-steps">
+                    <div class="progress-step active" id="ps1">📤 Upload</div>
+                    <div class="progress-step" id="ps2">🔍 Extract</div>
+                    <div class="progress-step" id="ps3">🧠 Analyze</div>
+                    <div class="progress-step" id="ps4">💡 Recommend</div>
+                    <div class="progress-step" id="ps5">✅ Save</div>
+                </div>
+            </div>
         </div>
-        <button class="btn-upload" onclick="event.stopPropagation(); document.getElementById('fileInput').click();">Choose File →</button>
+        <form id="uploadForm" method="POST" action="/reports/upload" enctype="multipart/form-data" style="display:none;">
+            <input type="file" id="fileInput" name="file" accept=".pdf,.png,.jpg,.jpeg">
+        </form>
     </div>
-
-    <form id="uploadForm" method="POST" action="/reports/upload" enctype="multipart/form-data" style="display:none;">
-        <input type="file" id="fileInput" name="file" accept=".pdf,.png,.jpg,.jpeg">
-    </form>
 
     {% if reports %}
-    <div class="section-title">Your Reports ({{ reports|length }})</div>
-    <div class="reports-grid">
-        {% for report in reports %}
-        {% set status_class = 'status-normal' %}
-        {% set badge_class = 'badge-normal' %}
-        {% if report.overall_status in ['Critical', 'Concerning'] %}
-            {% set status_class = 'status-critical' %}{% set badge_class = 'badge-critical' %}
-        {% elif report.overall_status in ['Needs Attention', 'Minor Issues'] %}
-            {% set status_class = 'status-warning' %}{% set badge_class = 'badge-warning' %}
-        {% elif report.overall_status == 'unknown' %}
-            {% set badge_class = 'badge-unknown' %}
-        {% endif %}
-        <div class="report-card {{ status_class }} {% if report.urgent %}urgent{% endif %}">
-            <div class="report-header">
-                <div class="report-icon">{% if report.file_type == 'pdf' %}📄{% else %}🖼️{% endif %}</div>
-                <span class="report-status-badge {{ badge_class }}">{{ report.overall_status or 'Unknown' }}</span>
-            </div>
-            <div class="report-name">{{ report.original_name }}</div>
-            <div class="report-date">{{ report.upload_date.strftime('%d %B %Y at %H:%M') }}</div>
-            <div class="report-stats">
-                <div class="report-stat"><div class="report-stat-val" style="color:var(--purple2);">{{ report.total_values }}</div><div class="report-stat-label">Total</div></div>
-                <div class="report-stat"><div class="report-stat-val" style="color:var(--green);">{{ report.normal_values }}</div><div class="report-stat-label">Normal</div></div>
-                <div class="report-stat"><div class="report-stat-val" style="color:{% if report.abnormal_values > 0 %}var(--red){% else %}var(--green){% endif %};">{{ report.abnormal_values }}</div><div class="report-stat-label">Abnormal</div></div>
-            </div>
-            {% if report.recommendation %}
-            <div class="report-recommendation">{{ report.recommendation }}</div>
-            {% endif %}
-            <div class="report-actions">
-                <a href="/reports/{{ report.id }}" class="btn-view">View Details →</a>
-                <a href="/reports/{{ report.id }}/delete" class="btn-delete" onclick="return confirm('Delete this report?')">🗑️</a>
-            </div>
+    <!-- CONTROLS -->
+    <div class="controls-row">
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input class="search-input" id="searchInput" placeholder="Search reports…" oninput="filterReports()">
         </div>
-        {% endfor %}
+        <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+        <button class="filter-btn" data-filter="critical" onclick="setFilter('critical',this)">🔴 Critical</button>
+        <button class="filter-btn" data-filter="warning" onclick="setFilter('warning',this)">🟡 Warning</button>
+        <button class="filter-btn" data-filter="normal" onclick="setFilter('normal',this)">🟢 Normal</button>
+        <div class="view-toggle">
+            <button class="view-btn active" id="vGrid" onclick="setView('grid')">⊞</button>
+            <button class="view-btn" id="vList" onclick="setView('list')">☰</button>
+        </div>
     </div>
+
+    <div class="section-label">
+        <span>📋</span>
+        <span id="reportsLabel">Your Reports ({{ reports|length }})</span>
+    </div>
+
+    <!-- GRID VIEW -->
+    <div id="gridView">
+        <div class="reports-grid" id="reportsGrid">
+            {% for report in reports %}
+            {% set sc = 'normal' %}{% set bc = 'sb-normal' %}
+            {% if report.overall_status in ['Critical','Concerning'] %}{% set sc = 'critical' %}{% set bc = 'sb-critical' %}
+            {% elif report.overall_status in ['Needs Attention','Minor Issues'] %}{% set sc = 'warning' %}{% set bc = 'sb-warning' %}
+            {% elif report.overall_status == 'unknown' %}{% set bc = 'sb-unknown' %}{% endif %}
+            <div class="rcard s-{{ sc }} {% if report.urgent %}urgent{% endif %}" data-status="{{ sc }}" data-name="{{ report.original_name|lower }}">
+                <div class="rcard-top">
+                    <div class="rcard-icon">{% if report.file_type=='pdf' %}📄{% else %}🖼️{% endif %}</div>
+                    <div class="rcard-title-wrap">
+                        <div class="rcard-name">{{ report.original_name }}</div>
+                        <div class="rcard-date">📅 {{ report.upload_date.strftime('%d %b %Y, %H:%M') }}</div>
+                    </div>
+                    <span class="status-badge {{ bc }}">{{ report.overall_status or 'Unknown' }}</span>
+                </div>
+
+                <!-- Mini visual bar chart -->
+                <div class="values-bars" title="Value distribution">
+                    {% set total = report.total_values if report.total_values > 0 else 1 %}
+                    {% for i in range([report.normal_values,8]|min) %}<div class="vbar vbar-normal" style="height:{{ (20 + loop.index * 2) }}px;"></div>{% endfor %}
+                    {% for i in range([(report.total_values - report.normal_values - report.abnormal_values),0]|max|int) %}<div class="vbar vbar-warning" style="height:{{ (14 + loop.index * 3) }}px;"></div>{% endfor %}
+                    {% for i in range([report.abnormal_values,4]|min) %}<div class="vbar vbar-critical" style="height:{{ (18 + loop.index * 4) }}px;"></div>{% endfor %}
+                </div>
+
+                <div class="rcard-stats">
+                    <div class="mini-stat"><div class="mini-stat-val" style="color:var(--purple2);">{{ report.total_values }}</div><div class="mini-stat-lbl">Total</div></div>
+                    <div class="mini-stat"><div class="mini-stat-val" style="color:var(--green);">{{ report.normal_values }}</div><div class="mini-stat-lbl">Normal</div></div>
+                    <div class="mini-stat"><div class="mini-stat-val" style="color:{% if report.abnormal_values > 0 %}var(--red){% else %}var(--green){% endif %};">{{ report.abnormal_values }}</div><div class="mini-stat-lbl">Abnormal</div></div>
+                </div>
+
+                {% if report.recommendation %}
+                <div class="rcard-rec">💡 {{ report.recommendation }}</div>
+                {% endif %}
+
+                <div class="rcard-tags">
+                    <span class="tag">{% if report.file_type=='pdf' %}📄 PDF{% else %}🖼️ Image{% endif %}</span>
+                    {% if report.urgent %}<span class="tag" style="color:var(--red);border-color:rgba(239,68,68,0.2);">🔴 Urgent</span>{% endif %}
+                    {% if report.abnormal_values == 0 %}<span class="tag" style="color:var(--green);border-color:rgba(16,185,129,0.2);">✅ All Clear</span>{% endif %}
+                </div>
+
+                <div class="rcard-actions">
+                    <a href="/reports/{{ report.id }}" class="act-btn act-primary">🔬 View Analysis →</a>
+                    <button class="act-btn act-secondary" onclick="shareReport({{ report.id }})">📤</button>
+                    <a href="/reports/{{ report.id }}/download" class="act-btn act-secondary">⬇️</a>
+                    <a href="/reports/{{ report.id }}/delete" class="act-btn act-danger" onclick="return confirm('Delete this report?')">🗑️</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- LIST VIEW -->
+    <div id="listView" style="display:none;">
+        <div class="reports-list" id="reportsList">
+            {% for report in reports %}
+            {% set sc = 'normal' %}{% set bc = 'sb-normal' %}
+            {% if report.overall_status in ['Critical','Concerning'] %}{% set sc = 'critical' %}{% set bc = 'sb-critical' %}
+            {% elif report.overall_status in ['Needs Attention','Minor Issues'] %}{% set sc = 'warning' %}{% set bc = 'sb-warning' %}
+            {% elif report.overall_status == 'unknown' %}{% set bc = 'sb-unknown' %}{% endif %}
+            <div class="rcard-list" data-status="{{ sc }}" data-name="{{ report.original_name|lower }}">
+                <div class="rcard-list-icon">{% if report.file_type=='pdf' %}📄{% else %}🖼️{% endif %}</div>
+                <div class="rcard-list-info">
+                    <div class="rcard-list-name">{{ report.original_name }}</div>
+                    <div class="rcard-list-meta">{{ report.upload_date.strftime('%d %b %Y') }} • {{ report.total_values }} values</div>
+                </div>
+                <div class="rcard-list-stats">
+                    <span class="status-badge {{ bc }}">{{ report.overall_status or '?' }}</span>
+                    <span style="font-size:12px;color:var(--text3);">{{ report.normal_values }}✅ {{ report.abnormal_values }}❌</span>
+                </div>
+                <a href="/reports/{{ report.id }}" style="margin-left:10px;padding:7px 14px;background:var(--glass3);color:var(--purple2);border:1px solid rgba(13,148,136,0.3);border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;transition:all 0.2s;white-space:nowrap;">View →</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
     {% else %}
-    <div class="no-data">
-        <div class="no-data-icon">📋</div>
-        <div class="no-data-title">No reports uploaded yet</div>
-        <div class="no-data-sub">Upload your first medical report to get AI analysis</div>
+    <div class="empty-state">
+        <div class="empty-icon">📋</div>
+        <div class="empty-title">No reports uploaded yet</div>
+        <div class="empty-sub">Upload your first blood test, X-ray, or medical report.<br>AI will analyze the values and give you personalised insights.</div>
     </div>
     {% endif %}
+
 </main>
 
 <script>
-const canvas = document.getElementById('particles-canvas');
-const ctx2 = canvas.getContext('2d');
-let particles = [];
-function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-class Particle {
-    constructor() { this.reset(); }
-    reset() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.size = Math.random()*1.5+0.5; this.speedX = (Math.random()-0.5)*0.3; this.speedY = (Math.random()-0.5)*0.3; this.opacity = Math.random()*0.4+0.1; this.color = Math.random()>0.5?'13,148,136':'6,182,212'; }
-    update() { this.x+=this.speedX; this.y+=this.speedY; if(this.x<0||this.x>canvas.width||this.y<0||this.y>canvas.height) this.reset(); }
-    draw() { ctx2.beginPath(); ctx2.arc(this.x,this.y,this.size,0,Math.PI*2); ctx2.fillStyle=`rgba(${this.color},${this.opacity})`; ctx2.fill(); }
-}
-for(let i=0;i<80;i++) particles.push(new Particle());
-function animateParticles() {
-    ctx2.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{p.update();p.draw();});
-    for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
-        const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx2.beginPath();ctx2.strokeStyle=`rgba(13,148,136,${0.06*(1-dist/120)})`;ctx2.lineWidth=0.5;ctx2.moveTo(particles[i].x,particles[i].y);ctx2.lineTo(particles[j].x,particles[j].y);ctx2.stroke();}
-    }
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
-function toggleSidebar() { document.querySelector('.sidebar').classList.toggle('open'); document.getElementById('overlay').classList.toggle('open'); }
-function closeSidebar() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('overlay').classList.remove('open'); }
-const fileInput = document.getElementById('fileInput');
-const uploadForm = document.getElementById('uploadForm');
-const loadingOverlay = document.getElementById('loadingOverlay');
-const uploadArea = document.getElementById('uploadArea');
-fileInput.addEventListener('change', function() {
-    if (this.files.length > 0) { loadingOverlay.classList.add('show'); uploadForm.submit(); }
+// ── Particles ──
+const pc=document.getElementById('pcanvas');const cx=pc.getContext('2d');let pts=[];
+function rcv(){pc.width=window.innerWidth;pc.height=window.innerHeight;}
+rcv();window.addEventListener('resize',rcv);
+class Pt{constructor(){this.rs();}rs(){this.x=Math.random()*pc.width;this.y=Math.random()*pc.height;this.s=Math.random()*1.5+.5;this.sx=(Math.random()-.5)*.3;this.sy=(Math.random()-.5)*.3;this.o=Math.random()*.4+.1;this.c=Math.random()>.5?'13,148,136':'6,182,212';}u(){this.x+=this.sx;this.y+=this.sy;if(this.x<0||this.x>pc.width||this.y<0||this.y>pc.height)this.rs();}d(){cx.beginPath();cx.arc(this.x,this.y,this.s,0,Math.PI*2);cx.fillStyle=`rgba(${this.c},${this.o})`;cx.fill();}}
+for(let i=0;i<70;i++)pts.push(new Pt());
+function ap(){cx.clearRect(0,0,pc.width,pc.height);pts.forEach(p=>{p.u();p.d();});for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,dd=Math.sqrt(dx*dx+dy*dy);if(dd<110){cx.beginPath();cx.strokeStyle=`rgba(13,148,136,${.055*(1-dd/110)})`;cx.lineWidth=.5;cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.stroke();}}requestAnimationFrame(ap);}
+ap();
+
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+function showToast(msg,dur=2500){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
+function closeModal(){document.getElementById('detailModal').classList.remove('open');}
+
+// ── Upload ──
+function triggerUpload(){document.getElementById('fileInput').click();}
+
+const fileInput=document.getElementById('fileInput');
+const uploadForm=document.getElementById('uploadForm');
+const zone=document.getElementById('uploadZone');
+
+fileInput.addEventListener('change',function(){
+    if(this.files.length>0){startUploadAnim();setTimeout(()=>uploadForm.submit(),3800);}
 });
-uploadArea.addEventListener('dragover', function(e) { e.preventDefault(); this.classList.add('dragover'); });
-uploadArea.addEventListener('dragleave', function() { this.classList.remove('dragover'); });
-uploadArea.addEventListener('drop', function(e) {
-    e.preventDefault(); this.classList.remove('dragover');
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        const dt = new DataTransfer(); dt.items.add(files[0]); fileInput.files = dt.files;
-        loadingOverlay.classList.add('show'); uploadForm.submit();
-    }
+
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag');});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{
+    e.preventDefault();zone.classList.remove('drag');
+    const files=e.dataTransfer.files;
+    if(files.length>0){const dt=new DataTransfer();dt.items.add(files[0]);fileInput.files=dt.files;startUploadAnim();setTimeout(()=>uploadForm.submit(),3800);}
 });
+
+function startUploadAnim(){
+    document.getElementById('uploadInner').style.display='none';
+    const up=document.getElementById('uploadProgress');
+    up.classList.add('show');
+    zone.onclick=null;
+    // Animate steps
+    const steps=[
+        {id:'ps1',sub:'Uploading file securely',pct:20,delay:0},
+        {id:'ps2',sub:'Extracting medical values',pct:40,delay:700},
+        {id:'ps3',sub:'Analyzing abnormalities',pct:65,delay:1400},
+        {id:'ps4',sub:'Generating recommendations',pct:85,delay:2200},
+        {id:'ps5',sub:'Saving to your profile',pct:100,delay:3000},
+    ];
+    steps.forEach((s,i)=>{
+        setTimeout(()=>{
+            if(i>0) {document.getElementById(steps[i-1].id).className='progress-step done';document.getElementById(steps[i-1].id).textContent='✓ '+document.getElementById(steps[i-1].id).textContent.replace('✓ ','');}
+            document.getElementById(s.id).classList.add('active');
+            document.getElementById('progressSub').textContent=s.sub;
+            document.getElementById('progressBar').style.width=s.pct+'%';
+        },s.delay);
+    });
+    // Also animate loading overlay
+    setTimeout(()=>{
+        document.getElementById('loadingOverlay').classList.add('show');
+        animateLoadingSteps();
+    },400);
+}
+
+function animateLoadingSteps(){
+    const steps=['ls1','ls2','ls3','ls4','ls5'];
+    let bar=document.getElementById('loadingBarFill');
+    steps.forEach((id,i)=>{
+        setTimeout(()=>{
+            if(i>0) document.getElementById(steps[i-1]).className='lst done';
+            document.getElementById(id).classList.add('active');
+            bar.style.width=((i+1)/steps.length*100)+'%';
+        },i*700);
+    });
+}
+
+// ── Filter / Search ──
+let currentFilter='all', currentView='grid';
+
+function setFilter(f,btn){
+    currentFilter=f;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    filterReports();
+}
+
+function filterReports(){
+    const q=document.getElementById('searchInput')?.value.toLowerCase()||'';
+    const cards=document.querySelectorAll('.rcard[data-status], .rcard-list[data-status]');
+    let visible=0;
+    cards.forEach(c=>{
+        const st=c.dataset.status;
+        const nm=c.dataset.name||'';
+        const show=(currentFilter==='all'||st===currentFilter)&&nm.includes(q);
+        c.style.display=show?'':'none';
+        if(show) visible++;
+    });
+    const lbl=document.getElementById('reportsLabel');
+    if(lbl) lbl.textContent=`Your Reports (${visible})`;
+}
+
+function setView(v){
+    currentView=v;
+    document.getElementById('gridView').style.display=v==='grid'?'block':'none';
+    document.getElementById('listView').style.display=v==='list'?'block':'none';
+    document.getElementById('vGrid').classList.toggle('active',v==='grid');
+    document.getElementById('vList').classList.toggle('active',v==='list');
+}
+
+// ── Share report ──
+function shareReport(id){
+    const url=`${window.location.origin}/reports/${id}`;
+    if(navigator.share){navigator.share({title:'Medical Report',url});}
+    else{navigator.clipboard.writeText(url).catch(()=>{});showToast('📋 Report link copied!');}
+}
+
+// ── Export summary ──
+function exportSummary(){
+    showToast('📊 Preparing summary export…');
+    setTimeout(()=>window.location.href='/reports/export',800);
+}
+
+// ── Compare reports ──
+function compareReports(){
+    showToast('🔄 Compare feature — select two reports to compare');
+}
 </script>
 </body>
 </html>
